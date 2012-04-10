@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="ala-cas-client">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/ala-cas-client.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/cas-client-core-3.1.10.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
