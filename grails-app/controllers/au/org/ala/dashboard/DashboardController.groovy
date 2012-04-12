@@ -105,6 +105,7 @@ class DashboardController {
                 recordsByLifeform: facetCount('species_group'),
                 taxaCounts: metadataService.getTaxaCounts(),
                 bhlCounts: metadataService.getBHLCounts(),
+                volunteerPortalCounts: metadataService.getStaticData('volunteerPortalCounts'),
                 identifyLifeCounts: metadataService.getIdentifyLifeCounts()]
         ['All','Plants','Mammals','Reptiles','Birds','Animals','Arthropods',
          'Fish','Insects','Amphibians','Bacteria','Fungi'].each {
