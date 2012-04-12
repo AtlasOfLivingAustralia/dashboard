@@ -23,9 +23,9 @@
     </header>
     <section id="floatContainer">
         <div class='link-group click-thru' tabindex="0" id="datasets-topic">
-            <h2 style="padding-bottom: 25px;"><span class="count">${datasets.total}</span>Data sets</h2>
+            <h2><span class="count">${datasets.total}</span>Data sets</h2>
             %{--<g:img class="info-link" dir="images/skin" file="information.png"/>--}%
-            <table style="margin-top: 20px;">
+            <table>
                 <tr><td id="website">Harvested websites</td><td><span class="count"><db:formatNumber value="${datasets.groups.website}"/></span></td></tr>
                 <tr><td id="records">Occurrence record sets</td><td><span class="count"><db:formatNumber value="${datasets.groups.records}"/></span></td></tr>
                 <tr><td id="document">Document sets</td><td><span class="count"><db:formatNumber value="${datasets.groups.document}"/></span></td></tr>
@@ -43,7 +43,7 @@
         <div class='link-group click-thru' tabindex="1" id="basis-topic">
             <h2>Basis of records</h2>
             <g:if test="${basisOfRecord.error.asBoolean()}"><p class="error" title="${basisOfRecord.reason}">${basisOfRecord.error}</p></g:if>
-            <table style="margin-top: 10px;">
+            <table>
                 <g:each in="${basisOfRecord.facets}" var="b">
                     <tr>
                         <td id="br-${b.facet}">${b.display}</td>
@@ -58,7 +58,7 @@
         </div>
         <div class='link-group click-thru' tabindex="3" id="date-topic">
             <h2>Records by date</h2>
-            <table style="margin-top: 10px;">
+            <table>
                 <tr><td id="${dateStats.earliest.uuid}">Earliest record</td><td><span class="count">${dateStats.earliest.display}</span></td>
                 <tr><td id="${dateStats.latest.uuid}">Latest record</td><td><span class="count">${dateStats.latest.display}</span></td>
                 <tr><td id="1600">1600's</td><td><span class="count"><db:formatNumber value="${dateStats.c1600}"/></span></td>
@@ -69,8 +69,8 @@
             </table>
         </div>
         <div class='link-group' tabindex="4" id="nsl-topic">
-            <h2 style="padding-bottom: 25px;">National Species Lists</h2>
-            <table style="margin-top: 10px;">
+            <h2>National Species Lists</h2>
+            <table>
                 <tbody>
                     <tr><td>Accepted names</td><td><span class="count"><db:formatNumber value="${taxaCounts?.acceptedNames}"/></span></td></tr>
                     <tr><td>Synonyms</td><td><span class="count"><db:formatNumber value="${taxaCounts?.synonymNames}"/></span></td></tr>
@@ -82,18 +82,18 @@
                 </tbody>
             </table>
         </div>
-        <div class='link-group' tabindex="5">
+        <div class='link-group' tabindex="5" id="spatial-topic">
             <h2><span class="count">${spatialLayers.total}</span>Spatial layers</h2>
-            <table style="margin-top:8px;">
+            <table>
                 <tr><td>Contextual layers</td><td><span class="count">${spatialLayers.groups.contextual}</span></td></tr>
                 <tr><td>Environmental/grided layers</td><td><span class="count">${spatialLayers.groups.environmental}</span></td></tr>
             </table>
-            <table style="margin-top:8px;">
+            <table>
                 <tr><td>Terrestrial layers</td><td><span class="count">${spatialLayers.groups.terrestrial}</span></td></tr>
                 <tr><td>Marine layers</td><td><span class="count">${spatialLayers.groups.marine}</span></td></tr>
             </table>
             <div id="moreSpatial" style="display:none;">
-                <table style="margin-top:10px;">
+                <table>
                 <g:each in="${spatialLayers.classification}" var="c">
                     <tr><td>${c.key}</td><td><span class="count">${c.value}</span></td></tr>
                 </g:each>
@@ -115,7 +115,7 @@
             <h2>Most recorded species</h2>
             <div id="mostRecorded">
                 <g:if test="${mostRecorded.error.asBoolean()}"><p class="error" title="${basisOfRecord.reason}">${mostRecorded.error}</p></g:if>
-                <table style="margin-top: 5px;">
+                <table>
                     <g:each in="${mostRecorded.facets}" var="m">
                         <tr><td id="${m.facet}"><em>${m.name}</em>
                             <g:if test="${m.common}">- ${m.common}</g:if></td>
@@ -131,7 +131,7 @@
         <div class='link-group' tabindex="9" id="bold-topic">
             <h2>Barcode of life <a target="_blank" href="http://bold.ala.org.au/"><g:img dir="images/dashboard" file="bold.png"/></a></h2>
             <h3>DNA barcode data</h3>
-            <table style="margin-top: 10px;">
+            <table>
                 <tbody>
                 <tr><td>Records</td><td><span class="count"><db:formatNumber value="${boldCounts?.records}"/></span></td></tr>
                 <tr><td>Species</td><td><span class="count"><db:formatNumber value="${boldCounts?.species}"/></span></td></tr>
@@ -143,7 +143,7 @@
         <div class='link-group' tabindex="10" id="bhl-topic">
             <h2>Biodiversity heritage library</h2>
             <a target="_blank" href="http://bhl.ala.org.au/"><g:img dir="images/dashboard" file="bhl.png"/></a>
-            <table style="margin-top: 10px;">
+            <table>
                 <tbody>
                 <tr><td>Pages</td><td><span class="count"><db:formatNumber value="${bhlCounts?.pages}"/></span></td></tr>
                 <tr><td>Volumes</td><td><span class="count"><db:formatNumber value="${bhlCounts?.volumes}"/></span></td></tr>
@@ -151,18 +151,20 @@
                 </tbody>
             </table>
         </div>
+        <g:if test="${volunteerPortalCounts}">
         <div class='link-group' tabindex="11" id="bvp-topic">
             <h2><a target="_blank" href="http://volunteer.ala.org.au/">Biodiversity volunteer portal</a></h2>
-            <table style="margin-top: 10px;">
+            <table>
                 <tbody>
                 <tr><td>Specimen labels transcribed</td><td><span class="count"><db:formatNumber value="${volunteerPortalCounts?.recordsTranscribed}"/></span></td></tr>
                 <tr><td>Fieldnotes pages transcribed</td><td><span class="count"><db:formatNumber value="${volunteerPortalCounts?.pagesTranscribed}"/></span></td></tr>
                 <tr><td>Volunteers</td><td><span class="count"><db:formatNumber value="${volunteerPortalCounts?.volunteers}"/></span></td></tr>
-                <tr><td>Projects active</td><td><span class="count"><db:formatNumber value="${volunteerPortalCounts?.projectsActive}"/></span></td></tr>
-                <tr><td>Projects completed</td><td><span class="count"><db:formatNumber value="${volunteerPortalCounts?.projectsCompleted}"/></span></td></tr>
+                <tr><td>Projects active</td><td><span class="count"><db:formatNumber value="${volunteerPortalCounts?.activeProjects}"/></span></td></tr>
+                <tr><td>Projects completed</td><td><span class="count"><db:formatNumber value="${volunteerPortalCounts?.completedProjects}"/></span></td></tr>
                 </tbody>
             </table>
         </div>
+        </g:if>
         <div class='link-group click-thru' tabindex="12" id="lifeform-topic">
             <h2>Records by lifeform</h2>
             <table id="lifeformsTable"></table>
