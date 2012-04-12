@@ -128,6 +128,38 @@ p.mainText {
 /***********************************
  Specific topics
  **********************************/
+#basis-topic table {
+    margin-top: 5px;
+}
+
+#datasets-topic table {
+    margin-top: 30px;
+}
+
+#date-topic table {
+    margin-top: 10px;
+}
+
+#nsl-topic table {
+    margin-top: 35px;
+}
+
+#spatial-topic table {
+    margin-top: 8px;
+}
+
+#most-topic table {
+    margin-top: 5px;
+}
+
+#bhl-topic table {
+    margin-top: 10px;
+}
+
+#bvp-topic table {
+    margin-top: 20px;
+}
+
 #stateChart {
     margin: 0 -5px -3px -10px;
 }
@@ -163,6 +195,10 @@ p.mainText {
 
 #identifyLife-topic img {
     padding: 0;
+}
+
+#bold-topic table {
+    margin-top: 10px;
 }
 
 #bold-topic img {
