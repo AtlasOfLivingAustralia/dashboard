@@ -96,12 +96,12 @@ var collectionsChart = {
             var slice = that.dataTable.getValue(that.chart.getSelection()[0].row,0),
                     cat = "";
             switch(slice) {
-                case 'Plants': cat = 'xplants'; break;
-                case 'Microbes': cat = 'xmicrobes'; break;
-                case 'Insects': cat = 'xinsects'; break;
-                case 'Other fauna': cat = 'xfauna'; break;
+                case 'Plants': cat = 'plants'; break;
+                case 'Microbes': cat = 'microbes'; break;
+                case 'Insects': cat = 'insects'; break;
+                case 'Other fauna': cat = 'fauna'; break;
             }
-            document.location.href = "http://collections.ala.org.au#" + cat;
+            document.location.href = "http://collections.ala.org.au?start=" + cat;
         });
 
         this.chart.draw(this.dataTable, this.options);
@@ -173,6 +173,12 @@ function wireActions(serverUrl) {
         $('#moreSpatialLink').html($('#moreSpatial:visible').length ? 'more..' : 'less..');
         $('#moreSpatial').toggle(300);
     });
+    // more.. in type status topic
+    $('#moreTypesLink').click(function () {
+        $('#moreTypesLink').html($('#moreTypes:visible').length ? 'more..' : 'less..');
+        $('#baseTypes').toggle(300);
+        $('#moreTypes').toggle(300);
+    });
     // datasets links
     $('#datasets-topic td:first-child').click(function () {
         var type = $(this).attr('id');
@@ -182,6 +188,16 @@ function wireActions(serverUrl) {
     $('#basis-topic td:first-child').click(function () {
         var basis = $(this).attr('id');
         document.location.href = biocacheWebappUrl + "/occurrences/search?q=*:*&fq=basis_of_record:" + basis.substring(3);
+    });
+    // type status links
+    $('#typeStatus-topic td:first-child').click(function () {
+        var id = $(this).attr('id');
+        if (id.length > 5 && id.substr(0,5) === 'image') {
+            document.location.href = biocacheWebappUrl + "/occurrences/search?q=*:*&fq=type_status:" +
+                    id.substr(5) + "&fq=multimedia:Image#imagesView";
+        } else {
+            document.location.href = biocacheWebappUrl + "/occurrences/search?q=*:*&fq=type_status:" + id;
+        }
     });
     // species links
     $('#most-topic').on('click', 'td:first-child', function (event) {
