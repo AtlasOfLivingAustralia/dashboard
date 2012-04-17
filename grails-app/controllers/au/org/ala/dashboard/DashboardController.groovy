@@ -33,6 +33,7 @@ class DashboardController {
          identifyLifeCounts: metadataService.getIdentifyLifeCounts(),
          bhlCounts: metadataService.getBHLCounts(),
          boldCounts: metadataService.getBoldCounts(),
+         typeCounts: metadataService.getTypeStats(),
          dateStats: metadataService.getDateStats(),
          volunteerPortalCounts: metadataService.getStaticData('volunteerPortalCounts'),
          spatialLayers: metadataService.getSpatialLayers()]
@@ -103,6 +104,7 @@ class DashboardController {
                 recordsByConservationStatus: facetCount('state_conservation'),
                 recordsByDecade: decades,
                 recordsByLifeform: facetCount('species_group'),
+                typeCounts: metadataService.getTypeStats(),
                 taxaCounts: metadataService.getTaxaCounts(),
                 bhlCounts: metadataService.getBHLCounts(),
                 volunteerPortalCounts: metadataService.getStaticData('volunteerPortalCounts'),
