@@ -144,8 +144,13 @@ p.mainText {
     margin-top: 35px;
 }
 
-#spatial-topic table {
+#spatial-topic table, #typeStatus-topic table {
     margin-top: 8px;
+}
+
+#typeStatus-topic h2 span.count {
+    font-size: 1em;
+    margin-right: 5px;
 }
 
 #most-topic table {
