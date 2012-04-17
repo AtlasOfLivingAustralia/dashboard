@@ -128,7 +128,38 @@
                     'Mammals','Fish','Insects','Amphibians','Bacteria','Fungi']" name="mostSppGroup"/>
             <g:img style="vertical-align:middle;display:none" id="mostLoadingImg" dir="images" file="spinner.gif"/>
         </div>
-        <div class='link-group' tabindex="9" id="bold-topic">
+        <div class='link-group' tabindex="9" id="typeStatus-topic">
+            <h2><span class="count"><db:formatNumber value="${typeCounts.total}"/></span>Type specimens</h2>
+            <div id="baseTypes">
+                <table class="click-thru">
+                    <tr><td id="holotype">Holotypes</td><td><span class="count">${typeCounts.holotype}</span></td></tr>
+                    <tr><td id="lectotype">Lectotypes</td><td><span class="count">${typeCounts.lectotype}</span></td></tr>
+                    <tr><td id="neotype">Neotypes</td><td><span class="count">${typeCounts.neotype}</span></td></tr>
+                    <tr><td id="isotype">Isotypes</td><td><span class="count">${typeCounts.isotype}</span></td></tr>
+                </table>
+                <table>
+                    <tr><td>Types with images</td><td><span class="count">${typeCounts.withImage?.total}</span></td></tr>
+                </table>
+            </div>
+            <div id="moreTypes" style="display:none;">
+                <table class="click-thru">
+                    <g:each in="${typeCounts}" var="c">
+                        <g:if test="${!(c.key in ['total','withImage'])}">
+                            <tr><td id="${c.key}">${c.key[0].toUpperCase() + c.key[1..-1]}</td><td><span class="count">${c.value}</span></td></tr>
+                        </g:if>
+                    </g:each>
+                </table>
+                <table class="click-thru">
+                    <g:each in="${typeCounts.withImage}" var="c">
+                        <g:if test="${c.key != 'total'}">
+                            <tr><td id="${'image'+c.key}">${c.key[0].toUpperCase() + c.key[1..-1] + ' with image'}</td><td><span class="count">${c.value}</span></td></tr>
+                        </g:if>
+                    </g:each>
+                </table>
+            </div>
+            <p style="padding-top: 10px;"><span id="moreTypesLink"  class="link">more..</span></p>
+        </div>
+        <div class='link-group' tabindex="10" id="bold-topic">
             <h2>Barcode of life <a target="_blank" href="http://bold.ala.org.au/"><g:img dir="images/dashboard" file="bold.png"/></a></h2>
             <h3>DNA barcode data</h3>
             <table>
@@ -140,7 +171,7 @@
                 </tbody>
             </table>
         </div>
-        <div class='link-group' tabindex="10" id="bhl-topic">
+        <div class='link-group' tabindex="11" id="bhl-topic">
             <h2>Biodiversity heritage library</h2>
             <a target="_blank" href="http://bhl.ala.org.au/"><g:img dir="images/dashboard" file="bhl.png"/></a>
             <table>
@@ -152,7 +183,7 @@
             </table>
         </div>
         <g:if test="${volunteerPortalCounts}">
-        <div class='link-group' tabindex="11" id="bvp-topic">
+        <div class='link-group' tabindex="12" id="bvp-topic">
             <h2><a target="_blank" href="http://volunteer.ala.org.au/">Biodiversity volunteer portal</a></h2>
             <table>
                 <tbody>
@@ -165,15 +196,15 @@
             </table>
         </div>
         </g:if>
-        <div class='link-group click-thru' tabindex="12" id="lifeform-topic">
+        <div class='link-group click-thru' tabindex="13" id="lifeform-topic">
             <h2>Records by lifeform</h2>
             <table id="lifeformsTable"></table>
         </div>
-        <div class='link-group' tabindex="13" id="decade-topic">
+        <div class='link-group' tabindex="14" id="decade-topic">
             <h2>Records by decade</h2>
             <div id="decadeChart"></div>
         </div>
-        <div class='link-group' tabindex="14" id="tree-topic">
+        <div class='link-group' tabindex="15" id="tree-topic">
             <h2>Taxonomy tree</h2>
             <div id="tree"></div>
         </div>
