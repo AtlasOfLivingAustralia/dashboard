@@ -63,6 +63,12 @@ class MetadataService {
         return results
     }
 
+    /**
+     * Uses a cached biocache lookup to return the oldest and newest records and counts of
+     * records by century.
+     *
+     * @return map
+     */
     def getDateStats() {
         def cacheName = "dateStats"
         def cached = mdCache[cacheName]
@@ -99,6 +105,50 @@ class MetadataService {
         return results
     }
 
+    /**
+     * Uses a cached biocache lookup to return counts for various type statuses.
+     *
+     * @return map
+     */
+    def getTypeStats() {
+        def cacheName = "typeStats"
+        def cached = mdCache[cacheName]
+        if (cached && cached.resp && !(new Date().after(cached.time + 1))) {
+            println "using cache for type stats"
+            return cached.resp
+        }
+        println "looking up type stats"
+
+        def results = [:]
+
+        // type counts
+        def facets = cachedBiocacheFacetCount('type_status')
+        facets.facets.each {
+            if (it.facet != 'notatype') {
+                results[it.facet] = it.count
+            }
+        }
+        results.total = results.values().sum {it}
+
+        // type counts with images
+        results.withImage = [:]
+        facets = cachedBiocacheFacetCount('type_status',"*:*&fq=multimedia:Image")
+        facets.facets.each {
+            if (it.facet != 'notatype') {
+                results.withImage[it.facet] = it.count
+            }
+        }
+        results.withImage.total = results.withImage.values().sum {it}
+
+        mdCache.put cacheName, [resp: results, time: new Date()]
+        return results
+    }
+
+    /**
+     * Uses a cached collectory lookup to return counts for datasets by type.
+     *
+     * @return map with total and breakdown by type
+     */
     def getDatasets() {
         def action = "Datasets lookup"
         // check cache
@@ -135,6 +185,11 @@ class MetadataService {
         return results
     }
 
+    /**
+     * Uses a cached spatial services lookup to return counts for layers by type.
+     *
+     * @return map with total and breakdown by type, domain and classification1
+     */
     def getSpatialLayers() {
         def action = "Spatial layers lookup"
         // check cache
@@ -201,8 +256,10 @@ class MetadataService {
      * @return map with facets and any errors - [error: <errors>, reason: <reason if error>, facets: <facet values>]
      */
     def cachedBiocacheFacetCount(facetName, query) {
+        // build cache name from facet and query
+        def cacheName = facetName + query
         // check cache
-        def cached = mdCache[facetName]
+        def cached = mdCache[cacheName]
         if (cached && cached.resp && !(new Date().after(cached.time + 1))) {
             println "using cache for ${facetName}"
             return cached.resp
@@ -211,7 +268,7 @@ class MetadataService {
 
         // store in cache - if there was no error
         if (!results.error) {
-            mdCache.put facetName, [resp: results, time: new Date()]
+            mdCache.put cacheName, [resp: results, time: new Date()]
         }
 
         return results
@@ -248,10 +305,12 @@ class MetadataService {
         // hack to workaround biocache bug
         if (facetName == 'decade') { facetName = 'occurrence_year'}
 
-        //println resp
+        /*if (facetName == 'type_status') {
+            println resp
+        }*/
         // handle no results
         if (!resp || !resp.facetResults) { return [error: "Biocache lookup failed", reason: "no data"] }
-        resp.facetResults.find({ it.fieldName == facetName}).fieldResult.each { facet ->
+        resp.facetResults.find({ it.fieldName == facetName})?.fieldResult?.each { facet ->
             facets << [display: humanise(facet.label),
                        facet: facet.label,
                        formattedCount: format(facet.count as int),
