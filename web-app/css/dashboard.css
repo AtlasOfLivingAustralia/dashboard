@@ -129,19 +129,27 @@ p.mainText {
  Specific topics
  **********************************/
 #basis-topic table {
-    margin-top: 5px;
+    margin-top: -3px;
+}
+
+#datasets-topic {
+    width: 220px;
 }
 
 #datasets-topic table {
-    margin-top: 30px;
-}
-
-#date-topic table {
     margin-top: 10px;
 }
 
+#datasets-topic p {
+    margin-top: 10px;
+}
+
+#date-topic table {
+    margin-top: 2px;
+}
+
 #nsl-topic table {
-    margin-top: 35px;
+    margin-top: 30px;
 }
 
 #spatial-topic table, #typeStatus-topic table {
