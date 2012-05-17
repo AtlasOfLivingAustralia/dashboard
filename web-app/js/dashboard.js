@@ -168,6 +168,17 @@ function wireActions(serverUrl) {
     $('#showJson').click(function () {
         document.location.href = serverUrl + "/dashboard/data";
     });
+    // more.. in basis topic
+    $('#moreBasisLink').click(function () {
+        var open = ($('#moreBasisLink').html() === 'less..'),
+            $extra = $('#moreBasis');
+        $('#moreBasisLink').html(open ? 'more..' : 'less..');
+        if (open) {
+            $extra.find('td > div').slideUp(300);
+        } else {
+            $extra.find('td > div').slideDown(300);
+        }
+    });
     // more.. in spatial topic
     $('#moreSpatialLink').click(function () {
         $('#moreSpatialLink').html($('#moreSpatial:visible').length ? 'more..' : 'less..');
