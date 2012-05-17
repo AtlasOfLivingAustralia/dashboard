@@ -93,16 +93,23 @@ class DashboardController {
         }
         decades << dec
 
+        // species by decade
+        def spDecades = [:]
+        metadataService.getSpeciesByDecade().each {
+            spDecades.put it.decade, it.species
+        }
+
         // build output
         def d = [basisOfRecord: facetCount('basis_of_record'),
                 collections: metadataService.getCollectionsByCategory(),
                 datasets: metadataService.getDatasets(),
                 spatialLayers: metadataService.getSpatialLayers(),
-                recordsByDate: metadataService.getRecordsByDate(),
+                recordsByDate: metadataService.getDateStats(),
                 recordsByState: facetCount('state'),
                 recordsByKingdom: facetCount('kingdom'),
                 recordsByConservationStatus: facetCount('state_conservation'),
                 recordsByDecade: decades,
+                speciesByDecade: spDecades,
                 recordsByLifeform: facetCount('species_group'),
                 typeCounts: metadataService.getTypeStats(),
                 taxaCounts: metadataService.getTaxaCounts(),
@@ -125,4 +132,8 @@ class DashboardController {
         render metadataService.getDatasets() as JSON
     }
 
+    def metadata = {
+        def method = params.id
+        render metadataService."$method"() as JSON
+    }
 }
