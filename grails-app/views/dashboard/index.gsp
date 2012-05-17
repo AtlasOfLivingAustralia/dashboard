@@ -31,6 +31,11 @@
                 <tr><td id="document">Document sets</td><td><span class="count"><db:formatNumber value="${datasets.groups.document}"/></span></td></tr>
                 <tr><td id="uploads">Uploaded record sets</td><td><span class="count"><db:formatNumber value="${datasets.groups.uploads}"/></span></td></tr>
             </table>
+            <div>
+                <p>Most recently added dataset is<br/>
+                   <a href="${ConfigurationHolder.config.collectory.baseURL}/public/show/${datasets.last.uid}">
+                       <em><db:shorten text="${datasets.last.name}" size="66"/></em></a></p>
+            </div>
             <div id="datasets-info" class="info" style="display: none;">
                 <p>Much of the content in the Atlas, such as occurrence records, environmental data, images and the
                 conservation status of species, comes from data sets provided by collecting institutions, individual
@@ -44,13 +49,26 @@
             <h2>Basis of records</h2>
             <g:if test="${basisOfRecord.error.asBoolean()}"><p class="error" title="${basisOfRecord.reason}">${basisOfRecord.error}</p></g:if>
             <table>
-                <g:each in="${basisOfRecord.facets}" var="b">
+                <tbody>
+                <g:each in="${basisOfRecord.facets[0..6]}" var="b">
                     <tr>
                         <td id="br-${b.facet}">${b.display}</td>
                         <td><span class="count">${b.formattedCount}</span></td>
                     </tr>
                 </g:each>
+                </tbody>
+                <g:if test="${basisOfRecord.facets.size() > 7}">
+                <tbody id="moreBasis">
+                    <g:each in="${basisOfRecord.facets[7..-1]}" var="b">
+                        <tr>
+                            <td id="br-${b.facet}"><div style="display:none;">${b.display}</div></td>
+                            <td><div style="display:none;"><span class="count">${b.formattedCount}</span></div></td>
+                        </tr>
+                    </g:each>
+                </tbody>
+                </g:if>
             </table>
+            <p style="padding-top: 2px;"><span id="moreBasisLink"  class="link">more..</span></p>
         </div>
         <div class='link-group' id="collections-topic" tabindex="2">
             <h2><span class="count">${collections.total}</span>Collections</h2>
@@ -61,11 +79,12 @@
             <table>
                 <tr><td id="${dateStats.earliest.uuid}">Earliest record</td><td><span class="count">${dateStats.earliest.display}</span></td>
                 <tr><td id="${dateStats.latest.uuid}">Latest record</td><td><span class="count">${dateStats.latest.display}</span></td>
-                <tr><td id="1600">1600's</td><td><span class="count"><db:formatNumber value="${dateStats.c1600}"/></span></td>
-                <tr><td id="1700">1700's</td><td><span class="count"><db:formatNumber value="${dateStats.c1700}"/></span></td>
-                <tr><td id="1800">1800's</td><td><span class="count"><db:formatNumber value="${dateStats.c1800}"/></span></td>
-                <tr><td id="1900">1900's</td><td><span class="count"><db:formatNumber value="${dateStats.c1900}"/></span></td>
-                <tr><td id="2000">2000's</td><td><span class="count"><db:formatNumber value="${dateStats.c2000}"/></span></td>
+                <tr><td id="${dateStats.latestImage.uuid}">Last image added</td><td><span class="count">${dateStats.latestImage.display}</span></td>
+                <tr><td id="1600">1600s</td><td><span class="count"><db:formatNumber value="${dateStats.c1600}"/></span></td>
+                <tr><td id="1700">1700s</td><td><span class="count"><db:formatNumber value="${dateStats.c1700}"/></span></td>
+                <tr><td id="1800">1800s</td><td><span class="count"><db:formatNumber value="${dateStats.c1800}"/></span></td>
+                <tr><td id="1900">1900s</td><td><span class="count"><db:formatNumber value="${dateStats.c1900}"/></span></td>
+                <tr><td id="2000">2000s</td><td><span class="count"><db:formatNumber value="${dateStats.c2000}"/></span></td>
             </table>
         </div>
         <div class='link-group' tabindex="4" id="nsl-topic">
