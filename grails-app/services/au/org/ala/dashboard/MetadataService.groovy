@@ -3,6 +3,7 @@ package au.org.ala.dashboard
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import grails.converters.JSON
 import java.text.SimpleDateFormat
+import groovy.json.JsonSlurper
 
 class MetadataService {
 
@@ -80,18 +81,28 @@ class MetadataService {
         def results = [:]
 
         // earliest record
-        def a = webService.getJson(ConfigurationHolder.config.biocache.baseURL + "/ws/occurrences/search?q=*:*&pageSize=1&sort=occurrence_date&facet=off")
+        def a = webService.getJson(ConfigurationHolder.config.biocache.baseURL +
+                "/ws/occurrences/search?q=!assertions:invalidCollectionDate&pageSize=1&sort=occurrence_date&facet=off")
         def earliestUuid = a.occurrences[0].uuid
         def earliest = new Date(a.occurrences[0].eventDate)
         def earliestDate = new SimpleDateFormat("d MMMM yyyy").format(earliest)
         results.earliest = [uuid: earliestUuid, display: earliestDate]
 
         // latest record
-        def b = webService.getJson(ConfigurationHolder.config.biocache.baseURL + "/ws/occurrences/search?q=*:*&pageSize=1&sort=occurrence_date&dir=desc&facet=off")
+        def b = webService.getJson(ConfigurationHolder.config.biocache.baseURL +
+                "/ws/occurrences/search?q=!assertions:invalidCollectionDate&pageSize=1&sort=occurrence_date&dir=desc&facet=off")
         def latestUuid = b.occurrences[0].uuid
         def latest = new Date(b.occurrences[0].eventDate)
         def latestDate = new SimpleDateFormat("d MMMM yyyy").format(latest)
         results.latest = [uuid: latestUuid, display: latestDate]
+
+        // latest record with image
+        def bi = webService.getJson(ConfigurationHolder.config.biocache.baseURL +
+                "/ws/occurrences/search?q=!assertions:invalidCollectionDate&pageSize=1&sort=first_loaded_date&dir=desc&facet=off&fq=multimedia:Image")
+        def latestImageUuid = bi.occurrences[0].uuid
+        def latestImage = new Date(bi.occurrences[0].eventDate)
+        def latestImageDate = new SimpleDateFormat("d MMMM yyyy").format(latestImage)
+        results.latestImage = [uuid: latestImageUuid, display: latestImageDate]
 
         // get counts by century
         [1600,1700,1800,1900,2000].each {
@@ -145,6 +156,44 @@ class MetadataService {
     }
 
     /**
+     * Uses multiple biocache searches to return unique species accepted names for each decade.
+     * @return a list of decades with species and occurrence counts.
+     */
+    def getSpeciesByDecade() {
+        def cacheName = "speciesByDecade"
+        def cached = mdCache[cacheName]
+        if (cached && cached.resp && !(new Date().after(cached.time + 1))) {
+            println "using cache for species by decade"
+            return cached.resp
+        }
+        println "looking up species by decade"
+
+        def baseUrl =
+            "http://biocache.ala.org.au/ws/explore/groups.json?q=*:*&pageSize=10&fq=occurrence_year:"  //[1750-01-01T00:00:00Z+TO+1760-12-31T23:59:59Z]
+
+        def data = []
+        (184..201).each {
+            def from, decade
+            if (it == 184) {
+                from = '*'
+                decade = 'before 1850'
+            } else {
+                from = (it.toString() + '0-01-01T00:00:00Z')
+                decade = it.toString() + '0s'
+            }
+            def to = (it.toString() + '9-12-31T23:59:59Z')
+            def url = baseUrl + '[' + from + '+TO+' + to + ']'
+            def json = new URL(url).text
+            def result = JSON.parse(json)
+            def totals = result.find { it.name == 'ALL_SPECIES'}
+            data << [decade: decade, records: totals.count, species: totals.speciesCount]
+        }
+
+        mdCache.put cacheName, [resp: data, time: new Date()]
+        return data
+    }
+
+    /**
      * Uses a cached collectory lookup to return counts for datasets by type.
      *
      * @return map with total and breakdown by type
@@ -177,7 +226,13 @@ class MetadataService {
             return [error: "${action} failed", reason: e.message]
         }
 
-        def results = [total: resp.total, groups: resp.groups]
+        // look up most recently added
+        def json = new URL("http://collections.ala.org.au/ws/dataResource").text
+        def allDRs = new JsonSlurper().parseText(json)
+        allDRs.sort {it.uid[2..-1].toInteger()}
+        def last = allDRs.last()
+
+        def results = [total: resp.total, groups: resp.groups, last: last]
         
         // store in cache
         mdCache.put 'datasets', [resp: results, time: new Date()]
