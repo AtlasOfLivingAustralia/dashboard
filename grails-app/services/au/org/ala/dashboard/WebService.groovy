@@ -6,9 +6,15 @@ import org.codehaus.groovy.grails.web.converters.exceptions.ConverterException
 import groovyx.net.http.HTTPBuilder
 import groovyx.net.http.ContentType
 import groovyx.net.http.RESTClient
+import org.springframework.beans.factory.InitializingBean
+import org.codehaus.groovy.grails.web.json.JSONObject
 
 
-class WebService {
+class WebService implements InitializingBean {
+
+    public void afterPropertiesSet() throws Exception {
+        JSONObject.NULL.metaClass.asBoolean = {-> false}
+    }
 
     def get(String url) {
         def conn = new URL(url).openConnection()
