@@ -7,152 +7,130 @@ import groovy.json.JsonSlurper
 
 class MetadataService {
 
-    def webService
+    def webService, cacheService
 
-    // the metadata cache holds responses from web service lookups
-    // refreshing is time based
-    def mdCache = [:] // map of lookup responses - value is [resp: <response>, time: <timestamp>]
-    
-    // the 'static' data cache holds data read from a config file
-    // refreshing is manual (and at startup)
-    def staticDataCache = [:] // map of 'static' data read from a config file
-    
     /**
      * Uses a cached biocache lookup to return the counts for each basis of record.
      * @return map with facets and any errors - [error: <errors>, reason: <reason if error>, facets: <facet values>]
      */
     def getBasisOfRecord() {
-        return cachedBiocacheFacetCount('basis_of_record')
+        return cacheService.get('basis_of_record', {
+            biocacheFacetCount('basis_of_record')
+        })
     }
 
     /**
-     * Uses a cached biocache lookup to return the 5 most recorded species for the specified group.
+     * Uses a cached biocache lookup to return the counts for the specified facet.
+     * @return map with facets and any errors - [error: <errors>, reason: <reason if error>, facets: <facet values>]
+     */
+    def getBiocacheFacet(facetName) {
+        return cacheService.get(facetName, {
+            biocacheFacetCount(facetName)
+        })
+    }
+
+    /**
+     * Get cached data for the 5 most recorded species for the specified group.
      *
      * @param group the lifeform group or text containing 'all'
      * @return map with facets and any errors - [error: <errors>, reason: <reason if error>, facets: <facet values>]
      */
     def getMostRecordedSpecies(group) {
-        def cacheName = "mostRecorded"+group
-        def cached = mdCache[cacheName]
-        if (cached && cached.resp && !(new Date().after(cached.time + 1))) {
-            println "using cache for most recorded ${group}"
-            return cached.resp
-        }
+        cacheService.get('mostRecorded' + group, {
+                // get the guids for the 6 most recorded species
+                def fq = (group.toLowerCase() =~ 'all' ? '' : "&fq=species_group:${group}")
+                def results = biocacheFacetCount('species_guid', "*:*${fq}&flimit=6")
 
-        println "looking up most recorded ${group}"
+                // look up the name and common names
+                def guids = results.facets.collect {it.facet}
+                def md = bieBulkLookup(guids)
+                results.facets.each {
+                    def data = md[it.facet]
+                    if (data) {
+                        it.name = data.name
+                        it.common = data.common
+                    }
+                }
 
-        // get the guids for the 6 most recorded species
-        def fq = (group.toLowerCase() =~ 'all' ? '' : "&fq=species_group:${group}")
-        def results = biocacheFacetCount('species_guid', "*:*${fq}&flimit=6")
-
-        // look up the name and common names
-        def guids = results.facets.collect {it.facet}
-        def md = bieBulkLookup(guids)
-        results.facets.each {
-            def data = md[it.facet]
-            if (data) {
-                it.name = data.name
-                it.common = data.common
-            }
-        }
-
-        // store in cache - if there was no error
-        if (!results.error) {
-            mdCache.put cacheName, [resp: results, time: new Date()]
-        }
-
-        return results
+                return results
+            })
     }
 
     /**
-     * Uses a cached biocache lookup to return the oldest and newest records and counts of
+     * Get cached data for the oldest and newest records and counts of
      * records by century.
-     *
      * @return map
      */
     def getDateStats() {
-        def cacheName = "dateStats"
-        def cached = mdCache[cacheName]
-        if (cached && cached.resp && !(new Date().after(cached.time + 1))) {
-            println "using cache for date stats"
-            return cached.resp
-        }
-        println "looking up date stats"
-        def results = [:]
+        cacheService.get('dateStats', {
+                def results = [:]
 
-        // earliest record
-        def a = webService.getJson(ConfigurationHolder.config.biocache.baseURL +
-                "/ws/occurrences/search?q=!assertions:invalidCollectionDate&pageSize=1&sort=occurrence_date&facet=off")
-        def earliestUuid = a.occurrences[0].uuid
-        def earliest = new Date(a.occurrences[0].eventDate)
-        def earliestDate = new SimpleDateFormat("d MMMM yyyy").format(earliest)
-        results.earliest = [uuid: earliestUuid, display: earliestDate]
+                // earliest record
+                def a = webService.getJson(ConfigurationHolder.config.biocache.baseURL +
+                        "/ws/occurrences/search?q=!assertions:invalidCollectionDate&pageSize=1&sort=occurrence_date&facet=off")
+                def earliestUuid = a.occurrences[0].uuid
+                def earliest = new Date(a.occurrences[0].eventDate)
+                def earliestDate = new SimpleDateFormat("d MMMM yyyy").format(earliest)
+                results.earliest = [uuid: earliestUuid, display: earliestDate]
 
-        // latest record
-        def b = webService.getJson(ConfigurationHolder.config.biocache.baseURL +
-                "/ws/occurrences/search?q=!assertions:invalidCollectionDate&pageSize=1&sort=occurrence_date&dir=desc&facet=off")
-        def latestUuid = b.occurrences[0].uuid
-        def latest = new Date(b.occurrences[0].eventDate)
-        def latestDate = new SimpleDateFormat("d MMMM yyyy").format(latest)
-        results.latest = [uuid: latestUuid, display: latestDate]
+                // latest record
+                def b = webService.getJson(ConfigurationHolder.config.biocache.baseURL +
+                        "/ws/occurrences/search?q=!assertions:invalidCollectionDate&pageSize=1&sort=occurrence_date&dir=desc&facet=off")
+                def latestUuid = b.occurrences[0].uuid
+                def latest = new Date(b.occurrences[0].eventDate)
+                def latestDate = new SimpleDateFormat("d MMMM yyyy").format(latest)
+                results.latest = [uuid: latestUuid, display: latestDate]
 
-        // latest record with image
-        def bi = webService.getJson(ConfigurationHolder.config.biocache.baseURL +
-                "/ws/occurrences/search?q=!assertions:invalidCollectionDate&pageSize=1&sort=first_loaded_date&dir=desc&facet=off&fq=multimedia:Image")
-        def latestImageUuid = bi.occurrences[0].uuid
-        def latestImage = new Date(bi.occurrences[0].eventDate)
-        def latestImageDate = new SimpleDateFormat("d MMMM yyyy").format(latestImage)
-        results.latestImage = [uuid: latestImageUuid, display: latestImageDate]
+                // latest record with image
+                def bi = webService.getJson(ConfigurationHolder.config.biocache.baseURL +
+                        "/ws/occurrences/search?q=!assertions:invalidCollectionDate&pageSize=1&sort=first_loaded_date&dir=desc&facet=off&fq=multimedia:Image")
+                def latestImageUuid = bi.occurrences[0].uuid
+                def latestImage = new Date(bi.occurrences[0].eventDate)
+                def latestImageDate = new SimpleDateFormat("d MMMM yyyy").format(latestImage)
+                results.latestImage = [uuid: latestImageUuid, display: latestImageDate]
 
-        // get counts by century
-        [1600,1700,1800,1900,2000].each {
-            def url = ConfigurationHolder.config.biocache.baseURL +
-             "/ws/occurrences/search?q=*:*&pageSize=0&facet=off&fq=occurrence_year:[${it}-01-01T00:00:00Z%20TO%20${it + 99}-12-31T23:59:59Z]"
-            def c = webService.getJson(url)
-            results['c' + it] = c.totalRecords
-        }
+                // get counts by century
+                [1600,1700,1800,1900,2000].each {
+                    def url = ConfigurationHolder.config.biocache.baseURL +
+                            "/ws/occurrences/search?q=*:*&pageSize=0&facet=off&fq=occurrence_year:[${it}-01-01T00:00:00Z%20TO%20${it + 99}-12-31T23:59:59Z]"
+                    def c = webService.getJson(url)
+                    results['c' + it] = c.totalRecords
+                }
 
-        mdCache.put cacheName, [resp: results, time: new Date()]
-        return results
+                return results
+            })
     }
 
     /**
-     * Uses a cached biocache lookup to return counts for various type statuses.
-     *
+     * Get cached counts for various type statuses.
      * @return map
      */
-    def getTypeStats() {
-        def cacheName = "typeStats"
-        def cached = mdCache[cacheName]
-        if (cached && cached.resp && !(new Date().after(cached.time + 1))) {
-            println "using cache for type stats"
-            return cached.resp
-        }
-        println "looking up type stats"
+    def getTypeStats = {
+        return cacheService.get('typeStats',{
 
-        def results = [:]
+                def results = [:]
 
-        // type counts
-        def facets = cachedBiocacheFacetCount('type_status')
-        facets.facets.each {
-            if (it.facet != 'notatype') {
-                results[it.facet] = it.count
-            }
-        }
-        results.total = results.values().sum {it}
+                // type counts
+                def facets = biocacheFacetCount('type_status', '*:*')
+                facets.facets.each {
+                    if (it.facet != 'notatype') {
+                        results[it.facet] = it.count
+                    }
+                }
+                results.total = results.values().sum {it}
 
-        // type counts with images
-        results.withImage = [:]
-        facets = cachedBiocacheFacetCount('type_status',"*:*&fq=multimedia:Image")
-        facets.facets.each {
-            if (it.facet != 'notatype') {
-                results.withImage[it.facet] = it.count
-            }
-        }
-        results.withImage.total = results.withImage.values().sum {it}
+                // type counts with images
+                results.withImage = [:]
+                facets = biocacheFacetCount('type_status',"*:*&fq=multimedia:Image")
+                facets.facets.each {
+                    if (it.facet != 'notatype') {
+                        results.withImage[it.facet] = it.count
+                    }
+                }
+                results.withImage.total = results.withImage.values().sum {it}
 
-        mdCache.put cacheName, [resp: results, time: new Date()]
-        return results
+                return results
+            })
     }
 
     /**
@@ -160,173 +138,132 @@ class MetadataService {
      * @return a list of decades with species and occurrence counts.
      */
     def getSpeciesByDecade() {
-        def cacheName = "speciesByDecade"
-        def cached = mdCache[cacheName]
-        if (cached && cached.resp && !(new Date().after(cached.time + 1))) {
-            println "using cache for species by decade"
-            return cached.resp
-        }
-        println "looking up species by decade"
+        return cacheService.get("speciesByDecade", {
 
-        def baseUrl =
-            "http://biocache.ala.org.au/ws/explore/groups.json?q=*:*&pageSize=10&fq=occurrence_year:"  //[1750-01-01T00:00:00Z+TO+1760-12-31T23:59:59Z]
+            def baseUrl =
+                "http://biocache.ala.org.au/ws/explore/groups.json?q=*:*&pageSize=10&fq=occurrence_year:"  //[1750-01-01T00:00:00Z+TO+1760-12-31T23:59:59Z]
 
-        def data = []
-        (184..201).each {
-            def from, decade
-            if (it == 184) {
-                from = '*'
-                decade = 'before 1850'
-            } else {
-                from = (it.toString() + '0-01-01T00:00:00Z')
-                decade = it.toString() + '0s'
+            def data = []
+            (184..201).each {
+                def from, decade
+                if (it == 184) {
+                    from = '*'
+                    decade = 'before 1850'
+                } else {
+                    from = (it.toString() + '0-01-01T00:00:00Z')
+                    decade = it.toString() + '0s'
+                }
+                def to = (it.toString() + '9-12-31T23:59:59Z')
+                def url = baseUrl + '[' + from + '+TO+' + to + ']'
+                def json = new URL(url).text
+                def result = JSON.parse(json)
+                def totals = result.find { it.name == 'ALL_SPECIES'}
+                data << [decade: decade, records: totals.count, species: totals.speciesCount]
             }
-            def to = (it.toString() + '9-12-31T23:59:59Z')
-            def url = baseUrl + '[' + from + '+TO+' + to + ']'
-            def json = new URL(url).text
-            def result = JSON.parse(json)
-            def totals = result.find { it.name == 'ALL_SPECIES'}
-            data << [decade: decade, records: totals.count, species: totals.speciesCount]
-        }
 
-        mdCache.put cacheName, [resp: data, time: new Date()]
-        return data
+            return data
+        })
     }
 
     /**
      * Uses a cached collectory lookup to return counts for datasets by type.
-     *
      * @return map with total and breakdown by type
      */
     def getDatasets() {
-        def action = "Datasets lookup"
-        // check cache
-        def cached = mdCache.datasets
-        if (cached && cached.resp && !(new Date().after(cached.time + 1))) {
-            println "using cache for datasets"
-            return cached.resp
-        }
+        return cacheService.get('datasets', {
+            def action = "Datasets lookup"
+            // look it up
+            println "looking up datasets"
+            def resp = null
+            def url = ConfigurationHolder.config.collectory.baseURL +
+                    "/ws/dataResource/count/resourceType?public=true"
 
-        // look it up
-        def resp = null
-        def url = ConfigurationHolder.config.collectory.baseURL +
-                "/ws/dataResource/count/resourceType?public=true"
+            def conn = new URL(url).openConnection()
+            try {
+                conn.setConnectTimeout(5000)
+                conn.setReadTimeout(50000)
+                def json = conn.content.text
+                resp = JSON.parse(json)
+            } catch (SocketTimeoutException e) {
+                println "${action} timed out = ${e.toString()}"
+                return [error: "${action} timed out", reason: e.message]
+            } catch (Exception e) {
+                println "${action} failed = ${e.toString()}"
+                return [error: "${action} failed", reason: e.message]
+            }
 
-        def conn = new URL(url).openConnection()
-        try {
-            conn.setConnectTimeout(5000)
-            conn.setReadTimeout(50000)
-            def json = conn.content.text
-            resp = JSON.parse(json)
-        } catch (SocketTimeoutException e) {
-            println "${action} timed out = ${e.toString()}"
-            return [error: "${action} timed out", reason: e.message]
-        } catch (Exception e) {
-            println "${action} failed = ${e.toString()}"
-            return [error: "${action} failed", reason: e.message]
-        }
+            // look up most recently added
+            def json = new URL("http://collections.ala.org.au/ws/dataResource").text
+            def allDRs = new JsonSlurper().parseText(json)
+            allDRs.sort {it.uid[2..-1].toInteger()}
+            def last = allDRs.last()
 
-        // look up most recently added
-        def json = new URL("http://collections.ala.org.au/ws/dataResource").text
-        def allDRs = new JsonSlurper().parseText(json)
-        allDRs.sort {it.uid[2..-1].toInteger()}
-        def last = allDRs.last()
+            def results = [total: resp.total, groups: resp.groups, last: last]
 
-        def results = [total: resp.total, groups: resp.groups, last: last]
-        
-        // store in cache
-        mdCache.put 'datasets', [resp: results, time: new Date()]
-
-        return results
+            return results
+        })
     }
 
     /**
      * Uses a cached spatial services lookup to return counts for layers by type.
-     *
      * @return map with total and breakdown by type, domain and classification1
      */
     def getSpatialLayers() {
-        def action = "Spatial layers lookup"
-        // check cache
-        def cached = mdCache.layers
-        if (cached && cached.resp && !(new Date().after(cached.time + 1))) {
-            println "using cache for spatial layers"
-            return cached.resp
-        }
+        return cacheService.get('layers', {
+            def action = "Spatial layers lookup"
+            println "looking up spatial layers"
+            // look it up
+            def resp = null
+            def url = ConfigurationHolder.config.spatial.baseURL +
+                    "/layers.json"
 
-        println "looking up spatial layers"
-        // look it up
-        def resp = null
-        def url = ConfigurationHolder.config.spatial.baseURL +
-                "/layers.json"
+            def conn = new URL(url).openConnection()
+            try {
+                conn.setConnectTimeout(5000)
+                conn.setReadTimeout(50000)
+                def json = conn.content.text
+                resp = JSON.parse(json)
+            } catch (SocketTimeoutException e) {
+                println "${action} timed out = ${e.toString()}"
+                return [error: "${action} timed out", reason: e.message]
+            } catch (Exception e) {
+                println "${action} failed = ${e.toString()}"
+                return [error: "${action} failed", reason: e.message]
+            }
 
-        def conn = new URL(url).openConnection()
-        try {
-            conn.setConnectTimeout(5000)
-            conn.setReadTimeout(50000)
-            def json = conn.content.text
-            resp = JSON.parse(json)
-        } catch (SocketTimeoutException e) {
-            println "${action} timed out = ${e.toString()}"
-            return [error: "${action} timed out", reason: e.message]
-        } catch (Exception e) {
-            println "${action} failed = ${e.toString()}"
-            return [error: "${action} failed", reason: e.message]
-        }
+            def environmental = resp.count { it.type == 'Environmental'}
+            def contextual = resp.count { it.type == 'Contextual'}
+            def terrestrial = resp.count { it.domain == 'Terrestrial'}
+            def marine = resp.count { it.domain == 'Marine' || it.classification1 == 'Marine'}
 
-        def environmental = resp.count { it.type == 'Environmental'}
-        def contextual = resp.count { it.type == 'Contextual'}
-        def terrestrial = resp.count { it.domain == 'Terrestrial'}
-        def marine = resp.count { it.domain == 'Marine' || it.classification1 == 'Marine'}
+            def results = [total: resp.size(), groups: [
+                    environmental: environmental,
+                    contextual: contextual,
+                    terrestrial: terrestrial,
+                    marine: marine
+                    ],
+                    classification: resp.countBy {it.classification1}]
 
-        def results = [total: resp.size(), groups: [
-                environmental: environmental,
-                contextual: contextual,
-                terrestrial: terrestrial,
-                marine: marine
-                ],
-                classification: resp.countBy {it.classification1}]
-        
-        // store in cache
-        mdCache.put 'layers', [resp: results, time: new Date()]
-
-        return results
+            return results
+        })
     }
 
-    /**
-     * Performs a lookup on the biocache for the specified facet against all records.
-     *
-     * @param facetName the facet values to return
-     * @return map with facets and any errors - [error: <errors>, reason: <reason if error>, facets: <facet values>]
-     */
-    def cachedBiocacheFacetCount(facetName) {
-        return cachedBiocacheFacetCount(facetName, "*:*")
-    }
+    def getSpeciesByConservationStatus() {
+        return cacheService.get('speciesByConservationStatus', {
 
-    /**
-     * Performs a lookup on the biocache using cached values if available.
-     *
-     * @param facetName the facet values to return
-     * @param query selects the results set to facet
-     * @return map with facets and any errors - [error: <errors>, reason: <reason if error>, facets: <facet values>]
-     */
-    def cachedBiocacheFacetCount(facetName, query) {
-        // build cache name from facet and query
-        def cacheName = facetName + query
-        // check cache
-        def cached = mdCache[cacheName]
-        if (cached && cached.resp && !(new Date().after(cached.time + 1))) {
-            println "using cache for ${facetName}"
-            return cached.resp
-        }
-        def results = biocacheFacetCount(facetName, query)
+            def baseUrl = ConfigurationHolder.config.biocache.baseURL +
+                    "/ws/explore/groups.json?pageSize=10&q=state_conservation:"
 
-        // store in cache - if there was no error
-        if (!results.error) {
-            mdCache.put cacheName, [resp: results, time: new Date()]
-        }
-
-        return results
+            def data = []
+            ['Endangered','Near Threatened','Least Concern/Unknown','Listed under FFG Act','Extinct','Parent Species (Unofficial)'].each {
+                def url = baseUrl + '"' + URLEncoder.encode(it) + '"'
+                def json = new URL(url).text
+                def result = JSON.parse(json)
+                def totals = result.find { it.name == 'ALL_SPECIES'}
+                data << [status: it,  records: totals.count, species: totals.speciesCount]
+            }
+            return data
+        })
     }
 
     /**
@@ -336,7 +273,7 @@ class MetadataService {
      * @param query selects the results set to facet
      * @return map with facets and any errors - [error: <errors>, reason: <reason if error>, facets: <facet values>]
      */
-    def biocacheFacetCount(facetName, query) {
+    def biocacheFacetCount(facetName, query = '*:*') {
         println "looking up " + facetName
         def facets = []
         def resp = null
@@ -404,66 +341,33 @@ class MetadataService {
     }
 
     /* -------------------------------- STATIC LOOKUPS --------------------------------------------*/
-    def loadStaticCacheFromFile() {
-        def json = new File(ConfigurationHolder.config.dashboard.data.file).text
-        if (json) {
-            staticDataCache = JSON.parse(json)
-        }
-    }
 
-    def getStaticData(key) {
-        def res = staticDataCache[key]
-        if (!res) {
-            loadStaticCacheFromFile()
-            res = staticDataCache[key]
-        }
-        return res
+    def get = { key ->
+        return cacheService.get(key, {cacheService.loadStaticCacheFromFile(key)})
     }
 
     def getCollectionsByCategory() {
-        return getStaticData('collections')
+        return get('collections')
     }
 
     def getRecordsByDate() {
-        return getStaticData('recordsByDate')
+        return get('recordsByDate')
     }
 
     def getTaxaCounts() {
-        return getStaticData('taxaCounts')
+        return get('taxaCounts')
     }
 
     def getBHLCounts() {
-        return getStaticData('bhlCounts')
+        return get('bhlCounts')
     }
 
     def getBoldCounts() {
-        return getStaticData('boldCounts')
+        return get('boldCounts')
     }
 
     def getIdentifyLifeCounts() {
-        return getStaticData('identifyLife')
-    }
-    /* ---------------------------- CACHE MANAGEMENT -----------------------------------------*/
-
-    def clearCache() {
-        clearCache(null)
-    }
-
-    def clearCache(key) {
-        if (key == null) {
-            staticDataCache = [:]
-            mdCache = [:]
-            println "cleared all cached data"
-        }
-        else {
-            if (staticDataCache.containsKey(key)) {
-                staticDataCache.remove(key)
-            }
-            if (mdCache.containsKey(key)) {
-                mdCache.remove(key)
-            }
-            println "cleared cached data for " + key
-        }
+        return get('identifyLife')
     }
 
     /* -------------------------------- UTILITIES --------------------------------------------*/
