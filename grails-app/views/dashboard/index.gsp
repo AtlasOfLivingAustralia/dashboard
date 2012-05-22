@@ -215,6 +215,33 @@
             </table>
         </div>
         </g:if>
+        <div class='link-group click-thru' tabindex="1" id="conservation-topic">
+            <h2>Conservation status</h2>
+            <table>
+                <tr><th>Status</th><th># species</th></tr>
+                <tbody>
+                <g:each in="${stateConservation[0..Math.min(6,stateConservation.size()-1)]}" var="b">
+                    <tr>
+                        <td id="br-${b.status}">${b.status}</td>
+                        <td><span class="count">${b.species}</span></td>
+                    </tr>
+                </g:each>
+                </tbody>
+                <g:if test="${stateConservation.size() > 7}">
+                    <tbody id="moreBasis">
+                    <g:each in="${stateConservation[7..-1]}" var="b">
+                        <tr>
+                            <td id="br-${b.status}"><div style="display:none;">${b.status}</div></td>
+                            <td><div style="display:none;"><span class="count">${b.species}</span></div></td>
+                        </tr>
+                    </g:each>
+                    </tbody>
+                </g:if>
+            </table>
+            <g:if test="${stateConservation.size() > 7}">
+                <p style="padding-top: 2px;"><span id="moreConservationLink" class="link">more..</span></p>
+            </g:if>
+        </div>
         <div class='link-group click-thru' tabindex="13" id="lifeform-topic">
             <h2>Records by lifeform</h2>
             <table id="lifeformsTable"></table>
