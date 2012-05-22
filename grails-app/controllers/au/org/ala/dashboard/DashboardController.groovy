@@ -19,7 +19,7 @@ import grails.converters.JSON
 
 class DashboardController {
 
-    def metadataService
+    def metadataService, cacheService
 
     /**
      * Show main dashboard page.
@@ -35,8 +35,9 @@ class DashboardController {
          boldCounts: metadataService.getBoldCounts(),
          typeCounts: metadataService.getTypeStats(),
          dateStats: metadataService.getDateStats(),
-         volunteerPortalCounts: metadataService.getStaticData('volunteerPortalCounts'),
-         spatialLayers: metadataService.getSpatialLayers()]
+         volunteerPortalCounts: metadataService.get('volunteerPortalCounts'),
+         spatialLayers: metadataService.getSpatialLayers(),
+         stateConservation: metadataService.getSpeciesByConservationStatus()]
     }
 
     def mostRecorded(String group) {
@@ -56,7 +57,12 @@ class DashboardController {
     }
 
     def clearCache() {
-        metadataService.clearCache(params.key)
+        if (params.key) {
+            cacheService.clear(params.key)
+        }
+        else {
+            cacheService.clear()
+        }
         render 'Done.'
     }
 
@@ -72,7 +78,7 @@ class DashboardController {
 
     def facetCount = { facet ->
         def r = [:]
-        metadataService.cachedBiocacheFacetCount(facet).facets.each {
+        metadataService.getBiocacheFacet(facet).facets.each {
             r.put it.display, it.count
         }
         r
@@ -83,7 +89,7 @@ class DashboardController {
         // records by decade
         def decades = [:]
         def dec = [:]
-        metadataService.cachedBiocacheFacetCount('decade').facets.each {
+        metadataService.getBiocacheFacet('decade').facet.each {
             if (it.facet == 'before') {
                 decades.put 'before 1850', it.count
             }
@@ -114,7 +120,7 @@ class DashboardController {
                 typeCounts: metadataService.getTypeStats(),
                 taxaCounts: metadataService.getTaxaCounts(),
                 bhlCounts: metadataService.getBHLCounts(),
-                volunteerPortalCounts: metadataService.getStaticData('volunteerPortalCounts'),
+                volunteerPortalCounts: metadataService.get('volunteerPortalCounts'),
                 identifyLifeCounts: metadataService.getIdentifyLifeCounts()]
         ['All','Plants','Mammals','Reptiles','Birds','Animals','Arthropods',
          'Fish','Insects','Amphibians','Bacteria','Fungi'].each {
@@ -134,6 +140,12 @@ class DashboardController {
 
     def metadata = {
         def method = params.id
-        render metadataService."$method"() as JSON
+        def arg = params.arg
+        if (arg) {
+            render metadataService."$method"(arg) as JSON
+        }
+        else {
+            render metadataService."$method"() as JSON
+        }
     }
 }
