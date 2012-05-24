@@ -81,7 +81,7 @@ class WebService implements InitializingBean {
     }
 
     def doPost(String url, String path, String port, String postBody) {
-        def conn = new URL("http://bie.ala.org.au/ws/species/guids/bulklookup.json").openConnection()
+        def conn = new URL(url + path)
         try {
             conn.setDoOutput(true)
             conn.setRequestProperty("Content-Type", "application/json");
@@ -98,7 +98,7 @@ class WebService implements InitializingBean {
             wr.close()
             return [error:  null, resp: JSON.parse(resp)]
         } catch (SocketTimeoutException e) {
-            def error = [error: "Timed out calling web service. URL= \${url}."]
+            def error = [error: "Timed out calling web service. URL= ${url}."]
             println error.error
             return error as JSON
         } catch (Exception e) {
