@@ -266,6 +266,17 @@ class MetadataService {
         })
     }
 
+    def getDataProviders() {
+        return cacheService.get('dataProviders', {
+
+            def results = getBiocacheFacet('data_provider_uid')
+
+            def baseUrl = ConfigurationHolder.config.biocache.baseURL +
+                    "/ws/occurrences/groups.json?pageSize=10&q=state_conservation:"
+
+        })
+    }
+
     /**
      * Performs a lookup on the biocache for the specified facet and query.
      *
