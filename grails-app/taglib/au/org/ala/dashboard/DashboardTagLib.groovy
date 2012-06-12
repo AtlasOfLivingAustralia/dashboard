@@ -23,7 +23,7 @@ class DashboardTagLib {
      * @attr size max length
      */
     def shorten = { attrs ->
-        def len = attrs.size.toInteger()
+        def len = attrs.size.toInteger() ?: 40
         if (len && attrs.text.size() > len) {
             out << trimLength(attrs.text, len)
         }
