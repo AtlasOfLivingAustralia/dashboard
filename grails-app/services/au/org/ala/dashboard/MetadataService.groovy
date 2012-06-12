@@ -269,11 +269,56 @@ class MetadataService {
     def getDataProviders() {
         return cacheService.get('dataProviders', {
 
-            def results = getBiocacheFacet('data_provider_uid')
+            // raw list by uid
+            def results = getBiocacheFacet('data_provider_uid')?.facets
 
-            def baseUrl = ConfigurationHolder.config.biocache.baseURL +
-                    "/ws/occurrences/groups.json?pageSize=10&q=state_conservation:"
+            // get metadata for name and acronym
+            def dpMetadata = JSON.parse(new URL(ConfigurationHolder.config.collectory.baseURL + "/lookup/dataProvider").text)
+            def dpMap = [:]
+            dpMetadata.each() {
+                dpMap.put it.uid, [acronym: it.acronym, name: it.name, uri: it.uri]
+            }
 
+            // inject additional metadata
+            results.each {
+                def md = dpMap[it.facet]
+                if (md) {
+                    it.name = md.name
+                    it.acronym = md.acronym
+                    it.uri = ConfigurationHolder.config.collectory.baseURL + '/public/show/' + it.facet
+                    it.display = md.acronym ?: md.name
+                }
+            }
+
+            return results
+        })
+    }
+
+    def getInstitutions() {
+        return cacheService.get('institutions', {
+
+            // raw list by uid
+            def results = getBiocacheFacet('institution_uid')?.facets
+
+            // get metadata for name and acronym
+            def dpMetadata = JSON.parse(new URL(ConfigurationHolder.config.collectory.baseURL + "/lookup/institution").text)
+            def dpMap = [:]
+            dpMetadata.each() {
+                dpMap.put it.uid, [acronym: it.acronym, name: it.name]
+            }
+
+            // inject additional metadata
+            results.each {
+                def md = dpMap[it.facet]
+                if (md) {
+                    it.name = md.name
+                    it.acronym = md.acronym
+                    it.uri = ConfigurationHolder.config.collectory.baseURL + '/public/show/' + it.facet
+                    it.display = (md.name.size() > 30 && md.acronym) ? md.acronym : md.name
+                }
+            }
+
+            return results
         })
     }
 
@@ -289,7 +334,7 @@ class MetadataService {
         def facets = []
         def resp = null
         def url = ConfigurationHolder.config.biocache.baseURL +
-                "/ws/occurrences/search?q=${query}&pageSize=0&facets=${facetName}"
+                "ws/occurrences/search?q=${query}&pageSize=0&facets=${facetName}"
 
         def conn = new URL(url).openConnection()
         try {
