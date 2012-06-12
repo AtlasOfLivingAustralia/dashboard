@@ -16,6 +16,7 @@
 package au.org.ala.dashboard
 
 import grails.converters.JSON
+import au.com.bytecode.opencsv.CSVWriter
 
 class DashboardController {
 
@@ -29,6 +30,8 @@ class DashboardController {
          mostRecorded: metadataService.getMostRecordedSpecies('all'),
          collections: metadataService.getCollectionsByCategory(),
          datasets: metadataService.getDatasets(),
+         dataProviders: metadataService.getDataProviders(),
+         institutions: metadataService.getInstitutions(),
          taxaCounts: metadataService.getTaxaCounts(),
          identifyLifeCounts: metadataService.getIdentifyLifeCounts(),
          bhlCounts: metadataService.getBHLCounts(),
@@ -66,8 +69,118 @@ class DashboardController {
         render 'Done.'
     }
 
-    /* ---------------------------- data service ---------------------------------*/
-    
+    /* ---------------------------- data services ---------------------------------*/
+
+    def decadesAsArray = {
+        def results = [['Decade','Records','Species']] +
+                metadataService.getSpeciesByDecade().collect {[it.decade, it.records, it.species]}
+        render results as JSON
+    }
+
+    def downloadAsCsv = {
+        /* build files as csv */
+
+        // by decade
+        writeCsvFile('by-decade', metadataService.getSpeciesByDecade().collect {
+            [it.decade, it.records, it.species] }, ['Decade','Records','Species'])
+
+        // basis of record
+        writeCsvFile('basis-of-record', facetCount('basis_of_record'), ['basisOfRecord','number of records'])
+
+        // records by state
+        recordsBy('state')
+
+        // records by kingdom
+        recordsBy('kingdom')
+
+        recordsBy('state_conservation')
+
+        recordsByOtherName('species_group','lifeform')
+
+        // collections
+        writeCsvFile('collections', metadataService.getCollectionsByCategory(), ['category','number of collections'])
+
+        // data providers
+        writeCsvFile('data-providers', metadataService.getDataProviders().collectEntries {[it.name, it.count]},
+                ['data provider','number of records'])
+
+        // spatial layers
+        def md = metadataService.getSpatialLayers()
+        def spMap = [Total: md.total] + md.groups + md.classification
+        writeCsvFile('spatial-layers', spMap, ['type','number'])
+
+        // datasets
+        def ds = metadataService.getDatasets()
+        def dsMap = [Total: ds.total] + ds.groups
+        writeCsvFile('datasets', dsMap, ['type','number'])
+
+        // records by century
+        def rc = metadataService.getDateStats()
+        def rcList =
+        ['c1600','c1700','c1800','c1900','c2000'].collect { [it, rc[it]] }
+        writeCsvFile('records-by-century', rcList, ['century','number'])
+
+        // records for types
+        def ty = metadataService.getTypeStats()
+        def tyList = ty.collectEntries { k,v ->
+            if (k == 'withImage') {
+                v.collectEntries { l,w -> [(l + ' (with image)'): w]}
+            }
+            else {
+                ["${k}": v]
+            }
+        }
+        writeCsvFile('type-status', tyList, ['type status', 'number'])
+
+        // taxa counts
+        writeCsvFile('names', metadataService.getTaxaCounts(), [])
+
+        // bhl counts
+        writeCsvFile('biodiversity-heritage-library', metadataService.getBHLCounts(), [])
+
+        // identify life counts
+        writeCsvFile('identify-life', metadataService.getIdentifyLifeCounts(), [])
+
+        // vp counts
+        writeCsvFile('biodiversity-volunteer-portal', metadataService.get('volunteerPortalCounts'), [])
+
+        /* zip files */
+        new AntBuilder().zip(destfile: '/data/dashboard/zip/dashboard.zip', basedir: '/data/dashboard/csv/',
+        includes: '**/*.csv')
+
+        /* render zip */
+        response.setHeader("Content-disposition", "attachment; filename=dashboard.zip");
+        byte[] zip = new File('/data/dashboard/zip/dashboard.zip').bytes
+        response.contentType = "application/zip"
+        response.outputStream << zip
+    }
+
+    def writeCsvFile(filename, values, header) {
+        new File('/data/dashboard/csv/' + filename + '.csv').withWriter { out ->
+            def csv = new CSVWriter(out/*, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER*/)
+            if (header) { csv.writeNext(header as String[]) }
+            if (values instanceof Map) {
+                values.each { k,v ->
+                    csv.writeNext([k,v] as String[])
+                }
+            }
+            else if (values instanceof List) {
+                values.each {
+                    csv.writeNext(it as String[])
+                }
+            }
+        }
+    }
+
+    def recordsByOtherName(String facet, String name) {
+        def dashed = name.replaceAll('_','-')
+        writeCsvFile('records-by-' + dashed, facetCount(facet), [dashed,'number of records'])
+    }
+
+    def recordsBy(String facet) {
+        recordsByOtherName(facet, facet)
+    }
+
     def most = { group ->
         def m = [:]
         metadataService.getMostRecordedSpecies(group).facets.each() {
@@ -86,37 +199,21 @@ class DashboardController {
 
     def data() {
 
-        // records by decade
-        def decades = [:]
-        def dec = [:]
-        metadataService.getBiocacheFacet('decade').facet.each {
-            if (it.facet == 'before') {
-                decades.put 'before 1850', it.count
-            }
-            else {
-                dec.put it.facet[0..3] + 's', it.count
-            }
-        }
-        decades << dec
-
-        // species by decade
-        def spDecades = [:]
-        metadataService.getSpeciesByDecade().each {
-            spDecades.put it.decade, it.species
-        }
-
         // build output
         def d = [basisOfRecord: facetCount('basis_of_record'),
                 collections: metadataService.getCollectionsByCategory(),
                 datasets: metadataService.getDatasets(),
-                spatialLayers: metadataService.getSpatialLayers(),
+                recordsByDataProvider:
+                        metadataService.getDataProviders().collectEntries {[it.name, it.count]},
+                recordsByInstitution:
+                        metadataService.getInstitutions().collectEntries {[it.name, it.count]},
                 recordsByDate: metadataService.getDateStats(),
                 recordsByState: facetCount('state'),
                 recordsByKingdom: facetCount('kingdom'),
                 recordsByConservationStatus: facetCount('state_conservation'),
-                recordsByDecade: decades,
-                speciesByDecade: spDecades,
+                byDecade: metadataService.getSpeciesByDecade(),
                 recordsByLifeform: facetCount('species_group'),
+                spatialLayers: metadataService.getSpatialLayers(),
                 typeCounts: metadataService.getTypeStats(),
                 taxaCounts: metadataService.getTaxaCounts(),
                 bhlCounts: metadataService.getBHLCounts(),
