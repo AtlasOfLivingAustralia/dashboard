@@ -108,6 +108,46 @@ var collectionsChart = {
     }
 };
 
+/*------------------------------------ Decades chart -----------------------------------------*/
+var decadesChart = {
+    chart: null,
+    dataTable: null,
+    options: {},
+    init: function (dataUrl) {
+        var that = this;
+        this.options = {
+            width:450, height:235,
+            hAxis: {},
+            legend: {position: "in"},
+            chartArea: {top:5, height:"75%", left:"17%", width:"80%"},
+            vAxes: {
+                0: {logScale: true, minValue: 0, maxValue: 100000000},
+                1: {title: "species", log: 120000}
+            },
+            series: {
+                0: {targetAxisIndex: 0},
+                1: {targetAxisIndex: 0}
+            }
+        };
+        // get the data
+        $.ajax({
+            url: dataUrl,
+            dataType: 'json',
+            success: function(data) {
+                that.dataTable = google.visualization.arrayToDataTable(data);
+                that.draw();
+            }
+        });
+    },
+    draw: function () {
+        var that = this;
+
+        // Create and draw the visualization.
+        new google.visualization.ColumnChart(document.getElementById('decadeChart')).
+            draw(this.dataTable, this.options);
+    }
+};
+
 /*------------------------------------ Lifeforms chart -----------------------------------------*/
 function drawLifeformsTable(biocacheWebappUrl) {
     var $table = $('#lifeformsTable'),
@@ -168,6 +208,10 @@ function wireActions(serverUrl) {
     $('#showJson').click(function () {
         document.location.href = serverUrl + "/dashboard/data";
     });
+    // download csv
+    $('#downloadCsv').click(function () {
+        document.location.href = serverUrl + "/dashboard/downloadAsCsv";
+    });
     // more.. in basis topic
     $('#moreBasisLink').click(function () {
         var open = ($('#moreBasisLink').html() === 'less..'),
@@ -178,6 +222,14 @@ function wireActions(serverUrl) {
         } else {
             $extra.find('td > div').slideDown(300);
         }
+    });
+    // more.. in dataProvider topic
+    // more.. in institution topic
+    $('.moreLink').click(function () {
+        var $extra = $(this).parent().parent().find('.initiallyHidden'),
+            open = ($(this).html() === 'less..');
+        $extra.slideToggle(300);
+        $(this).html(open ? 'more..' : 'less..');
     });
     // more.. in spatial topic
     $('#moreSpatialLink').click(function () {
