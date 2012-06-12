@@ -311,3 +311,7 @@ p.mainText {
     background-color: #e7e9f9;
     cursor: pointer;
 }
+
+.initiallyHidden {
+    display: none;
+}
