@@ -81,7 +81,7 @@ class WebService implements InitializingBean {
     }
 
     def doPost(String url, String path, String port, String postBody) {
-        def conn = new URL(url + path)
+        def conn = new URL(url + (port ? ':' + port : '') + path).openConnection()
         try {
             conn.setDoOutput(true)
             conn.setRequestProperty("Content-Type", "application/json");
