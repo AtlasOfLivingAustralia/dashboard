@@ -18,6 +18,7 @@
             <nav id="breadcrumb"><ol><li><a href="http://www.ala.org.au">Home</a></li> <li class="last">Dashboard</li></ol></nav>
             <span style="float:left;">HINT: You can rearrange topics by clicking and dragging them.</span>
             <button style="float:right;" type="button" class="link" id="resetLayout">Reset layout</button>
+            <button style="float:right;" type="button" class="link" id="downloadCsv">Download as CSV</button>
             <button style="float:right;" type="button" class="link" id="showJson">Show raw data</button>
         </div><!--inner-->
     </header>
@@ -50,7 +51,7 @@
             <g:if test="${basisOfRecord.error.asBoolean()}"><p class="error" title="${basisOfRecord.reason}">${basisOfRecord.error}</p></g:if>
             <table>
                 <tbody>
-                <g:each in="${basisOfRecord.facets[0..6]}" var="b">
+                <g:each in="${basisOfRecord.facets[0..Math.min(6,basisOfRecord.facets.size()-1)]}" var="b">
                     <tr>
                         <td id="br-${b.facet}">${b.display}</td>
                         <td><span class="count">${b.formattedCount}</span></td>
@@ -215,23 +216,23 @@
             </table>
         </div>
         </g:if>
-        <div class='link-group click-thru' tabindex="1" id="conservation-topic">
+        <div class='link-group click-thru' tabindex="13" id="conservation-topic">
             <h2>Conservation status</h2>
             <table>
                 <tr><th>Status</th><th># species</th></tr>
                 <tbody>
                 <g:each in="${stateConservation[0..Math.min(6,stateConservation.size()-1)]}" var="b">
                     <tr>
-                        <td id="br-${b.status}">${b.status}</td>
+                        <td id="sc-${b.status}">${b.status}</td>
                         <td><span class="count">${b.species}</span></td>
                     </tr>
                 </g:each>
                 </tbody>
                 <g:if test="${stateConservation.size() > 7}">
-                    <tbody id="moreBasis">
+                    <tbody id="moreConservation">
                     <g:each in="${stateConservation[7..-1]}" var="b">
                         <tr>
-                            <td id="br-${b.status}"><div style="display:none;">${b.status}</div></td>
+                            <td id="sc-${b.status}"><div style="display:none;">${b.status}</div></td>
                             <td><div style="display:none;"><span class="count">${b.species}</span></div></td>
                         </tr>
                     </g:each>
@@ -242,15 +243,71 @@
                 <p style="padding-top: 2px;"><span id="moreConservationLink" class="link">more..</span></p>
             </g:if>
         </div>
-        <div class='link-group click-thru' tabindex="13" id="lifeform-topic">
+        <div class='link-group click-thru' tabindex="14" id="dataProvider-topic">
+            <h2>Records by data provider</h2>
+            <table>
+                <g:each in="${dataProviders[0..Math.min(6,dataProviders.size()-1)]}" var="b">
+                    <tr>
+                        <td id="${b.uid}" title="${b.name}"><a href="${b.uri}">
+                            <db:shorten text="${b.display}" size="35"/>
+                        </a></td>
+                        <td><span class="count">${b.formattedCount}</span></td>
+                    </tr>
+                </g:each>
+            </table>
+            <g:if test="${dataProviders.size() > 7}">
+                <div id="moreDataProvider" class="initiallyHidden">
+                    <table>
+                    <g:each in="${dataProviders[7..-1]}" var="b">
+                        <tr>
+                            <td id="${b.uid}" title="${b.name}"><a href="${b.uri}">
+                                <db:shorten text="${b.display}" size="35"/>
+                            </a></td>
+                            <td><span class="count">${b.formattedCount}</span></td>
+                        </tr>
+                    </g:each>
+                    </table>
+                </div>
+            </g:if>
+            <g:if test="${dataProviders.size() > 7}">
+                <p style="padding-top: 2px;"><span id="moreDataProviderLink" class="link moreLink">more..</span></p>
+            </g:if>
+        </div>
+        <div class='link-group click-thru' tabindex="15" id="institutions-topic">
+            <h2>Records by institution</h2>
+            <table>
+                <g:each in="${institutions[0..Math.min(6,institutions.size()-1)]}" var="b">
+                    <tr>
+                        <td id="${b.uid}" title="${b.name}"><a href="${b.uri}"><db:shorten text="${b.display}" size="35"/></a></td>
+                        <td><span class="count">${b.formattedCount}</span></td>
+                    </tr>
+                </g:each>
+            </table>
+            <g:if test="${institutions.size() > 7}">
+                <div id="moreInstitution" class="initiallyHidden">
+                    <table>
+                    <g:each in="${institutions[7..-1]}" var="b">
+                        <tr>
+                            <td id="${b.uid}" title="${b.name}"><a href="${b.uri}"><db:shorten text="${b.display}" size="35"/></a></td>
+                            <td><span class="count">${b.formattedCount}</span></td>
+                        </tr>
+                    </g:each>
+                    </table>
+                </div>
+            </g:if>
+            <g:if test="${institutions.size() > 7}">
+                <p style="padding-top: 2px;"><span id="moreInstitutionLink" class="link moreLink">more..</span></p>
+            </g:if>
+        </div>
+        <div class='link-group click-thru' tabindex="16" id="lifeform-topic">
             <h2>Records by lifeform</h2>
             <table id="lifeformsTable"></table>
         </div>
-        <div class='link-group' tabindex="14" id="decade-topic">
-            <h2>Records by decade</h2>
+        <div class='link-group' tabindex="17" id="decade-topic">
+            <h2>Records and species by decade</h2>
             <div id="decadeChart"></div>
         </div>
-        <div class='link-group' tabindex="15" id="tree-topic">
+        <div class='link-group' tabindex="18" id="tree-topic">
             <h2>Taxonomy tree</h2>
             <div id="tree"></div>
         </div>
@@ -361,7 +418,8 @@
             otherFauna: "${collections.otherFauna}"
         });
 
-        //drawVisualization();
+        // decades
+        decadesChart.init("${ConfigurationHolder.config.grails.serverURL}/dashboard/decadesAsArray");
 
         // biocache charts
         if (biocacheFacets.isReady()) {
@@ -386,7 +444,7 @@
 
     function drawFacetCharts(data) {
         facetChartGroup.drawFacetCharts(data, stateChartOptions);
-        facetChartGroup.drawFacetCharts(data, decadeChartOptions);
+        //facetChartGroup.drawFacetCharts(data, decadeChartOptions);
         facetChartGroup.drawFacetCharts(data, lifeformChartOptions);
         drawLifeformsTable(biocacheWebappUrl);
     }
