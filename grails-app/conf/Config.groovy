@@ -88,8 +88,8 @@ grails.hibernate.cache.queries = true
 environments {
     development {
         grails.logging.jul.usebridge = true
-        grails.host = "http://woodfired.ala.org.au"
-        //grails.host = "http://localhost"
+        //grails.host = "http://woodfired.ala.org.au"
+        grails.host = "http://localhost"
         grails.serverURL = "${grails.host}:8083/${appName}"
     }
     test {
