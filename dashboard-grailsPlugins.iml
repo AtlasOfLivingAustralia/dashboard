@@ -49,6 +49,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="grails-2.0.0" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ala-cas-client" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="opencsv-2.3" level="project" />
     <orderEntry type="module-library" exported="">
       <library name="Grails User Library (dashboard-grailsPlugins)">
         <CLASSES>
