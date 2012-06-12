@@ -65,6 +65,7 @@
     </orderEntry>
     <orderEntry type="module" module-name="dashboard-grailsPlugins" />
     <orderEntry type="library" name="ala-cas-client" level="project" />
+    <orderEntry type="library" name="opencsv-2.3" level="project" />
   </component>
 </module>
 
