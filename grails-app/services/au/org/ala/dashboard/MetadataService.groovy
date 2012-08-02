@@ -10,6 +10,18 @@ class MetadataService {
     def webService, cacheService
 
     /**
+     * Uses a cached biocache lookup to return the total number of occurrence records and the number of
+     * suspected duplicates.
+     * @return map with counts and any errors - [error: <errors>, total: <count>, duplicates: <count>]
+     */
+    def getTotalAndDuplicates() {
+        return cacheService.get('duplicate_status', {
+            def raw = biocacheFacetCount('duplicate_status')
+            [error: raw.error, total: raw.total, duplicates: raw.facets.find({it.facet == 'D'}).count]
+        })
+    }
+
+    /**
      * Uses a cached biocache lookup to return the counts for each basis of record.
      * @return map with facets and any errors - [error: <errors>, reason: <reason if error>, facets: <facet values>]
      */
@@ -366,7 +378,7 @@ class MetadataService {
             ]
         }
 
-        return [error: null, facets: facets]
+        return [error: null, facets: facets, total: resp.totalRecords]
     }
 
     /**
