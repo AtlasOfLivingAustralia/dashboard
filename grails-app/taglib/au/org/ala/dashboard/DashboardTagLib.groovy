@@ -6,13 +6,24 @@ class DashboardTagLib {
     def metadataService
 
     /**
-     * Formats numbers for humans.
+     * Formats numbers for humans - compacts millions.
      *
      * @attr value to format
      */
     def formatNumber = { attrs ->
         if (attrs.value) {
             out << metadataService.format(attrs.value as int)
+        }
+    }
+
+    /**
+     * Adds commas in large numbers.
+     *
+     * @attr value to format
+     */
+    def addCommas = { attrs ->
+        if (attrs.value) {
+            out << metadataService.addCommas(attrs.value as int)
         }
     }
 
