@@ -23,7 +23,15 @@
         </div><!--inner-->
     </header>
     <section id="floatContainer">
-        <div class='link-group click-thru' tabindex="0" id="datasets-topic">
+        <div class='link-group' tabindex="0" id="records-topic">
+            <h2>Occurrence records</h2>
+            <p id="totalRecords"><db:addCommas value="${totalRecords.total}"/></p>
+            <p style="text-align:center;padding-right:10px;">records in total.</p>
+            <p style="padding:20px 10px 0 10px;">We estimate the number of potential duplicate records to be
+                <a href="${ConfigurationHolder.config.biocache.baseURL}occurrences/search?q=*:*&fq=duplicate_status:D"
+                   id="duplicateCount" class="link"><em><db:addCommas value="${totalRecords.duplicates}"/></em></a>.</p>
+        </div>
+        <div class='link-group click-thru' tabindex="1" id="datasets-topic">
             <h2><span class="count">${datasets.total}</span>Data sets</h2>
             %{--<g:img class="info-link" dir="images/skin" file="information.png"/>--}%
             <table>
@@ -46,7 +54,7 @@
                 <p>This infographic shows the number of datasets for the four major categories.</p>
             </div>
         </div>
-        <div class='link-group click-thru' tabindex="1" id="basis-topic">
+        <div class='link-group click-thru' tabindex="2" id="basis-topic">
             <h2>Basis of records</h2>
             <g:if test="${basisOfRecord.error.asBoolean()}"><p class="error" title="${basisOfRecord.reason}">${basisOfRecord.error}</p></g:if>
             <table>
@@ -71,11 +79,11 @@
             </table>
             <p style="padding-top: 2px;"><span id="moreBasisLink"  class="link">more..</span></p>
         </div>
-        <div class='link-group' id="collections-topic" tabindex="2">
+        <div class='link-group' id="collections-topic" tabindex="3">
             <h2><span class="count">${collections.total}</span>Collections</h2>
             <div id="collectionsByCategory"><g:img style="padding: 70px;" dir="images" file="spinner.gif"/> </div>
         </div>
-        <div class='link-group click-thru' tabindex="3" id="date-topic">
+        <div class='link-group click-thru' tabindex="4" id="date-topic">
             <h2>Records by date</h2>
             <table>
                 <tr><td id="${dateStats.earliest.uuid}">Earliest record</td><td><span class="count">${dateStats.earliest.display}</span></td>
@@ -88,7 +96,7 @@
                 <tr><td id="2000">2000s</td><td><span class="count"><db:formatNumber value="${dateStats.c2000}"/></span></td>
             </table>
         </div>
-        <div class='link-group' tabindex="4" id="nsl-topic">
+        <div class='link-group' tabindex="5" id="nsl-topic">
             <h2>National Species Lists</h2>
             <table>
                 <tbody>
@@ -102,7 +110,7 @@
                 </tbody>
             </table>
         </div>
-        <div class='link-group' tabindex="5" id="spatial-topic">
+        <div class='link-group' tabindex="6" id="spatial-topic">
             <h2><span class="count">${spatialLayers.total}</span>Spatial layers</h2>
             <table>
                 <tr><td>Contextual layers</td><td><span class="count">${spatialLayers.groups.contextual}</span></td></tr>
@@ -121,17 +129,17 @@
             </div>
             <p style="padding-top: 10px;"><span id="moreSpatialLink"  class="link">more..</span></p>
         </div>
-        <div class='link-group' tabindex="6" id="state-topic">
+        <div class='link-group' tabindex="7" id="state-topic">
             <h2>Records by state and territory</h2>
             <div id="stateChart"></div>
         </div>
-        <div class='link-group' tabindex="7" id="identifyLife-topic">
+        <div class='link-group' tabindex="8" id="identifyLife-topic">
             <h2>Identify Life</h2>
             <p><span class="item">Identification keys:</span></p>
             <a target="_blank" href="http://www.identifylife.org/"><g:img dir="images/dashboard" file="identify-life-2.png"/></a>
             <span class="count">${identifyLifeCounts.keys}</span>
         </div>
-        <div class='link-group click-thru' tabindex="8" id="most-topic">
+        <div class='link-group click-thru' tabindex="9" id="most-topic">
             <h2>Most recorded species</h2>
             <div id="mostRecorded">
                 <g:if test="${mostRecorded.error.asBoolean()}"><p class="error" title="${basisOfRecord.reason}">${mostRecorded.error}</p></g:if>
@@ -148,7 +156,7 @@
                     'Mammals','Fish','Insects','Amphibians','Bacteria','Fungi']" name="mostSppGroup"/>
             <g:img style="vertical-align:middle;display:none" id="mostLoadingImg" dir="images" file="spinner.gif"/>
         </div>
-        <div class='link-group' tabindex="9" id="typeStatus-topic">
+        <div class='link-group' tabindex="10" id="typeStatus-topic">
             <h2><span class="count"><db:formatNumber value="${typeCounts.total}"/></span>Type specimens</h2>
             <div id="baseTypes">
                 <table class="click-thru">
@@ -179,7 +187,7 @@
             </div>
             <p style="padding-top: 10px;"><span id="moreTypesLink"  class="link">more..</span></p>
         </div>
-        <div class='link-group' tabindex="10" id="bold-topic">
+        <div class='link-group' tabindex="11" id="bold-topic">
             <h2>Barcode of life <a target="_blank" href="http://bold.ala.org.au/"><g:img dir="images/dashboard" file="bold.png"/></a></h2>
             <h3>DNA barcode data</h3>
             <table>
@@ -191,7 +199,7 @@
                 </tbody>
             </table>
         </div>
-        <div class='link-group' tabindex="11" id="bhl-topic">
+        <div class='link-group' tabindex="12" id="bhl-topic">
             <h2>Biodiversity heritage library</h2>
             <a target="_blank" href="http://bhl.ala.org.au/"><g:img dir="images/dashboard" file="bhl.png"/></a>
             <table>
@@ -203,7 +211,7 @@
             </table>
         </div>
         <g:if test="${volunteerPortalCounts}">
-        <div class='link-group' tabindex="12" id="bvp-topic">
+        <div class='link-group' tabindex="13" id="bvp-topic">
             <h2><a target="_blank" href="http://volunteer.ala.org.au/">Biodiversity volunteer portal</a></h2>
             <table>
                 <tbody>
@@ -216,7 +224,7 @@
             </table>
         </div>
         </g:if>
-        <div class='link-group click-thru' tabindex="13" id="conservation-topic">
+        <div class='link-group click-thru' tabindex="14" id="conservation-topic">
             <h2>Conservation status</h2>
             <table>
                 <tr><th>Status</th><th># species</th></tr>
@@ -243,7 +251,7 @@
                 <p style="padding-top: 2px;"><span id="moreConservationLink" class="link">more..</span></p>
             </g:if>
         </div>
-        <div class='link-group click-thru' tabindex="14" id="dataProvider-topic">
+        <div class='link-group click-thru' tabindex="15" id="dataProvider-topic">
             <h2>Records by data provider</h2>
             <table>
                 <g:each in="${dataProviders[0..Math.min(6,dataProviders.size()-1)]}" var="b">
@@ -273,7 +281,7 @@
                 <p style="padding-top: 2px;"><span id="moreDataProviderLink" class="link moreLink">more..</span></p>
             </g:if>
         </div>
-        <div class='link-group click-thru' tabindex="15" id="institutions-topic">
+        <div class='link-group click-thru' tabindex="16" id="institutions-topic">
             <h2>Records by institution</h2>
             <table>
                 <g:each in="${institutions[0..Math.min(6,institutions.size()-1)]}" var="b">
@@ -299,15 +307,15 @@
                 <p style="padding-top: 2px;"><span id="moreInstitutionLink" class="link moreLink">more..</span></p>
             </g:if>
         </div>
-        <div class='link-group click-thru' tabindex="16" id="lifeform-topic">
+        <div class='link-group click-thru' tabindex="17" id="lifeform-topic">
             <h2>Records by lifeform</h2>
             <table id="lifeformsTable"></table>
         </div>
-        <div class='link-group' tabindex="17" id="decade-topic">
+        <div class='link-group' tabindex="18" id="decade-topic">
             <h2>Records and species by decade</h2>
             <div id="decadeChart"></div>
         </div>
-        <div class='link-group' tabindex="18" id="tree-topic">
+        <div class='link-group' tabindex="19" id="tree-topic">
             <h2>Taxonomy tree</h2>
             <div id="tree"></div>
         </div>
