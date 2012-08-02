@@ -72,6 +72,8 @@ div.link-group-highlight {
 
 .link-group h2 {
     font-size: 2em;
+    /*color: #ff4500;*/
+    /*color: #474c94;*/
 }
 
 .link-group h2 span.count {
@@ -193,6 +195,19 @@ p.mainText {
 
 #nsl-topic table, #bold-topic table {
     font-size: 1.2em;
+}
+
+#records-topic {
+    width: 220px;
+}
+
+#totalRecords {
+    color: #666;
+    font-family:"Arial Narrow", Arial, Helvetica,sans-serif;
+    font-size: 2.8em;
+    font-weight: bold;
+    padding: 10px 10px 15px 0;
+    text-align: center;
 }
 
 #identifyLife-topic p {
