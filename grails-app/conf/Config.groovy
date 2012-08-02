@@ -48,6 +48,7 @@ if (!collectory.baseURL) {
  *  APP CONFIG
  \******************************************************************************/
 dashboard.data.file = "/data/dashboard/data.json"
+csv.temp.dir = "/data/dashboard/csv/"
 
 grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
