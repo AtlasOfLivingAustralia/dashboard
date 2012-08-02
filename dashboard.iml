@@ -47,7 +47,6 @@
       <library name="Grails User Library (dashboard)">
         <CLASSES>
           <root url="file://$MODULE_DIR$/lib" />
-          <root url="jar://$USER_HOME$/.grails/ivy-cache/antlr/antlr/jars/antlr-2.7.6.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/org.codehaus.groovy.modules.http-builder/http-builder/jars/http-builder-0.5.1.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/xml-resolver/xml-resolver/jars/xml-resolver-1.2.jar!/" />
           <root url="jar://$USER_HOME$/.grails/ivy-cache/xerces/xercesImpl/jars/xercesImpl-2.8.1.jar!/" />
@@ -66,6 +65,7 @@
     <orderEntry type="module" module-name="dashboard-grailsPlugins" />
     <orderEntry type="library" name="ala-cas-client" level="project" />
     <orderEntry type="library" name="opencsv-2.3" level="project" />
+    <orderEntry type="library" name="grails-2.0.4" level="application" />
   </component>
 </module>
 
