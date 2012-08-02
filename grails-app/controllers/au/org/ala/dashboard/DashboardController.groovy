@@ -28,6 +28,7 @@ class DashboardController {
     def index = {
         [basisOfRecord: metadataService.getBasisOfRecord(),
          mostRecorded: metadataService.getMostRecordedSpecies('all'),
+         totalRecords: metadataService.getTotalAndDuplicates(),
          collections: metadataService.getCollectionsByCategory(),
          datasets: metadataService.getDatasets(),
          dataProviders: metadataService.getDataProviders(),
@@ -83,6 +84,9 @@ class DashboardController {
         // by decade
         writeCsvFile('by-decade', metadataService.getSpeciesByDecade().collect {
             [it.decade, it.records, it.species] }, ['Decade','Records','Species'])
+
+        // total + dups
+        writeCsvFile('total-records', metadataService.getTotalAndDuplicates().findAll({it.key != 'error'}), [])
 
         // basis of record
         writeCsvFile('basis-of-record', facetCount('basis_of_record'), ['basisOfRecord','number of records'])
@@ -156,7 +160,7 @@ class DashboardController {
     }
 
     def writeCsvFile(filename, values, header) {
-        new File('/data/dashboard/csv/' + filename + '.csv').withWriter { out ->
+        new File(grailsApplication.config.csv.temp.dir + filename + '.csv').withWriter { out ->
             def csv = new CSVWriter(out/*, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER*/)
             if (header) { csv.writeNext(header as String[]) }
             if (values instanceof Map) {
@@ -200,7 +204,9 @@ class DashboardController {
     def data() {
 
         // build output
-        def d = [basisOfRecord: facetCount('basis_of_record'),
+        def d = [
+                totalRecords: metadataService.getTotalAndDuplicates().findAll({it.key != 'error'}),
+                basisOfRecord: facetCount('basis_of_record'),
                 collections: metadataService.getCollectionsByCategory(),
                 datasets: metadataService.getDatasets(),
                 recordsByDataProvider:
