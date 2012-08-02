@@ -6,25 +6,16 @@
 	"speciesWithRecords": "111566"
 	},
 "collections": {
-	"total": 143,
-	"plants": 39,
+	"total": 147,
+	"plants": 43,
 	"micro": 31,
 	"insects": 25,
 	"otherFauna": 59
 	},
-"recordsByDate": {
-    "earliest": "4th June 1629",
-    "latest": "2nd April 2012",
-    "1600's": 26,
-    "1700's": 3608,
-    "1800's": 310282,
-    "1900's": 16620000,
-    "2000's": 11200000
-    },
 "bhlCounts": {
-	"pages": 38434427,
-	"titles": 55000,
-	"volumes": 104461,
+	"pages": 39184197,
+	"titles": 56175,
+	"volumes": 106715,
 	"publishers": 1695
 	},
 "boldCounts": {
