@@ -4,6 +4,7 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import grails.converters.JSON
 import java.text.SimpleDateFormat
 import groovy.json.JsonSlurper
+import org.apache.commons.lang.StringUtils
 
 class MetadataService {
 
@@ -406,6 +407,65 @@ class MetadataService {
         }
         //println "returned from bie lookup ${results}"
         return results
+    }
+
+    /**
+     * Get cached data for the
+     * @return map
+     */
+    def getLoggerTotals() {
+        cacheService.get('loggerTotals', {
+            def results = [:]
+
+            // earliest record
+            def totals = webService.getJson(ConfigurationHolder.config.logger.baseURL +
+                    "/service/totalsByType").totals
+
+            for (k in totals.keys()) {
+                def keyMap = totals[k]
+                results[k] = ["events" : format(keyMap["events"] as int), "records" : format(keyMap["records"] as int)]
+            }
+
+            return results
+        })
+    }
+
+    def getLoggerReasonBreakdown() {
+        cacheService.get('loggerReasonBreakdown', {
+            def results = []
+
+            // earliest record
+            def allTimeReasonBreakdown = webService.getJson(ConfigurationHolder.config.logger.baseURL +
+                    "/service/reasonBreakdown?eventId=1002").all
+
+            for (k in allTimeReasonBreakdown.reasonBreakdown.keys()) {
+                def keyMap = allTimeReasonBreakdown.reasonBreakdown[k]
+                results.add([StringUtils.capitalize(k), format(keyMap["events"] as int), format(keyMap["records"] as int)])
+            }
+
+            results.add(["TOTAL", format(allTimeReasonBreakdown.events as int), format(allTimeReasonBreakdown.records as int)])
+
+            return results
+        })
+    }
+
+    def getLoggerEmailBreakdown() {
+        cacheService.get('loggerEmailBreakdown', {
+            def results = [:]
+
+            // earliest record
+            def allTimeEmailBreakdown = webService.getJson(ConfigurationHolder.config.logger.baseURL +
+                    "/service/emailBreakdown?eventId=1002").all
+
+            ["edu","gov","other","unspecified"].each {
+                def keyMap = allTimeEmailBreakdown.emailBreakdown[it]
+                results[it] = ["events" : format(keyMap["events"] as int), "records" : format(keyMap["records"] as int)]
+            }
+
+            results["total"] = ["events" : format(allTimeEmailBreakdown.events as int), "records" : format(allTimeEmailBreakdown.records as int)]
+
+            return results
+        })
     }
 
     /* -------------------------------- STATIC LOOKUPS --------------------------------------------*/

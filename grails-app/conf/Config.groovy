@@ -44,6 +44,10 @@ if (!ala.baseURL) {
 if (!collectory.baseURL) {
     collectory.baseURL = "http://collections.ala.org.au"
 }
+
+if (!logger.baseURL) {
+    logger.baseURL = "http://logger.ala.org.au"
+}
 /******************************************************************************\
  *  APP CONFIG
  \******************************************************************************/

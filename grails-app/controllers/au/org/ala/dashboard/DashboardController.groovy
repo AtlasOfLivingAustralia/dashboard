@@ -41,7 +41,10 @@ class DashboardController {
          dateStats: metadataService.getDateStats(),
          volunteerPortalCounts: metadataService.get('volunteerPortalCounts'),
          spatialLayers: metadataService.getSpatialLayers(),
-         stateConservation: metadataService.getSpeciesByConservationStatus()]
+         stateConservation: metadataService.getSpeciesByConservationStatus(),
+         loggerTotals: metadataService.getLoggerTotals(),
+         loggerReasonBreakdown: metadataService.getLoggerReasonBreakdown(),
+         loggerEmailBreakdown: metadataService.getLoggerEmailBreakdown()]
     }
 
     def mostRecorded(String group) {

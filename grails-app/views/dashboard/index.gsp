@@ -86,7 +86,7 @@
         <div class='link-group click-thru' tabindex="4" id="date-topic">
             <h2>Records by date</h2>
             <table>
-                <tr><td id="${dateStats.earliest.uuid}">Earliest record</td><td><span class="count">${dateStats.earliest.display}</span></td>
+                <!--<tr><td id="${dateStats.earliest.uuid}">Earliest record</td><td><span class="count">${dateStats.earliest.display}</span></td>-->
                 <tr><td id="${dateStats.latest.uuid}">Latest record</td><td><span class="count">${dateStats.latest.display}</span></td>
                 <tr><td id="${dateStats.latestImage.uuid}">Last image added</td><td><span class="count">${dateStats.latestImage.display}</span></td>
                 <tr><td id="1600">1600s</td><td><span class="count"><db:formatNumber value="${dateStats.c1600}"/></span></td>
@@ -318,6 +318,43 @@
         <div class='link-group' tabindex="19" id="tree-topic">
             <h2>Taxonomy tree</h2>
             <div id="tree"></div>
+        </div>
+        <div class='link-group' tabindex="20" id="event-summary-topic">
+            <h2>Usage statistics</h2>
+            <div id="usageStats">
+                <table>
+                    <tr><td>Records Downloaded</td><td>${loggerTotals["1002"]["events"]} events</td><td>${loggerTotals["1002"]["records"]} records</td></tr>
+                    <tr><td>Images Viewed</td><td>${loggerTotals["2000"]["events"]} events</td><td>${loggerTotals["2000"]["records"]} records</td></tr>
+                    <tr><td>Records Viewed</td><td>${loggerTotals["1000"]["events"]} events</td><td>${loggerTotals["1000"]["records"]} records</td></tr>
+                    <tr><td>Records Viewed On Map</td><td>${loggerTotals["1001"]["events"]} events</td><td>${loggerTotals["1001"]["records"]} records</td></tr>
+                </table>
+            </div>
+        </div>
+        <div class='link-group' tabindex="21" id="reason-breakdown-topic">
+            <h2>Occurrence downloads by reason</h2>
+            <div id="reasonBreakdown">
+                <table>
+                    <g:each in="${loggerReasonBreakdown}" var="r">
+                        <tr>
+                            <td>${r[0]}</td>
+                            <td>${r[1]} events</td>
+                            <td>${r[2]} records</td>
+                        </tr>
+                    </g:each>
+                </table>
+            </div>
+        </div>
+        <div class='link-group' tabindex="22" id="email-breakdown-topic">
+            <h2>Occurrence downloads by user type</h2>
+            <div id="emailBreakdown">
+                <table>
+                    <tr><td>Education</td><td>${loggerEmailBreakdown["edu"]["events"]} events</td><td>${loggerEmailBreakdown["edu"]["records"]} records</td></tr>
+                    <tr><td>Government</td><td>${loggerEmailBreakdown["gov"]["events"]} events</td><td>${loggerEmailBreakdown["gov"]["records"]} records</td></tr>
+                    <tr><td>Other</td><td>${loggerEmailBreakdown["other"]["events"]} events</td><td>${loggerEmailBreakdown["other"]["records"]} records</td></tr>
+                    <tr><td>Unspecified</td><td>${loggerEmailBreakdown["unspecified"]["events"]} events</td><td>${loggerEmailBreakdown["unspecified"]["records"]} records</td></tr>
+                    <tr><td>TOTAL</td><td>${loggerEmailBreakdown["total"]["events"]} events</td><td>${loggerEmailBreakdown["total"]["records"]} records</td></tr>
+                </table>
+            </div>
         </div>
 
     </section>
