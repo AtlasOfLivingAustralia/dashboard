@@ -96,7 +96,7 @@ class MetadataService {
 
                 // latest record with image
                 def bi = webService.getJson(ConfigurationHolder.config.biocache.baseURL +
-                        "/ws/occurrences/search?q=!assertions:invalidCollectionDate&pageSize=1&sort=first_loaded_date&dir=desc&facet=off&fq=multimedia:Image")
+                        "/ws/occurrences/search?q=!assertions:invalidCollectionDate%20AND%20occurrence_date:%5B*%20TO%20*%5D&pageSize=1&sort=first_loaded_date&dir=desc&facet=off&fq=multimedia:Image")
                 def latestImageUuid = bi.occurrences[0].uuid
                 def latestImage = new Date(bi.occurrences[0].eventDate)
                 def latestImageDate = new SimpleDateFormat("d MMMM yyyy").format(latestImage)
