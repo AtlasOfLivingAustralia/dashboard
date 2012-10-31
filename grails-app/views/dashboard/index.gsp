@@ -316,7 +316,7 @@
             <div id="decadeChart"></div>
         </div>
         <div class='link-group' tabindex="19" id="tree-topic">
-            <h2>Taxonomy tree</h2>
+            <h2>Occurrence tree</h2>
             <div id="tree"></div>
         </div>
         <div class='link-group' tabindex="20" id="event-summary-topic">
