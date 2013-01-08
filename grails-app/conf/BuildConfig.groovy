@@ -22,6 +22,8 @@ grails.project.dependency.resolution = {
         grailsCentral()
         mavenCentral()
 
+        mavenRepo "http://maven.ala.org.au/repository/org/grails/"
+
         // uncomment these to enable remote dependency resolution from public Maven repositories
         //mavenCentral()
         //mavenLocal()
