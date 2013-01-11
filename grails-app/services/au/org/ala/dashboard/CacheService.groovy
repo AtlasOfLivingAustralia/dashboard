@@ -24,10 +24,10 @@ class CacheService {
     def get(String key, Closure source, int maxAgeInDays = 1) {
         def cached = cache[key]
         if (cached && cached.resp && !(new Date().after(cached.time + maxAgeInDays))) {
-            println "using cache for " + key
+            log.info "using cache for " + key
             return cached.resp
         }
-        println "retrieving " + key
+        log.debug "retrieving " + key
         def results = source.call()
         cache.put key, [resp: results, time: new Date()]
         return results
@@ -48,7 +48,7 @@ class CacheService {
      * @return
      */
     def loadStaticCacheFromFile(key) {
-        println 'loading static data from file'
+        log.info 'loading static data from file'
         def json = new File(ConfigurationHolder.config.dashboard.data.file as String).text
         if (json) {
             JSON.parse(json).each { k,v ->

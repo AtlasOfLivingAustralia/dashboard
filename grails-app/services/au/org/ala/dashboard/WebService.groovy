@@ -1,11 +1,9 @@
 package au.org.ala.dashboard
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import grails.converters.JSON
 import org.codehaus.groovy.grails.web.converters.exceptions.ConverterException
 import groovyx.net.http.HTTPBuilder
 import groovyx.net.http.ContentType
-import groovyx.net.http.RESTClient
 import org.springframework.beans.factory.InitializingBean
 import org.codehaus.groovy.grails.web.json.JSONObject
 
@@ -24,11 +22,11 @@ class WebService implements InitializingBean {
             return conn.content.text
         } catch (SocketTimeoutException e) {
             def error = [error: "Timed out calling web service. URL= \${url}."]
-            println error.error
+            log.error error.error
             return error as JSON 
         } catch (Exception e) {
             def error = [error: "Failed calling web service. ${e.getClass()} ${e.getMessage()} URL= ${url}."]
-            println error.error
+            log.error error.error
             return error as JSON
         }
     }
@@ -42,15 +40,15 @@ class WebService implements InitializingBean {
             return JSON.parse(json)
         } catch (ConverterException e) {
             def error = ['error': "Failed to parse json. ${e.getClass()} ${e.getMessage()} URL= ${url}."]
-            println error.error
+            log.error error.error
             return error
         } catch (SocketTimeoutException e) {
             def error = [error: "Timed out getting json. URL= \${url}."]
-            println error.error
+            log.error error.error
             return error
         } catch (Exception e) {
             def error = [error: "Failed to get json from web service. ${e.getClass()} ${e.getMessage()} URL= ${url}."]
-            println error.error
+            log.error error.error
             return error
         }
     }
@@ -73,7 +71,7 @@ class WebService implements InitializingBean {
 
             response.failure = { resp ->
                 def error = [error: "Unexpected error: ${resp.statusLine.statusCode} : ${resp.statusLine.reasonPhrase}"]
-                println error.error
+                log.error error.error
                 return error
             }
         }
@@ -99,11 +97,11 @@ class WebService implements InitializingBean {
             return [error:  null, resp: JSON.parse(resp)]
         } catch (SocketTimeoutException e) {
             def error = [error: "Timed out calling web service. URL= ${url}."]
-            println error.error
+            log.error error.error
             return error as JSON
         } catch (Exception e) {
             def error = [error: "Failed calling web service. ${e.getClass()} ${e.getMessage()} ${e} URL= ${url}."]
-            println error.error
+            log.error error.error
             return error as JSON
         }
     }

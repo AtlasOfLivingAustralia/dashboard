@@ -1,6 +1,5 @@
 package au.org.ala.dashboard
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import grails.converters.JSON
 import java.text.SimpleDateFormat
 import groovy.json.JsonSlurper
@@ -8,7 +7,7 @@ import org.apache.commons.lang.StringUtils
 
 class MetadataService {
 
-    def webService, cacheService
+    def webService, cacheService, grailsApplication
 
     /**
      * Uses a cached biocache lookup to return the total number of occurrence records and the number of
@@ -79,7 +78,7 @@ class MetadataService {
                 def results = [:]
 
                 // earliest record
-                def a = webService.getJson(ConfigurationHolder.config.biocache.baseURL +
+                def a = webService.getJson(grailsApplication.config.biocache.baseURL +
                         "/ws/occurrences/search?q=!assertions:invalidCollectionDate&pageSize=1&sort=occurrence_date&facet=off")
                 def earliestUuid = a.occurrences[0].uuid
                 def earliest = new Date(a.occurrences[0].eventDate)
@@ -87,7 +86,7 @@ class MetadataService {
                 results.earliest = [uuid: earliestUuid, display: earliestDate]
 
                 // latest record
-                def b = webService.getJson(ConfigurationHolder.config.biocache.baseURL +
+                def b = webService.getJson(grailsApplication.config.biocache.baseURL +
                         "/ws/occurrences/search?q=!assertions:invalidCollectionDate&pageSize=1&sort=occurrence_date&dir=desc&facet=off")
                 def latestUuid = b.occurrences[0].uuid
                 def latest = new Date(b.occurrences[0].eventDate)
@@ -95,7 +94,7 @@ class MetadataService {
                 results.latest = [uuid: latestUuid, display: latestDate]
 
                 // latest record with image
-                def bi = webService.getJson(ConfigurationHolder.config.biocache.baseURL +
+                def bi = webService.getJson(grailsApplication.config.biocache.baseURL +
                         "/ws/occurrences/search?q=!assertions:invalidCollectionDate%20AND%20occurrence_date:%5B*%20TO%20*%5D&pageSize=1&sort=first_loaded_date&dir=desc&facet=off&fq=multimedia:Image")
                 def latestImageUuid = bi.occurrences[0].uuid
                 def latestImage = new Date(bi.occurrences[0].eventDate)
@@ -104,7 +103,7 @@ class MetadataService {
 
                 // get counts by century
                 [1600,1700,1800,1900,2000].each {
-                    def url = ConfigurationHolder.config.biocache.baseURL +
+                    def url = grailsApplication.config.biocache.baseURL +
                             "/ws/occurrences/search?q=*:*&pageSize=0&facet=off&fq=occurrence_year:[${it}-01-01T00:00:00Z%20TO%20${it + 99}-12-31T23:59:59Z]"
                     def c = webService.getJson(url)
                     results['c' + it] = c.totalRecords
@@ -186,9 +185,9 @@ class MetadataService {
         return cacheService.get('datasets', {
             def action = "Datasets lookup"
             // look it up
-            println "looking up datasets"
+            log.info "looking up datasets"
             def resp = null
-            def url = ConfigurationHolder.config.collectory.baseURL +
+            def url = grailsApplication.config.collectory.baseURL +
                     "/ws/dataResource/count/resourceType?public=true"
 
             def conn = new URL(url).openConnection()
@@ -198,10 +197,10 @@ class MetadataService {
                 def json = conn.content.text
                 resp = JSON.parse(json)
             } catch (SocketTimeoutException e) {
-                println "${action} timed out = ${e.toString()}"
+                log.info "${action} timed out = ${e.toString()}"
                 return [error: "${action} timed out", reason: e.message]
             } catch (Exception e) {
-                println "${action} failed = ${e.toString()}"
+                log.info "${action} failed = ${e.toString()}"
                 return [error: "${action} failed", reason: e.message]
             }
 
@@ -224,10 +223,10 @@ class MetadataService {
     def getSpatialLayers() {
         return cacheService.get('layers', {
             def action = "Spatial layers lookup"
-            println "looking up spatial layers"
+            log.info "looking up spatial layers"
             // look it up
             def resp = null
-            def url = ConfigurationHolder.config.spatial.baseURL +
+            def url = grailsApplication.config.spatial.baseURL +
                     "/layers.json"
 
             def conn = new URL(url).openConnection()
@@ -237,10 +236,10 @@ class MetadataService {
                 def json = conn.content.text
                 resp = JSON.parse(json)
             } catch (SocketTimeoutException e) {
-                println "${action} timed out = ${e.toString()}"
+                log.info "${action} timed out = ${e.toString()}"
                 return [error: "${action} timed out", reason: e.message]
             } catch (Exception e) {
-                println "${action} failed = ${e.toString()}"
+                log.info "${action} failed = ${e.toString()}"
                 return [error: "${action} failed", reason: e.message]
             }
 
@@ -264,7 +263,7 @@ class MetadataService {
     def getSpeciesByConservationStatus() {
         return cacheService.get('speciesByConservationStatus', {
 
-            def baseUrl = ConfigurationHolder.config.biocache.baseURL +
+            def baseUrl = grailsApplication.config.biocache.baseURL +
                     "/ws/explore/groups.json?pageSize=10&q=state_conservation:"
 
             def data = []
@@ -286,7 +285,7 @@ class MetadataService {
             def results = getBiocacheFacet('data_provider_uid')?.facets
 
             // get metadata for name and acronym
-            def dpMetadata = JSON.parse(new URL(ConfigurationHolder.config.collectory.baseURL + "/lookup/dataProvider").text)
+            def dpMetadata = JSON.parse(new URL(grailsApplication.config.collectory.baseURL + "/lookup/dataProvider").text)
             def dpMap = [:]
             dpMetadata.each() {
                 dpMap.put it.uid, [acronym: it.acronym, name: it.name, uri: it.uri]
@@ -298,7 +297,7 @@ class MetadataService {
                 if (md) {
                     it.name = md.name
                     it.acronym = md.acronym
-                    it.uri = ConfigurationHolder.config.collectory.baseURL + '/public/show/' + it.facet
+                    it.uri = grailsApplication.config.collectory.baseURL + '/public/show/' + it.facet
                     it.display = md.acronym ?: md.name
                 }
             }
@@ -314,7 +313,7 @@ class MetadataService {
             def results = getBiocacheFacet('institution_uid')?.facets
 
             // get metadata for name and acronym
-            def dpMetadata = JSON.parse(new URL(ConfigurationHolder.config.collectory.baseURL + "/lookup/institution").text)
+            def dpMetadata = JSON.parse(new URL(grailsApplication.config.collectory.baseURL + "/lookup/institution").text)
             def dpMap = [:]
             dpMetadata.each() {
                 dpMap.put it.uid, [acronym: it.acronym, name: it.name]
@@ -326,7 +325,7 @@ class MetadataService {
                 if (md) {
                     it.name = md.name
                     it.acronym = md.acronym
-                    it.uri = ConfigurationHolder.config.collectory.baseURL + '/public/show/' + it.facet
+                    it.uri = grailsApplication.config.collectory.baseURL + '/public/show/' + it.facet
                     it.display = (md.name.size() > 30 && md.acronym) ? md.acronym : md.name
                 }
             }
@@ -343,10 +342,10 @@ class MetadataService {
      * @return map with facets and any errors - [error: <errors>, reason: <reason if error>, facets: <facet values>]
      */
     def biocacheFacetCount(facetName, query = '*:*') {
-        println "looking up " + facetName
+        log.info "looking up " + facetName
         def facets = []
         def resp = null
-        def url = ConfigurationHolder.config.biocache.baseURL +
+        def url = grailsApplication.config.biocache.baseURL +
                 "ws/occurrences/search?q=${query}&pageSize=0&facets=${facetName}"
 
         def conn = new URL(url).openConnection()
@@ -356,10 +355,10 @@ class MetadataService {
             def json = conn.content.text
             resp = JSON.parse(json)
         } catch (SocketTimeoutException e) {
-            println "Biocache lookup failed = ${e.toString()}"
+            log.error "Biocache lookup failed = ${e.toString()}"
             return [error: "Biocache lookup failed", reason: e.message]
         } catch (Exception e) {
-            println "Biocache lookup failed = ${e.toString()}"
+            log.error "Biocache lookup failed = ${e.toString()}"
             return [error: "Biocache lookup failed", reason: e.message]
         }
 
@@ -388,7 +387,7 @@ class MetadataService {
      * @return metadata for each taxon
      */
     def bieBulkLookup(list) {
-        def url = ConfigurationHolder.config.bie.baseURL
+        def url = grailsApplication.config.bie.baseURL
         def data = webService.doPost(url,
                 "ws/species/guids/bulklookup.json", "", (list as JSON).toString())
         //println "returned from doPost ${data.resp}"
@@ -418,7 +417,7 @@ class MetadataService {
             def results = [:]
 
             // earliest record
-            def totals = webService.getJson(ConfigurationHolder.config.logger.baseURL +
+            def totals = webService.getJson(grailsApplication.config.logger.baseURL +
                     "/service/totalsByType").totals
 
             for (k in totals.keys()) {
@@ -435,7 +434,7 @@ class MetadataService {
             def results = []
 
             // earliest record
-            def allTimeReasonBreakdown = webService.getJson(ConfigurationHolder.config.logger.baseURL +
+            def allTimeReasonBreakdown = webService.getJson(grailsApplication.config.logger.baseURL +
                     "/service/reasonBreakdown?eventId=1002").all
 
             for (k in allTimeReasonBreakdown.reasonBreakdown.keys()) {
@@ -454,7 +453,7 @@ class MetadataService {
             def results = [:]
 
             // earliest record
-            def allTimeEmailBreakdown = webService.getJson(ConfigurationHolder.config.logger.baseURL +
+            def allTimeEmailBreakdown = webService.getJson(grailsApplication.config.logger.baseURL +
                     "/service/emailBreakdown?eventId=1002").all
 
             ["edu","gov","other","unspecified"].each {
@@ -467,6 +466,56 @@ class MetadataService {
             return results
         })
     }
+
+    def getImagesBreakdown(){
+        cacheService.get('imagesBreakdown', {
+
+            def results = [:]
+
+            def url = grailsApplication.config.bie.baseURL
+
+            def speciesWithImages = webService.getJson(url+
+                    "/ws/search.json?q=*&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0").searchResults.totalRecords
+
+            def subspeciesWithImages = webService.getJson(url+
+                    "/ws/search.json?q=*&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:subspecies&pageSize=0").searchResults.totalRecords
+
+
+            results.put("speciesWithImages", speciesWithImages)
+            results.put("subspeciesWithImages", subspeciesWithImages)
+
+            def vpResources = webService.getJson("http://collections.ala.org.au/ws/dataHub/dh6.json").memberDataResources
+
+            def resourcesQuery = "%28"
+            vpResources.eachWithIndex() { res, i ->
+                if (i>0) resourcesQuery = resourcesQuery + "%20"
+                resourcesQuery = resourcesQuery + res.uid
+            }
+            resourcesQuery = resourcesQuery + "%29"
+
+            def taxaVPUrl = url + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imageSources:" + resourcesQuery
+           // println taxaVPUrl
+            def taxaWithImagesFromVolunteerPortal = webService.getJson(taxaVPUrl)
+
+            def taxaVPOnlyUrl = url + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imagesSourceCount:1&fq=imageSources:" + resourcesQuery
+            //println taxaVPOnlyUrl
+            def taxaOnlyWithImagesFromVolunteerPortal = webService.getJson(taxaVPOnlyUrl)
+
+            results.put("taxaWithImagesFromVolunteerPortal", taxaWithImagesFromVolunteerPortal.searchResults.totalRecords)
+            results.put("taxaOnlyWithImagesFromVolunteerPortal", taxaOnlyWithImagesFromVolunteerPortal.searchResults.totalRecords)
+//
+            def taxaCSyUrl = url + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imageSources:%28dr364%20dr360%29"
+            def taxaImagesFromCS = webService.getJson(taxaCSyUrl)
+            results.put("taxaWithImagesFromCS", taxaImagesFromCS.searchResults.totalRecords)
+
+            def taxaCSOnlyUrl = url + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imagesSourceCount:1&fq=imageSources:%28dr364%20dr360%29"
+            def taxaImagesFromCSOnly = webService.getJson(taxaCSOnlyUrl)
+            results.put("taxaWithImagesFromCSOnly", taxaImagesFromCSOnly.searchResults.totalRecords)
+
+            return results
+        })
+    }
+
 
     /* -------------------------------- STATIC LOOKUPS --------------------------------------------*/
 

@@ -25,14 +25,19 @@
     <section id="floatContainer">
         <div class='link-group' tabindex="0" id="records-topic">
             <h2>Occurrence records</h2>
-            <p id="totalRecords"><db:addCommas value="${totalRecords.total}"/></p>
+            <p id="totalRecords">
+                <a href="http://biocache.ala.org.au/occurrences/"><db:addCommas value="${totalRecords.total}"/></a>
+            </p>
             <p style="text-align:center;padding-right:10px;">records in total.</p>
             <p style="padding:20px 10px 0 10px;">We estimate the number of potential duplicate records to be
                 <a href="${ConfigurationHolder.config.biocache.baseURL}occurrences/search?q=*:*&fq=duplicate_status:D"
                    id="duplicateCount" class="link"><em><db:addCommas value="${totalRecords.duplicates}"/></em></a>.</p>
         </div>
         <div class='link-group click-thru' tabindex="1" id="datasets-topic">
-            <h2><span class="count">${datasets.total}</span>Data sets</h2>
+            <h2>
+                <a href="http://collections.ala.org.au/datasets"> <span class="count">${datasets.total}</span> </a>
+
+                Data sets</h2>
             %{--<g:img class="info-link" dir="images/skin" file="information.png"/>--}%
             <table>
                 <tr><td id="website">Harvested websites</td><td><span class="count"><db:formatNumber value="${datasets.groups.website}"/></span></td></tr>
@@ -80,7 +85,7 @@
             <p style="padding-top: 2px;"><span id="moreBasisLink"  class="link">more..</span></p>
         </div>
         <div class='link-group' id="collections-topic" tabindex="3">
-            <h2><span class="count">${collections.total}</span>Collections</h2>
+            <h2><a href="http://collections.ala.org.au"><span class="count">${collections.total}</span></a> Collections</h2>
             <div id="collectionsByCategory"><g:img style="padding: 70px;" dir="images" file="spinner.gif"/> </div>
         </div>
         <div class='link-group click-thru' tabindex="4" id="date-topic">
@@ -111,7 +116,7 @@
             </table>
         </div>
         <div class='link-group' tabindex="6" id="spatial-topic">
-            <h2><span class="count">${spatialLayers.total}</span>Spatial layers</h2>
+            <h2><a href="http://spatial.ala.org.au/layers"><span class="count">${spatialLayers.total}</span></a> Spatial layers</h2>
             <table>
                 <tr><td>Contextual layers</td><td><span class="count">${spatialLayers.groups.contextual}</span></td></tr>
                 <tr><td>Environmental/grided layers</td><td><span class="count">${spatialLayers.groups.environmental}</span></td></tr>
@@ -137,7 +142,7 @@
             <h2>Identify Life</h2>
             <p><span class="item">Identification keys:</span></p>
             <a target="_blank" href="http://www.identifylife.org/"><g:img dir="images/dashboard" file="identify-life-2.png"/></a>
-            <span class="count">${identifyLifeCounts.keys}</span>
+            <a href="http://keycentral.identifylife.org/Secure/KeyStore/List.aspx?t="><span class="count">${identifyLifeCounts.keys}</span></a>
         </div>
         <div class='link-group click-thru' tabindex="9" id="most-topic">
             <h2>Most recorded species</h2>
@@ -157,7 +162,7 @@
             <g:img style="vertical-align:middle;display:none" id="mostLoadingImg" dir="images" file="spinner.gif"/>
         </div>
         <div class='link-group' tabindex="10" id="typeStatus-topic">
-            <h2><span class="count"><db:formatNumber value="${typeCounts.total}"/></span>Type specimens</h2>
+            <h2><a href="http://biocache.ala.org.au/occurrences/search?"><span class="count"><db:formatNumber value="${typeCounts.total}"/></span></a>Type specimens</h2>
             <div id="baseTypes">
                 <table class="click-thru">
                     <tr><td id="holotype">Holotypes</td><td><span class="count">${typeCounts.holotype}</span></td></tr>
@@ -356,7 +361,19 @@
                 </table>
             </div>
         </div>
-
+        <div class='link-group' tabindex="23" id="images-breakdown-topic">
+            <h2>Species Images<a href="http://bie.ala.org.au/search?q=&fq=hasImage:true&fq=rank:species">&nbsp;&nbsp;<span class="count"><db:formatNumber value="${imagesBreakdown["speciesWithImages"]}"/></span></a></h2>
+            <div id="imagesBreakdown">
+                <table>
+                    <tr><td>Species with images</td><td>${imagesBreakdown["speciesWithImages"]}</td></tr>
+                    <tr><td>Subspecies with images</td><td>${imagesBreakdown["subspeciesWithImages"]}</td></tr>
+                    <tr><td>Taxa with images from<br/> Biodiversity Volunteer Portal</td><td>${imagesBreakdown["taxaWithImagesFromVolunteerPortal"]}</td></tr>
+                    %{--<tr><td>Taxa only with images from<br/> Biodiversity Volunteer Portal</td><td>${imagesBreakdown["taxaOnlyWithImagesFromVolunteerPortal"]}</td></tr>--}%
+                    <tr><td>Taxa with images from<br/> citizen science</td><td>${imagesBreakdown["taxaWithImagesFromCS"]}</td></tr>
+                    %{--<tr><td>Taxa only with images<br/> citizen science</td><td>${imagesBreakdown["taxaWithImagesFromCSOnly"]}</td></tr>--}%
+                </table>
+            </div>
+        </div>
     </section>
 </div><!--close content-->
 <r:script>

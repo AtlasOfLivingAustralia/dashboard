@@ -1,27 +1,28 @@
 /******************************************************************************\
  *  CONFIG MANAGEMENT
  \******************************************************************************/
+
 def ENV_NAME = "DASHBOARD_CONFIG"
 def default_config = "/data/collectory/config/${appName}-config.properties"
 if(!grails.config.locations || !(grails.config.locations instanceof List)) {
     grails.config.locations = []
 }
 if(System.getenv(ENV_NAME) && new File(System.getenv(ENV_NAME)).exists()) {
-    println "Including configuration file specified in environment: " + System.getenv(ENV_NAME);
+    println "[DASHBOARD] Including configuration file specified in environment: " + System.getenv(ENV_NAME);
     grails.config.locations = ["file:" + System.getenv(ENV_NAME)]
 } else if(System.getProperty(ENV_NAME) && new File(System.getProperty(ENV_NAME)).exists()) {
-    println "Including configuration file specified on command line: " + System.getProperty(ENV_NAME);
+    println "[DASHBOARD] Including configuration file specified on command line: " + System.getProperty(ENV_NAME);
     grails.config.locations = ["file:" + System.getProperty(ENV_NAME)]
 } else if(new File(default_config).exists()) {
-    println "Including default configuration file: " + default_config;
+    println "[DASHBOARD] Including default configuration file: " + default_config;
     def loc = ["file:" + default_config]
     println ">> loc = " + loc
     grails.config.locations = loc
-    println "grails.config.locations = " + grails.config.locations
+    println "[DASHBOARD] grails.config.locations = " + grails.config.locations
 } else {
-    println "No external configuration file defined."
+    println "[DASHBOARD] No external configuration file defined."
 }
-println "(*) grails.config.locations = ${grails.config.locations}"
+println "[DASHBOARD] (*) grails.config.locations = ${grails.config.locations}"
 
 /******************************************************************************\
  *  EXTERNAL SERVERS
@@ -122,25 +123,43 @@ environments {
 }
 
 // log4j configuration
+// log4j configuration
 log4j = {
-
     appenders {
         environments {
             production {
+                rollingFile name: "dashboard-prod",
+                    maxFileSize: 104857600,
+                    file: "/var/log/tomcat6/dashboard.log",
+                    threshold: org.apache.log4j.Level.INFO,
+                    layout: pattern(conversionPattern: "%d [%c{1}]  %m%n")
                 rollingFile name: "stacktrace", maxFileSize: 1024, file: "/var/log/tomcat6/dashboard-stacktrace.log"
             }
+            development {
+                console name: "stdout", layout: pattern(conversionPattern: "%d [%c{1}]  %m%n"), threshold: org.apache.log4j.Level.INFO
+            }
         }
+    }
+
+    root {
+        debug  'dashboard-prod'
     }
 
     error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
            'org.codehaus.groovy.grails.web.pages', //  GSP
            'org.codehaus.groovy.grails.web.sitemesh', //  layouts
-           'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
+	         'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
            'org.codehaus.groovy.grails.web.mapping', // URL mapping
-           'org.codehaus.groovy.grails.commons', // core / classloading
-           'org.codehaus.groovy.grails.plugins', // plugins
-           'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
-           'org.springframework',
-           'org.hibernate',
-           'net.sf.ehcache.hibernate'
+	         'org.codehaus.groovy.grails.commons', // core / classloading
+	         'org.codehaus.groovy.grails.plugins', // plugins
+           'org.springframework.jdbc',
+           'org.springframework.transaction',
+           'org.codehaus.groovy',
+           'org.grails',
+           'org.apache',
+           'grails.spring',
+           'grails.util.GrailsUtil',
+           'net.sf.ehcache'
+
+    debug  'ala'
 }

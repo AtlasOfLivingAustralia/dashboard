@@ -44,7 +44,9 @@ class DashboardController {
          stateConservation: metadataService.getSpeciesByConservationStatus(),
          loggerTotals: metadataService.getLoggerTotals(),
          loggerReasonBreakdown: metadataService.getLoggerReasonBreakdown(),
-         loggerEmailBreakdown: metadataService.getLoggerEmailBreakdown()]
+         loggerEmailBreakdown: metadataService.getLoggerEmailBreakdown(),
+         imagesBreakdown: metadataService.getImagesBreakdown()
+        ]
     }
 
     def mostRecorded(String group) {
