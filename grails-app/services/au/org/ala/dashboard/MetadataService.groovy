@@ -80,10 +80,14 @@ class MetadataService {
                 // earliest record
                 def a = webService.getJson(grailsApplication.config.biocache.baseURL +
                         "/ws/occurrences/search?q=!assertions:invalidCollectionDate&pageSize=1&sort=occurrence_date&facet=off")
-                def earliestUuid = a.occurrences[0].uuid
-                def earliest = new Date(a.occurrences[0].eventDate)
-                def earliestDate = new SimpleDateFormat("d MMMM yyyy").format(earliest)
-                results.earliest = [uuid: earliestUuid, display: earliestDate]
+                def earliestUuid = a?.occurrences[0]?.uuid
+                if(a?.occurrences[0]?.eventDate){
+                    def earliest = new Date(a?.occurrences[0]?.eventDate)
+                    def earliestDate = new SimpleDateFormat("d MMMM yyyy").format(earliest)
+                    results.earliest = [uuid: earliestUuid, display: earliestDate]
+                } else {
+                    log.error("Earliest date is invalid. See record: " + a?.occurrences[0]?.uuid)
+                }
 
                 // latest record
                 def b = webService.getJson(grailsApplication.config.biocache.baseURL +
@@ -342,11 +346,13 @@ class MetadataService {
      * @return map with facets and any errors - [error: <errors>, reason: <reason if error>, facets: <facet values>]
      */
     def biocacheFacetCount(facetName, query = '*:*') {
-        log.info "looking up " + facetName
+
         def facets = []
         def resp = null
         def url = grailsApplication.config.biocache.baseURL +
                 "ws/occurrences/search?q=${query}&pageSize=0&facets=${facetName}"
+
+        log.info "looking up " + facetName + ", URL: " + url
 
         def conn = new URL(url).openConnection()
         try {
@@ -468,7 +474,7 @@ class MetadataService {
     }
 
     def getImagesBreakdown(){
-        cacheService.get('imagesBreakdown', {
+//        cacheService.get('imagesBreakdown', {
 
             def results = [:]
 
@@ -493,27 +499,25 @@ class MetadataService {
             }
             resourcesQuery = resourcesQuery + "%29"
 
+
             def taxaVPUrl = url + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imageSources:" + resourcesQuery
-           // println taxaVPUrl
-            def taxaWithImagesFromVolunteerPortal = webService.getJson(taxaVPUrl)
+            results.put("taxaWithImagesFromVolunteerPortal", webService.getJson(taxaVPUrl).searchResults.totalRecords)
+            println "[taxaVPUrl] " + taxaVPUrl
 
             def taxaVPOnlyUrl = url + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imagesSourceCount:1&fq=imageSources:" + resourcesQuery
-            //println taxaVPOnlyUrl
-            def taxaOnlyWithImagesFromVolunteerPortal = webService.getJson(taxaVPOnlyUrl)
+            results.put("taxaOnlyWithImagesFromVolunteerPortal", webService.getJson(taxaVPOnlyUrl).searchResults.totalRecords)
+            println "[taxaVPOnlyUrl] " + taxaVPOnlyUrl
 
-            results.put("taxaWithImagesFromVolunteerPortal", taxaWithImagesFromVolunteerPortal.searchResults.totalRecords)
-            results.put("taxaOnlyWithImagesFromVolunteerPortal", taxaOnlyWithImagesFromVolunteerPortal.searchResults.totalRecords)
-//
-            def taxaCSyUrl = url + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imageSources:%28dr364%20dr360%29"
-            def taxaImagesFromCS = webService.getJson(taxaCSyUrl)
-            results.put("taxaWithImagesFromCS", taxaImagesFromCS.searchResults.totalRecords)
+            def taxaCSUrl = url + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imageSources:%28dr364%20dr360%29"
+            results.put("taxaWithImagesFromCS", webService.getJson(taxaCSUrl)?.searchResults?.totalRecords)
+            println "[taxaCSUrl] " + taxaCSUrl
 
             def taxaCSOnlyUrl = url + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imagesSourceCount:1&fq=imageSources:%28dr364%20dr360%29"
-            def taxaImagesFromCSOnly = webService.getJson(taxaCSOnlyUrl)
-            results.put("taxaWithImagesFromCSOnly", taxaImagesFromCSOnly.searchResults.totalRecords)
+            results.put("taxaWithImagesFromCSOnly", webService.getJson(taxaCSOnlyUrl)?.searchResults.totalRecords)
+            println "[taxaCSOnlyUrl] " + taxaCSOnlyUrl
 
             return results
-        })
+//        })
     }
 
 

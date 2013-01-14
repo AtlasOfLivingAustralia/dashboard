@@ -64,7 +64,7 @@
             <g:if test="${basisOfRecord.error.asBoolean()}"><p class="error" title="${basisOfRecord.reason}">${basisOfRecord.error}</p></g:if>
             <table>
                 <tbody>
-                <g:each in="${basisOfRecord.facets[0..Math.min(6,basisOfRecord.facets.size()-1)]}" var="b">
+                <g:each in="${basisOfRecord.facets[0..Math.min(6,basisOfRecord?.facets?.size()-1)]}" var="b">
                     <tr>
                         <td id="br-${b.facet}">${b.display}</td>
                         <td><span class="count">${b.formattedCount}</span></td>
