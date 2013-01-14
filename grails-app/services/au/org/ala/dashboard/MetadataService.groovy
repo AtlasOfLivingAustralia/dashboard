@@ -474,7 +474,7 @@ class MetadataService {
     }
 
     def getImagesBreakdown(){
-//        cacheService.get('imagesBreakdown', {
+        cacheService.get('imagesBreakdown', {
 
             def results = [:]
 
@@ -517,7 +517,7 @@ class MetadataService {
             println "[taxaCSOnlyUrl] " + taxaCSOnlyUrl
 
             return results
-//        })
+        })
     }
 
 
