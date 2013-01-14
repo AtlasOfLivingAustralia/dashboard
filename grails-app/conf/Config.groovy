@@ -136,7 +136,7 @@ log4j = {
                 rollingFile name: "stacktrace", maxFileSize: 1024, file: "/var/log/tomcat6/dashboard-stacktrace.log"
             }
             development {
-                console name: "stdout", layout: pattern(conversionPattern: "%d [%c{1}]  %m%n"), threshold: org.apache.log4j.Level.INFO
+                console name: "stdout", layout: pattern(conversionPattern: "%d [%c{1}]  %m%n"), threshold: org.apache.log4j.Level.DEBUG
             }
         }
     }
@@ -156,6 +156,7 @@ log4j = {
            'org.springframework.transaction',
            'org.codehaus.groovy',
            'org.grails',
+           'org.grails.plugin',
            'org.apache',
            'grails.spring',
            'grails.util.GrailsUtil',
