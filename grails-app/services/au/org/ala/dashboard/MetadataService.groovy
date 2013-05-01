@@ -350,7 +350,7 @@ class MetadataService {
         def facets = []
         def resp = null
         def url = grailsApplication.config.biocache.baseURL +
-                "ws/occurrences/search?q=${query}&pageSize=0&facets=${facetName}"
+                "ws/occurrences/search?q=${query}&pageSize=0&&fsort=count&facets=${facetName}"
 
         log.info "looking up " + facetName + ", URL: " + url
 
@@ -443,8 +443,31 @@ class MetadataService {
             def allTimeReasonBreakdown = webService.getJson(grailsApplication.config.logger.baseURL +
                     "/service/reasonBreakdown?eventId=1002").all
 
-            for (k in allTimeReasonBreakdown.reasonBreakdown.keys()) {
-                def keyMap = allTimeReasonBreakdown.reasonBreakdown[k]
+            //order by counts
+            def sortedBreakdowns = allTimeReasonBreakdown.reasonBreakdown.sort { -it.value["events"] }
+
+            //but then place "Other", "Unclassified", "Testing" at the bottom & combined
+            def other = sortedBreakdowns.get("other")
+
+            def unclassifiedCount = sortedBreakdowns.get("unclassified")
+            def testingCount = sortedBreakdowns.get("testing")
+
+            if(unclassifiedCount) {
+                other["events"] = other["events"] + unclassifiedCount["events"]
+                other["records"] = other["records"] + unclassifiedCount["records"]
+            }
+            if(testingCount) {
+                other["events"] = other["events"] + testingCount["events"]
+                other["records"] = other["records"] + testingCount["records"]
+            }
+
+            sortedBreakdowns.remove("other")
+            sortedBreakdowns.remove("unclassified")
+            sortedBreakdowns.remove("testing")
+            sortedBreakdowns.put("other", other)
+
+            for (k in sortedBreakdowns.keySet()) {
+                def keyMap = sortedBreakdowns[k]
                 results.add([StringUtils.capitalize(k), format(keyMap["events"] as int), format(keyMap["records"] as int)])
             }
 
