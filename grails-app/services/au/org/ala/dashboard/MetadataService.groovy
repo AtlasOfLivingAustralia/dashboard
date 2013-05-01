@@ -350,7 +350,7 @@ class MetadataService {
         def facets = []
         def resp = null
         def url = grailsApplication.config.biocache.baseURL +
-                "ws/occurrences/search?q=${query}&pageSize=0&&fsort=count&facets=${facetName}"
+                "ws/occurrences/search?q=${query}&pageSize=0&fsort=count&facets=${facetName}"
 
         log.info "looking up " + facetName + ", URL: " + url
 
