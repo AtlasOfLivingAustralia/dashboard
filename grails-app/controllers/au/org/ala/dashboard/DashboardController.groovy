@@ -45,6 +45,7 @@ class DashboardController {
          loggerTotals: metadataService.getLoggerTotals(),
          loggerReasonBreakdown: metadataService.getLoggerReasonBreakdown(),
          loggerEmailBreakdown: metadataService.getLoggerEmailBreakdown(),
+         loggerTemporalBreakdown: metadataService.getLoggerReasonTemporalBreakdown(),
          imagesBreakdown: metadataService.getImagesBreakdown()
         ]
     }

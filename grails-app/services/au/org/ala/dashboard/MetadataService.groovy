@@ -428,7 +428,7 @@ class MetadataService {
 
             for (k in totals.keys()) {
                 def keyMap = totals[k]
-                results[k] = ["events" : format(keyMap["events"] as int), "records" : format(keyMap["records"] as int)]
+                results[k] = ["events" : format(keyMap["events"] as int), "records" : format(keyMap["records"] as long)]
             }
 
             return results
@@ -474,6 +474,16 @@ class MetadataService {
             results.add(["TOTAL", format(allTimeReasonBreakdown.events as int), format(allTimeReasonBreakdown.records as int)])
 
             return results
+        })
+    }
+
+   def getLoggerReasonTemporalBreakdown() {
+        cacheService.get('loggerReasonBreakdown', {
+            def results = []
+            // earliest record
+            def allTimeReasonBreakdown = webService.getJson(grailsApplication.config.logger.baseURL +
+                    "/service/reasonBreakdownMonthly?eventId=1002").all
+            return allTimeReasonBreakdown
         })
     }
 
@@ -575,8 +585,10 @@ class MetadataService {
     }
 
     /* -------------------------------- UTILITIES --------------------------------------------*/
-    String format(int i) {
-        if (i >= 1000000) {
+    String format(i) {
+        if (i >= 1000000000) {
+            return String.format("%9.2f", i/1000000000) + 'B'
+        } else if (i >= 1000000) {
             return String.format("%6.2f", i/1000000) + 'M'
         }
         return addCommas(i)

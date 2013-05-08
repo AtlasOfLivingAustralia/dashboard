@@ -328,10 +328,28 @@
             <h2>Usage statistics</h2>
             <div id="usageStats">
                 <table>
-                    <tr><td>Records Downloaded</td><td>${loggerTotals["1002"]["events"]} events</td><td>${loggerTotals["1002"]["records"]} records</td></tr>
-                    <tr><td>Images Viewed</td><td>${loggerTotals["2000"]["events"]} events</td><td>${loggerTotals["2000"]["records"]} records</td></tr>
-                    <tr><td>Records Viewed</td><td>${loggerTotals["1000"]["events"]} events</td><td>${loggerTotals["1000"]["records"]} records</td></tr>
-                    <tr><td>Records Viewed On Map</td><td>${loggerTotals["1001"]["events"]} events</td><td>${loggerTotals["1001"]["records"]} records</td></tr>
+                    <tr>
+                        <td>Records downloaded</td>
+                        <td>${loggerTotals["1002"]["events"]} events</td>
+                        <td>${loggerTotals["1002"]["records"]} records</td>
+                    </tr>
+                    <tr>
+                        <td>Images viewed</td>
+                        <td>${loggerTotals["2000"]["events"]} events</td>
+                        <td>${loggerTotals["2000"]["records"]} records</td>
+                    </tr>
+                    <tr>
+                        <td>Records viewed</td>
+                        <td>${loggerTotals["1000"]["events"]} events</td>
+                        <td>${loggerTotals["1000"]["records"]} records</td>
+                    </tr>
+                    <!--
+                    <tr>
+                        <td>Records Viewed On Map</td>
+                        <td>${loggerTotals["1001"]["events"]} events</td>
+                        <td>${loggerTotals["1001"]["records"]} records</td>
+                    </tr>
+                    -->
                 </table>
             </div>
         </div>
@@ -374,6 +392,12 @@
                 </table>
             </div>
         </div>
+    <!--
+        <div class='link-group' tabindex="24" id="monthly-downloads-topic">
+            <h2>Monthly Downloads</h2>
+            <div id="downloadMonthlyChart"></div>
+        </div>
+        -->
     </section>
 </div><!--close content-->
 <r:script>
@@ -430,7 +454,7 @@
           chartsDiv: 'decadeChart',
           clickThru: true,
           width: 400,
-          height: 211,
+          height: 180,
           chartArea: {left:40, top:0, width:"97%", height: "80%"},
           vAxis: {textPosition: 'in'}
         },
