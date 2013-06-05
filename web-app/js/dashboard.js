@@ -119,14 +119,9 @@ var decadesChart = {
             width:450, height:235,
             hAxis: {},
             legend: {position: "in"},
-            chartArea: {top:5, height:"75%", left:"17%", width:"80%"},
             vAxes: {
-                0: {logScale: true, minValue: 0, maxValue: 100000000},
-                1: {title: "species", log: 120000}
-            },
-            series: {
-                0: {targetAxisIndex: 0},
-                1: {targetAxisIndex: 0}
+                0: {logScale: true},
+                1: {}
             }
         };
         // get the data
@@ -143,8 +138,8 @@ var decadesChart = {
         var that = this;
 
         // Create and draw the visualization.
-        new google.visualization.ColumnChart(document.getElementById('decadeChart')).
-            draw(this.dataTable, this.options);
+        this.chart = new google.visualization.ColumnChart(document.getElementById('decadeChart'));
+        this.chart.draw(this.dataTable, this.options);
     }
 };
 
