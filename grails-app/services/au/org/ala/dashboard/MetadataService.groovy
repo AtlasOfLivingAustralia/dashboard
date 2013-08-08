@@ -535,19 +535,19 @@ class MetadataService {
 
             def taxaVPUrl = url + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imageSources:" + resourcesQuery
             results.put("taxaWithImagesFromVolunteerPortal", webService.getJson(taxaVPUrl).searchResults.totalRecords)
-            println "[taxaVPUrl] " + taxaVPUrl
+            log.debug "[taxaVPUrl] " + taxaVPUrl
 
             def taxaVPOnlyUrl = url + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imagesSourceCount:1&fq=imageSources:" + resourcesQuery
             results.put("taxaOnlyWithImagesFromVolunteerPortal", webService.getJson(taxaVPOnlyUrl).searchResults.totalRecords)
-            println "[taxaVPOnlyUrl] " + taxaVPOnlyUrl
+            log.debug "[taxaVPOnlyUrl] " + taxaVPOnlyUrl
 
             def taxaCSUrl = url + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imageSources:%28dr364%20dr360%29"
             results.put("taxaWithImagesFromCS", webService.getJson(taxaCSUrl)?.searchResults?.totalRecords)
-            println "[taxaCSUrl] " + taxaCSUrl
+            log.debug "[taxaCSUrl] " + taxaCSUrl
 
             def taxaCSOnlyUrl = url + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imagesSourceCount:1&fq=imageSources:%28dr364%20dr360%29"
             results.put("taxaWithImagesFromCSOnly", webService.getJson(taxaCSOnlyUrl)?.searchResults.totalRecords)
-            println "[taxaCSOnlyUrl] " + taxaCSOnlyUrl
+            log.debug "[taxaCSOnlyUrl] " + taxaCSOnlyUrl
 
             return results
         })

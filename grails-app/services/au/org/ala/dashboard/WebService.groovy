@@ -22,11 +22,11 @@ class WebService implements InitializingBean {
             return conn.content.text
         } catch (SocketTimeoutException e) {
             def error = [error: "Timed out calling web service. URL= \${url}."]
-            log.error error.error
+            log.error(error.error,e)
             return error as JSON 
         } catch (Exception e) {
             def error = [error: "Failed calling web service. ${e.getClass()} ${e.getMessage()} URL= ${url}."]
-            log.error error.error
+            log.error(error.error,e)
             return error as JSON
         }
     }
@@ -40,15 +40,15 @@ class WebService implements InitializingBean {
             return JSON.parse(json)
         } catch (ConverterException e) {
             def error = ['error': "Failed to parse json. ${e.getClass()} ${e.getMessage()} URL= ${url}."]
-            log.error error.error
+            log.error(error.error,e)
             return error
         } catch (SocketTimeoutException e) {
             def error = [error: "Timed out getting json. URL= \${url}."]
-            log.error error.error
+            log.error(error.error,e)
             return error
         } catch (Exception e) {
             def error = [error: "Failed to get json from web service. ${e.getClass()} ${e.getMessage()} URL= ${url}."]
-            log.error error.error
+            log.error(error.error,e)
             return error
         }
     }
@@ -97,11 +97,11 @@ class WebService implements InitializingBean {
             return [error:  null, resp: JSON.parse(resp)]
         } catch (SocketTimeoutException e) {
             def error = [error: "Timed out calling web service. URL= ${url}."]
-            log.error error.error
+            log.error(error.error,e)
             return error as JSON
         } catch (Exception e) {
             def error = [error: "Failed calling web service. ${e.getClass()} ${e.getMessage()} ${e} URL= ${url}."]
-            log.error error.error
+            log.error(error.error,e)
             return error as JSON
         }
     }
