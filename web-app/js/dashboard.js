@@ -152,7 +152,12 @@ function drawLifeformsTable(biocacheWebappUrl) {
         c = Math.floor(l/2);
     if (biocacheFacets.isReady()) {
         for (i = 0; i < c; i++) {
-            content += "<tr><td>" + list[i].label + "</td>" + "<td>" + format(list[i].count) + "</td>";
+
+            var className = '';
+            if(i>5){
+                className = 'hideable';
+            }
+            content += "<tr class='" + className +"'><td>" + list[i].label + "</td>" + "<td>" + format(list[i].count) + "</td>";
             content += "<td>" + list[c+i].label + "</td>" + "<td>" + format(list[c+i].count) + "</td></tr>";
         }
         /*$.each(biocacheFacets.facetMap.species_group, function(i, obj) {
@@ -165,6 +170,12 @@ function drawLifeformsTable(biocacheWebappUrl) {
         $('#lifeformsTable td:nth-child(odd)').click(function () {
             var group = $(this).html();
             document.location.href = biocacheWebappUrl + "occurrences/search?q=*:*&fq=species_group:" + group;
+        });
+
+        //lifeforms
+        $('#lifeformsTable .hideable').hide();
+        $('#showAllLifeforms').click(function(){
+             $('#lifeformsTable .hideable').toggle('slow');
         });
     }
 }

@@ -131,7 +131,7 @@ log4j = {
                 rollingFile name: "dashboard-prod",
                     maxFileSize: 104857600,
                     file: "/var/log/tomcat6/dashboard.log",
-                    threshold: org.apache.log4j.Level.INFO,
+                    threshold: org.apache.log4j.Level.ERROR,
                     layout: pattern(conversionPattern: "%d [%c{1}]  %m%n")
                 rollingFile name: "stacktrace", maxFileSize: 1024, file: "/var/log/tomcat6/dashboard-stacktrace.log"
             }
@@ -160,7 +160,8 @@ log4j = {
            'org.apache',
            'grails.spring',
            'grails.util.GrailsUtil',
-           'net.sf.ehcache'
+           'net.sf.ehcache',
+           'grails.app.taglib.org.grails.plugin.resource.ResourceTagLib'
 
     debug  'ala'
 }

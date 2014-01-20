@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" import="org.codehaus.groovy.grails.commons.ConfigurationHolder"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,15 +30,14 @@
             </p>
             <p style="text-align:center;padding-right:10px;">records in total.</p>
             <p style="padding:20px 10px 0 10px;">We estimate the number of potential duplicate records to be
-                <a href="${ConfigurationHolder.config.biocache.baseURL}occurrences/search?q=*:*&fq=duplicate_status:D"
+                <a href="${grailsApplication.config.biocache.baseURL}occurrences/search?q=*:*&fq=duplicate_status:D"
                    id="duplicateCount" class="link"><em><db:addCommas value="${totalRecords.duplicates}"/></em></a>.</p>
         </div>
         <div class='link-group click-thru' tabindex="1" id="datasets-topic">
             <h2>
                 <a href="http://collections.ala.org.au/datasets"> <span class="count">${datasets.total}</span> </a>
-
-                Data sets</h2>
-            %{--<g:img class="info-link" dir="images/skin" file="information.png"/>--}%
+                Data sets
+            </h2>
             <table>
                 <tr><td id="website">Harvested websites</td><td><span class="count"><db:formatNumber value="${datasets.groups.website}"/></span></td></tr>
                 <tr><td id="records">Occurrence record sets</td><td><span class="count"><db:formatNumber value="${datasets.groups.records}"/></span></td></tr>
@@ -47,7 +46,7 @@
             </table>
             <div>
                 <p>Most recently added dataset is<br/>
-                   <a href="${ConfigurationHolder.config.collectory.baseURL}/public/show/${datasets.last.uid}">
+                   <a href="${grailsApplication.config.collectory.baseURL}/public/show/${datasets.last.uid}">
                        <em><db:shorten text="${datasets.last.name}" size="66"/></em></a></p>
             </div>
             <div id="datasets-info" class="info" style="display: none;">
@@ -315,6 +314,7 @@
         <div class='link-group click-thru' tabindex="17" id="lifeform-topic">
             <h2>Records by lifeform</h2>
             <table id="lifeformsTable"></table>
+            <a href="javacript:void(0);" id="showAllLifeforms">more/less...</a>
         </div>
         <div class='link-group' tabindex="18" id="decade-topic">
             <h2>Records and species by decade</h2>
@@ -324,46 +324,45 @@
             <h2>Occurrence tree</h2>
             <div id="tree"></div>
         </div>
-        <div class='link-group' tabindex="20" id="event-summary-topic">
-            <h2>Usage statistics</h2>
-            <div id="usageStats">
-                <table>
-                    <tr>
-                        <td>Records downloaded</td>
-                        <td>${loggerTotals["1002"]["events"]} events</td>
-                        <td>${loggerTotals["1002"]["records"]} records</td>
-                    </tr>
-                    <tr>
-                        <td>Images viewed</td>
-                        <td>${loggerTotals["2000"]["events"]} events</td>
-                        <td>${loggerTotals["2000"]["records"]} records</td>
-                    </tr>
-                    <tr>
-                        <td>Records viewed</td>
-                        <td>${loggerTotals["1000"]["events"]} events</td>
-                        <td>${loggerTotals["1000"]["records"]} records</td>
-                    </tr>
-                    <!--
-                    <tr>
-                        <td>Records Viewed On Map</td>
-                        <td>${loggerTotals["1001"]["events"]} events</td>
-                        <td>${loggerTotals["1001"]["records"]} records</td>
-                    </tr>
-                    -->
-                </table>
-            </div>
-        </div>
+        %{--<div class='link-group' tabindex="20" id="event-summary-topic">--}%
+            %{--<h2>Usage statistics</h2>--}%
+            %{--<div id="usageStats">--}%
+                %{--<table>--}%
+                    %{--<tr>--}%
+                        %{--<td>Records downloaded</td>--}%
+                        %{--<td>${loggerTotals["1002"]["events"]} events</td>--}%
+                        %{--<td>${loggerTotals["1002"]["records"]} records</td>--}%
+                    %{--</tr>--}%
+                    %{--<tr>--}%
+
+                    %{--</tr>--}%
+                    %{--<tr>--}%
+                        %{--<td>Records viewed</td>--}%
+                        %{--<td>${loggerTotals["1000"]["events"]} events</td>--}%
+                        %{--<td>${loggerTotals["1000"]["records"]} records</td>--}%
+                    %{--</tr>--}%
+                    %{--<!----}%
+                    %{--<tr>--}%
+                        %{--<td>Records Viewed On Map</td>--}%
+                        %{--<td>${loggerTotals["1001"]["events"]} events</td>--}%
+                        %{--<td>${loggerTotals["1001"]["records"]} records</td>--}%
+                    %{--</tr>--}%
+                    %{---->--}%
+                %{--</table>--}%
+            %{--</div>--}%
+        %{--</div>--}%
         <div class='link-group' tabindex="21" id="reason-breakdown-topic">
             <h2>Occurrence downloads by reason</h2>
             <div id="reasonBreakdown">
-                <table>
-                    <g:each in="${loggerReasonBreakdown}" var="r">
-                        <tr>
+                <table id="loggerReasonBreakdownTable">
+                    <g:each in="${loggerReasonBreakdown}" var="r" status="rIdx">
+                        <tr id="loggerReasonBreakdown-${r[0] =='TOTAL' ? 'TOTAL' : rIdx}" class="${rIdx >= 6 &&  r[0] !='TOTAL' ? 'hideableRow' : ''}">
                             <td>${r[0]}</td>
                             <td>${r[1]} events</td>
                             <td>${r[2]} records</td>
                         </tr>
                     </g:each>
+                    <tr><td colspan="3"><a href="javacript:void(0);" id="showAllLoggerReasons">more/less...</a></td></tr>
                 </table>
             </div>
         </div>
@@ -386,9 +385,8 @@
                     <tr><td>Species with images</td><td>${imagesBreakdown["speciesWithImages"]}</td></tr>
                     <tr><td>Subspecies with images</td><td>${imagesBreakdown["subspeciesWithImages"]}</td></tr>
                     <tr><td>Taxa with images from<br/> Biodiversity Volunteer Portal</td><td>${imagesBreakdown["taxaWithImagesFromVolunteerPortal"]}</td></tr>
-                    %{--<tr><td>Taxa only with images from<br/> Biodiversity Volunteer Portal</td><td>${imagesBreakdown["taxaOnlyWithImagesFromVolunteerPortal"]}</td></tr>--}%
                     <tr><td>Taxa with images from<br/> citizen science</td><td>${imagesBreakdown["taxaWithImagesFromCS"]}</td></tr>
-                    %{--<tr><td>Taxa only with images<br/> citizen science</td><td>${imagesBreakdown["taxaWithImagesFromCSOnly"]}</td></tr>--}%
+                    <tr><td>Images viewed </td><td>${loggerTotals["2000"]["records"]} </td></tr>
                 </table>
             </div>
         </div>
@@ -429,11 +427,11 @@
       visualization.draw(data, {width: "220px", page: 'enable', pageSize: 5});
     }
 
-    var biocacheServicesUrl = "${ConfigurationHolder.config.biocache.baseURL}ws/",
-        biocacheWebappUrl = "${ConfigurationHolder.config.biocache.baseURL}",
-        bieWebappUrl = "${ConfigurationHolder.config.bie.baseURL}",
-        collectionsWebappUrl = "${ConfigurationHolder.config.collectory.baseURL}";
-        serverUrl = "${ConfigurationHolder.config.grails.serverURL}"
+    var biocacheServicesUrl = "${grailsApplication.config.biocache.baseURL}ws/",
+        biocacheWebappUrl = "${grailsApplication.config.biocache.baseURL}",
+        bieWebappUrl = "${grailsApplication.config.bie.baseURL}",
+        collectionsWebappUrl = "${grailsApplication.config.collectory.baseURL}";
+        serverUrl = "${grailsApplication.config.grails.serverURL}"
         stateChartOptions = {
           error: "badQuery",
           query: "*:*",
@@ -479,12 +477,12 @@
         },
         taxonomyTreeOptions = {
           /* base url of the collectory */
-          collectionsUrl: "${ConfigurationHolder.config.grails.serverURL}",
+          collectionsUrl: "${grailsApplication.config.grails.serverURL}",
           /* base url of the biocache ws*/
           biocacheServicesUrl: biocacheServicesUrl,
           /* base url of the biocache webapp*/
           biocacheWebappUrl: biocacheWebappUrl,
-          serverUrl: "${ConfigurationHolder.config.grails.serverURL}",
+          serverUrl: "${grailsApplication.config.grails.serverURL}",
           theme: 'classic',
           icons: true,
           title: '',
@@ -505,7 +503,7 @@
         });
 
         // decades
-        decadesChart.init("${ConfigurationHolder.config.grails.serverURL}/dashboard/decadesAsArray");
+        decadesChart.init("${grailsApplication.config.grails.serverURL}/dashboard/decadesAsArray");
 
         // biocache charts
         if (biocacheFacets.isReady()) {
@@ -535,7 +533,7 @@
         drawLifeformsTable(biocacheWebappUrl);
     }
 
-    wireActions("${ConfigurationHolder.config.grails.serverURL}");
+    wireActions("${grailsApplication.config.grails.serverURL}");
 
     // set most recorded data to match the current selection (for back button state)
     $('#mostSppGroup').change();
@@ -545,6 +543,12 @@
 
     // init facets then wait til charts are ready
     biocacheFacets.init({biocacheServicesUrl: biocacheServicesUrl});
+
+    //reasons
+    $('#loggerReasonBreakdownTable .hideableRow').hide();
+    $('#showAllLoggerReasons').click(function(){
+         $('#loggerReasonBreakdownTable .hideableRow').toggle('slow');
+    });
 
 </r:script>
 </body>
