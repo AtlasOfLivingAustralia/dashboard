@@ -514,10 +514,10 @@ class MetadataService {
             def url = grailsApplication.config.bie.baseURL
 
             def speciesWithImages = webService.getJson(url+
-                    "/ws/search.json?q=*&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0").searchResults.totalRecords
+                    "/ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0").searchResults.totalRecords
 
             def subspeciesWithImages = webService.getJson(url+
-                    "/ws/search.json?q=*&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:subspecies&pageSize=0").searchResults.totalRecords
+                    "/ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:subspecies&pageSize=0").searchResults.totalRecords
 
 
             results.put("speciesWithImages", speciesWithImages)
