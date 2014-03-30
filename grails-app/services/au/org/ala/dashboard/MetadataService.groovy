@@ -523,7 +523,7 @@ class MetadataService {
             results.put("speciesWithImages", speciesWithImages)
             results.put("subspeciesWithImages", subspeciesWithImages)
 
-            def vpResources = webService.getJson("http://collections.ala.org.au/ws/dataHub/dh6.json").memberDataResources
+            def vpResources = webService.getJson("http://collections.ala.org.au/ws/dataHub/dh6").memberDataResources
 
             def resourcesQuery = "%28"
             vpResources.eachWithIndex() { res, i ->
