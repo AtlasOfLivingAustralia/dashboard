@@ -109,7 +109,7 @@ environments {
         grails.logging.jul.usebridge = true
         //grails.host = "http://woodfired.ala.org.au"
         grails.host = "http://localhost"
-        grails.serverURL = "${grails.host}:8083/${appName}"
+        grails.serverURL = "${grails.host}:8080/${appName}"
     }
     test {
         grails.logging.jul.usebridge = false

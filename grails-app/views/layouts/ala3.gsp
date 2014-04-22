@@ -1,4 +1,3 @@
-<%@ page import="org.codehaus.groovy.grails.commons.ConfigurationHolder" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,22 +7,21 @@
     <meta name="description" content="The Atlas of Living Australia's data profile"/>
     <title><g:layoutTitle /></title>
 
-    <link rel="stylesheet" href="${ConfigurationHolder.config.ala.baseURL}/wp-content/themes/ala2011/style.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="${ConfigurationHolder.config.ala.baseURL}/wp-content/themes/ala2011/css/wp-styles.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="${ConfigurationHolder.config.ala.baseURL}/wp-content/themes/ala2011/css/buttons.css" type="text/css" media="screen" />
-    <link rel="icon" type="image/x-icon" href="${ConfigurationHolder.config.ala.baseURL}/wp-content/themes/ala2011/images/favicon.ico" />
-    <link rel="shortcut icon" type="image/x-icon" href="${ConfigurationHolder.config.ala.baseURL}/wp-content/themes/ala2011/images/favicon.ico" />
-    <link rel="stylesheet" type="text/css" media="screen" href="${ConfigurationHolder.config.ala.baseURL}/wp-content/themes/ala2011/css/jquery.autocomplete.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="${ConfigurationHolder.config.ala.baseURL}/wp-content/themes/ala2011/css/search.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="${ConfigurationHolder.config.ala.baseURL}/wp-content/themes/ala2011/css/skin.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="${ConfigurationHolder.config.ala.baseURL}/wp-content/themes/ala2011/css/sf.css" />
+    <link rel="stylesheet" href="${grailsApplication.config.ala.baseURL}/wp-content/themes/ala2011/style.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="${grailsApplication.config.ala.baseURL}/wp-content/themes/ala2011/css/wp-styles.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="${grailsApplication.config.ala.baseURL}/wp-content/themes/ala2011/css/buttons.css" type="text/css" media="screen" />
+    <link rel="icon" type="image/x-icon" href="${grailsApplication.config.ala.baseURL}/wp-content/themes/ala2011/images/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="${grailsApplication.config.ala.baseURL}/wp-content/themes/ala2011/images/favicon.ico" />
+    <link rel="stylesheet" type="text/css" media="screen" href="${grailsApplication.config.ala.baseURL}/wp-content/themes/ala2011/css/jquery.autocomplete.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="${grailsApplication.config.ala.baseURL}/wp-content/themes/ala2011/css/search.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="${grailsApplication.config.ala.baseURL}/wp-content/themes/ala2011/css/skin.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="${grailsApplication.config.ala.baseURL}/wp-content/themes/ala2011/css/sf.css" />
     <r:require module="jquery"/>
     <g:layoutHead />
     <r:layoutResources/>
-    <script type="text/javascript" src="${ConfigurationHolder.config.ala.baseURL}/wp-content/themes/ala2011/scripts/html5.js"></script>
-    <script language="JavaScript" type="text/javascript" src="${ConfigurationHolder.config.ala.baseURL}/wp-content/themes/ala2011/scripts/superfish/superfish.js"></script>
-    <script language="JavaScript" type="text/javascript" src="${ConfigurationHolder.config.ala.baseURL}/wp-content/themes/ala2011/scripts/jquery.autocomplete.js"></script>
-    <script language="JavaScript" type="text/javascript" src="${ConfigurationHolder.config.ala.baseURL}/wp-content/themes/ala2011/scripts/uservoice.js"></script>
+    <script type="text/javascript" src="${grailsApplication.config.ala.baseURL}/wp-content/themes/ala2011/scripts/html5.js"></script>
+    <script language="JavaScript" type="text/javascript" src="${grailsApplication.config.ala.baseURL}/wp-content/themes/ala2011/scripts/superfish/superfish.js"></script>
+    <script language="JavaScript" type="text/javascript" src="${grailsApplication.config.ala.baseURL}/wp-content/themes/ala2011/scripts/jquery.autocomplete.js"></script>
     <script type="text/javascript">
 
         // initialise plugins
@@ -90,7 +88,7 @@
 </head>
 <body class="${pageProperty(name:'body.class')}" id="${pageProperty(name:'body.id')}" onload="${pageProperty(name:'body.onload')}">
 
-    <hf:banner logoutUrl="${ConfigurationHolder.config.grails.serverURL}/dashboard/logout"/>
+    <hf:banner logoutUrl="${grailsApplication.config.grails.serverURL}/dashboard/logout"/>
 
     <hf:menu/>
 
