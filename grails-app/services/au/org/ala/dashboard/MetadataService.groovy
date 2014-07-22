@@ -468,7 +468,7 @@ class MetadataService {
 
             for (k in sortedBreakdowns.keySet()) {
                 def keyMap = sortedBreakdowns[k]
-                results.add([StringUtils.capitalize(k), format(keyMap["events"] as int), format(keyMap["records"] as int)])
+                results.add([StringUtils.capitalize(k), format(keyMap["events"] as long), format(keyMap["records"] as long)])
             }
 
             results.add(["TOTAL", format(allTimeReasonBreakdown.events as long), format(allTimeReasonBreakdown.records as long)])
