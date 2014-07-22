@@ -379,8 +379,8 @@ class MetadataService {
         resp.facetResults.find({ it.fieldName == facetName})?.fieldResult?.each { facet ->
             facets << [display: humanise(facet.label),
                        facet: facet.label,
-                       formattedCount: format(facet.count as int),
-                       count: facet.count as int
+                       formattedCount: format(facet.count as long),
+                       count: facet.count as long
             ]
         }
 
@@ -428,7 +428,7 @@ class MetadataService {
 
             for (k in totals.keys()) {
                 def keyMap = totals[k]
-                results[k] = ["events" : format(keyMap["events"] as int), "records" : format(keyMap["records"] as long)]
+                results[k] = ["events" : format(keyMap["events"] as long), "records" : format(keyMap["records"] as long)]
             }
 
             return results
@@ -471,7 +471,7 @@ class MetadataService {
                 results.add([StringUtils.capitalize(k), format(keyMap["events"] as int), format(keyMap["records"] as int)])
             }
 
-            results.add(["TOTAL", format(allTimeReasonBreakdown.events as int), format(allTimeReasonBreakdown.records as int)])
+            results.add(["TOTAL", format(allTimeReasonBreakdown.events as long), format(allTimeReasonBreakdown.records as long)])
 
             return results
         })
@@ -497,10 +497,10 @@ class MetadataService {
 
             ["edu","gov","other","unspecified"].each {
                 def keyMap = allTimeEmailBreakdown.emailBreakdown[it]
-                results[it] = ["events" : format(keyMap["events"] as int), "records" : format(keyMap["records"] as int)]
+                results[it] = ["events" : format(keyMap["events"] as long), "records" : format(keyMap["records"] as long)]
             }
 
-            results["total"] = ["events" : format(allTimeEmailBreakdown.events as int), "records" : format(allTimeEmailBreakdown.records as int)]
+            results["total"] = ["events" : format(allTimeEmailBreakdown.events as long), "records" : format(allTimeEmailBreakdown.records as long)]
 
             return results
         })
