@@ -439,7 +439,7 @@ class MetadataService {
         cacheService.get('loggerReasonBreakdown', {
             def results = []
 
-            // earliest record
+            // this number includes testing - we need to remove this
             def allTimeReasonBreakdown = webService.getJson(grailsApplication.config.logger.baseURL +
                     "/service/reasonBreakdown?eventId=1002").all
 
@@ -456,9 +456,16 @@ class MetadataService {
                 other["events"] = other["events"] + unclassifiedCount["events"]
                 other["records"] = other["records"] + unclassifiedCount["records"]
             }
+
+            //testing events
+            def testingEvents = 0
+            def testingRecords = 0
+
             if(testingCount) {
-                other["events"] = other["events"] + testingCount["events"]
-                other["records"] = other["records"] + testingCount["records"]
+//                other["events"] = other["events"] + testingCount["events"]
+//                other["records"] = other["records"] + testingCount["records"]
+                testingEvents = testingCount["events"] as long
+                testingRecords = testingCount["records"] as long
             }
 
             sortedBreakdowns.remove("other")
@@ -471,7 +478,10 @@ class MetadataService {
                 results.add([StringUtils.capitalize(k), format(keyMap["events"] as long), format(keyMap["records"] as long)])
             }
 
-            results.add(["TOTAL", format(allTimeReasonBreakdown.events as long), format(allTimeReasonBreakdown.records as long)])
+            results.add(["TOTAL",
+                         format((allTimeReasonBreakdown.events as long) - testingEvents),
+                         format((allTimeReasonBreakdown.records as long) - testingRecords)]
+            )
 
             return results
         })
@@ -500,7 +510,7 @@ class MetadataService {
                 results[it] = ["events" : format(keyMap["events"] as long), "records" : format(keyMap["records"] as long)]
             }
 
-            results["total"] = ["events" : format(allTimeEmailBreakdown.events as long), "records" : format(allTimeEmailBreakdown.records as long)]
+//            results["total"] = ["events" : format(allTimeEmailBreakdown.events as long), "records" : format(allTimeEmailBreakdown.records as long)]
 
             return results
         })

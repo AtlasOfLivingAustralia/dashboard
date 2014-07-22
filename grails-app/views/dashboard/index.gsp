@@ -366,18 +366,18 @@
                 </table>
             </div>
         </div>
-        <div class='link-group' tabindex="22" id="email-breakdown-topic">
-            <h2>Occurrence downloads by user type</h2>
-            <div id="emailBreakdown">
-                <table>
-                    <tr><td>Education</td><td>${loggerEmailBreakdown["edu"]["events"]} events</td><td>${loggerEmailBreakdown["edu"]["records"]} records</td></tr>
-                    <tr><td>Government</td><td>${loggerEmailBreakdown["gov"]["events"]} events</td><td>${loggerEmailBreakdown["gov"]["records"]} records</td></tr>
-                    <tr><td>Other</td><td>${loggerEmailBreakdown["other"]["events"]} events</td><td>${loggerEmailBreakdown["other"]["records"]} records</td></tr>
-                    <tr><td>Unspecified</td><td>${loggerEmailBreakdown["unspecified"]["events"]} events</td><td>${loggerEmailBreakdown["unspecified"]["records"]} records</td></tr>
-                    <tr><td>TOTAL</td><td>${loggerEmailBreakdown["total"]["events"]} events</td><td>${loggerEmailBreakdown["total"]["records"]} records</td></tr>
-                </table>
-            </div>
-        </div>
+        %{--<div class='link-group' tabindex="22" id="email-breakdown-topic">--}%
+            %{--<h2>Occurrence downloads by user type</h2>--}%
+            %{--<div id="emailBreakdown">--}%
+                %{--<table>--}%
+                    %{--<tr><td>Education</td><td>${loggerEmailBreakdown["edu"]["events"]} events</td><td>${loggerEmailBreakdown["edu"]["records"]} records</td></tr>--}%
+                    %{--<tr><td>Government</td><td>${loggerEmailBreakdown["gov"]["events"]} events</td><td>${loggerEmailBreakdown["gov"]["records"]} records</td></tr>--}%
+                    %{--<tr><td>Other</td><td>${loggerEmailBreakdown["other"]["events"]} events</td><td>${loggerEmailBreakdown["other"]["records"]} records</td></tr>--}%
+                    %{--<tr><td>Unspecified</td><td>${loggerEmailBreakdown["unspecified"]["events"]} events</td><td>${loggerEmailBreakdown["unspecified"]["records"]} records</td></tr>--}%
+                    %{--<tr><td>TOTAL</td><td>${loggerEmailBreakdown["total"]["events"]} events</td><td>${loggerEmailBreakdown["total"]["records"]} records</td></tr>--}%
+                %{--</table>--}%
+            %{--</div>--}%
+        %{--</div>--}%
         <div class='link-group' tabindex="23" id="images-breakdown-topic">
             <h2>Species Images<a href="http://bie.ala.org.au/search?q=&fq=hasImage:true&fq=rank:species">&nbsp;&nbsp;<span class="count"><db:formatNumber value="${imagesBreakdown["speciesWithImages"]}"/></span></a></h2>
             <div id="imagesBreakdown">
