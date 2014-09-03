@@ -554,11 +554,11 @@ class MetadataService {
             results.put("taxaOnlyWithImagesFromVolunteerPortal", webService.getJson(taxaVPOnlyUrl)?.searchResults?.totalRecords)
             log.debug "[taxaVPOnlyUrl] " + taxaVPOnlyUrl
 
-            def taxaCSUrl = url + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imageSources:%28dr364%20dr360%29"
+            def taxaCSUrl = bieUrl + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imageSources:%28dr364%20dr360%29"
             results.put("taxaWithImagesFromCS", webService.getJson(taxaCSUrl)?.searchResults?.totalRecords)
             log.debug "[taxaCSUrl] " + taxaCSUrl
 
-            def taxaCSOnlyUrl = url + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imagesSourceCount:1&fq=imageSources:%28dr364%20dr360%29"
+            def taxaCSOnlyUrl = bieUrl + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imagesSourceCount:1&fq=imageSources:%28dr364%20dr360%29"
             results.put("taxaWithImagesFromCSOnly", webService.getJson(taxaCSOnlyUrl)?.searchResults.totalRecords)
             log.debug "[taxaCSOnlyUrl] " + taxaCSOnlyUrl
 
