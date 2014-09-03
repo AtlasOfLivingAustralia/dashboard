@@ -521,34 +521,37 @@ class MetadataService {
 
             def results = [:]
 
-            def url = grailsApplication.config.bie.baseURL
+            def bieUrl = grailsApplication.config.bie.baseURL
+            //def biocacheUrl = grailsApplication.config.biocache.baseURL
 
-            def speciesWithImages = webService.getJson(url+
+            def speciesWithImages = webService.getJson(bieUrl+
                     "/ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0").searchResults.totalRecords
 
-            def subspeciesWithImages = webService.getJson(url+
+            def subspeciesWithImages = webService.getJson(bieUrl+
                     "/ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:subspecies&pageSize=0").searchResults.totalRecords
-
 
             results.put("speciesWithImages", speciesWithImages)
             results.put("subspeciesWithImages", subspeciesWithImages)
 
             def vpResources = webService.getJson("http://collections.ala.org.au/ws/dataHub/dh6").memberDataResources
+            log.debug "vpResources = ${vpResources}"
+            def resourcesQuery = ""
 
-            def resourcesQuery = "%28"
-            vpResources.eachWithIndex() { res, i ->
-                if (i>0) resourcesQuery = resourcesQuery + "%20"
-                resourcesQuery = resourcesQuery + res.uid
+            if (vpResources) {
+                resourcesQuery = "&fq=imageSources:%28"
+                vpResources.eachWithIndex() { res, i ->
+                    if (i>0) resourcesQuery = resourcesQuery + "%20"
+                    resourcesQuery = resourcesQuery + res.uid
+                }
+                resourcesQuery = resourcesQuery + "%29"
             }
-            resourcesQuery = resourcesQuery + "%29"
 
-
-            def taxaVPUrl = url + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imageSources:" + resourcesQuery
-            results.put("taxaWithImagesFromVolunteerPortal", webService.getJson(taxaVPUrl).searchResults.totalRecords)
+            def taxaVPUrl = bieUrl + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0" + resourcesQuery
+            results.put("taxaWithImagesFromVolunteerPortal", webService.getJson(taxaVPUrl)?.searchResults?.totalRecords)
             log.debug "[taxaVPUrl] " + taxaVPUrl
 
-            def taxaVPOnlyUrl = url + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imagesSourceCount:1&fq=imageSources:" + resourcesQuery
-            results.put("taxaOnlyWithImagesFromVolunteerPortal", webService.getJson(taxaVPOnlyUrl).searchResults.totalRecords)
+            def taxaVPOnlyUrl = bieUrl + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imagesSourceCount:1" + resourcesQuery
+            results.put("taxaOnlyWithImagesFromVolunteerPortal", webService.getJson(taxaVPOnlyUrl)?.searchResults?.totalRecords)
             log.debug "[taxaVPOnlyUrl] " + taxaVPOnlyUrl
 
             def taxaCSUrl = url + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imageSources:%28dr364%20dr360%29"
