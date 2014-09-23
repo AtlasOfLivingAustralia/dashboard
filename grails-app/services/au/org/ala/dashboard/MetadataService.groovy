@@ -68,6 +68,13 @@ class MetadataService {
             })
     }
 
+    def getVolunteerStats(){
+        cacheService.get('volunteerStats', {
+           // earliest record
+           webService.getJson("http://volunteer.ala.org.au/ws/stats")
+        })
+    }
+
     /**
      * Get cached data for the oldest and newest records and counts of
      * records by century.
@@ -524,43 +531,41 @@ class MetadataService {
             def bieUrl = grailsApplication.config.bie.baseURL
             //def biocacheUrl = grailsApplication.config.biocache.baseURL
 
-            def speciesWithImages = webService.getJson(bieUrl+
-                    "/ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0").searchResults.totalRecords
+            def taxaWithImages = webService.getJson("http://biocache.ala.org.au/ws/occurrence/facets?facets=taxon_name&pageSize=0&q=multimedia:Image")[0].count
 
-            def subspeciesWithImages = webService.getJson(bieUrl+
-                    "/ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:subspecies&pageSize=0").searchResults.totalRecords
+            def speciesWithImages = webService.getJson("http://biocache.ala.org.au/ws/occurrence/facets?q=multimedia:Image%20AND%20(rank:species%20OR%20rank:subspecies)&facets=taxon_name&pageSize=0")[0].count
 
+            def subspeciesWithImages = webService.getJson("http://biocache.ala.org.au/ws/occurrence/facets?q=multimedia:Image%20AND%20rank:subspecies&facets=taxon_name&pageSize=0")[0].count
+
+            results.put("taxaWithImages", taxaWithImages)
             results.put("speciesWithImages", speciesWithImages)
             results.put("subspeciesWithImages", subspeciesWithImages)
 
             def vpResources = webService.getJson("http://collections.ala.org.au/ws/dataHub/dh6").memberDataResources
-            log.debug "vpResources = ${vpResources}"
+//            log.debug "vpResources = ${vpResources}"
             def resourcesQuery = ""
 
             if (vpResources) {
-                resourcesQuery = "&fq=imageSources:%28"
+                resourcesQuery = "data_resource_uid:("
                 vpResources.eachWithIndex() { res, i ->
-                    if (i>0) resourcesQuery = resourcesQuery + "%20"
+                    if (i>0) {
+                        resourcesQuery = resourcesQuery + "%20OR%20"
+                    }
                     resourcesQuery = resourcesQuery + res.uid
                 }
-                resourcesQuery = resourcesQuery + "%29"
+                resourcesQuery = resourcesQuery + ")"
             }
 
-            def taxaVPUrl = bieUrl + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0" + resourcesQuery
-            results.put("taxaWithImagesFromVolunteerPortal", webService.getJson(taxaVPUrl)?.searchResults?.totalRecords)
-            log.debug "[taxaVPUrl] " + taxaVPUrl
+            def taxaURL = "http://biocache.ala.org.au/ws/occurrence/facets?facets=taxon_name&pageSize=0&q=multimedia:Image%20AND%20" + resourcesQuery
 
-            def taxaVPOnlyUrl = bieUrl + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imagesSourceCount:1" + resourcesQuery
-            results.put("taxaOnlyWithImagesFromVolunteerPortal", webService.getJson(taxaVPOnlyUrl)?.searchResults?.totalRecords)
-            log.debug "[taxaVPOnlyUrl] " + taxaVPOnlyUrl
+            def taxaVPCount = webService.getJson(taxaURL)[0].count
+            results.put("taxaWithImagesFromVolunteerPortal", taxaVPCount)
 
-            def taxaCSUrl = bieUrl + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imageSources:%28dr364%20dr360%29"
-            results.put("taxaWithImagesFromCS", webService.getJson(taxaCSUrl)?.searchResults?.totalRecords)
-            log.debug "[taxaCSUrl] " + taxaCSUrl
+            def taxaCSCount = webService.getJson("http://biocache.ala.org.au/ws/occurrence/facets?facets=taxon_name&pageSize=0&q=multimedia:Image%20AND%20provenance:\"Individual%20sightings\"")[0].count
+            results.put("taxaWithImagesFromCS", taxaCSCount)
 
-            def taxaCSOnlyUrl = bieUrl + "ws/search.json?q=&fq=hasImage:true&fq=idxtype:TAXON&fq=rank:species&pageSize=0&fq=imagesSourceCount:1&fq=imageSources:%28dr364%20dr360%29"
-            results.put("taxaWithImagesFromCSOnly", webService.getJson(taxaCSOnlyUrl)?.searchResults.totalRecords)
-            log.debug "[taxaCSOnlyUrl] " + taxaCSOnlyUrl
+            def imageTotal = webService.getJson("http://images.ala.org.au/ws/getRepositoryStatistics").imageCount
+            results.put("imageTotal", imageTotal)
 
             return results
         })

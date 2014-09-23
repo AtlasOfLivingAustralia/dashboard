@@ -161,7 +161,7 @@
             <g:img style="vertical-align:middle;display:none" id="mostLoadingImg" dir="images" file="spinner.gif"/>
         </div>
         <div class='link-group' tabindex="10" id="typeStatus-topic">
-            <h2><a href="http://biocache.ala.org.au/occurrences/search?"><span class="count"><db:formatNumber value="${typeCounts.total}"/></span></a>Type specimens</h2>
+            <h2><a href="http://biocache.ala.org.au/occurrences/search?q=type_status:[*%20TO%20*]&fq=-type_status:notatype"><span class="count"><db:formatNumber value="${typeCounts.total}"/></span></a>Type specimens</h2>
             <div id="baseTypes">
                 <table class="click-thru">
                     <tr><td id="holotype">Holotypes</td><td><span class="count">${typeCounts.holotype}</span></td></tr>
@@ -184,7 +184,11 @@
                 <table class="click-thru">
                     <g:each in="${typeCounts.withImage}" var="c">
                         <g:if test="${c.key != 'total'}">
-                            <tr><td id="${'image'+c.key}">${c.key[0].toUpperCase() + c.key[1..-1] + ' with image'}</td><td><span class="count">${c.value}</span></td></tr>
+                            <tr><td id="${'image'+c.key}">${c.key[0].toUpperCase() + c.key[1..-1] + ' with image'}</td><td>
+                                <a href="http://biocache.ala.org.au/occurrences/search?q=type_status%3A%5B*+TO+*%5D&fq=-type_status%3Anotatype&fq=multimedia:Image"></a>
+                                    <span class="count">${c.value}</span>
+                                </a>
+                            </td></tr>
                         </g:if>
                     </g:each>
                 </table>
@@ -216,17 +220,30 @@
         </div>
         <g:if test="${volunteerPortalCounts}">
         <div class='link-group' tabindex="13" id="bvp-topic">
-            <h2><a target="_blank" href="http://volunteer.ala.org.au/">Biodiversity volunteer portal</a></h2>
+            <h2><a target="_blank" href="http://volunteer.ala.org.au/">DigiVol <smaller>(Volunteer portal)</smaller></a></h2>
             <table>
                 <tbody>
-                <tr><td>Specimen labels transcribed</td><td><span class="count"><db:formatNumber value="${volunteerPortalCounts?.recordsTranscribed}"/></span></td></tr>
-                <tr><td>Fieldnotes pages transcribed</td><td><span class="count"><db:formatNumber value="${volunteerPortalCounts?.pagesTranscribed}"/></span></td></tr>
-                <tr><td>Volunteers</td><td><span class="count"><db:formatNumber value="${volunteerPortalCounts?.volunteers}"/></span></td></tr>
-                <tr><td>Projects active</td><td><span class="count"><db:formatNumber value="${volunteerPortalCounts?.activeProjects}"/></span></td></tr>
-                <tr><td>Projects completed</td><td><span class="count"><db:formatNumber value="${volunteerPortalCounts?.completedProjects}"/></span></td></tr>
+                <tr><td>Specimen labels transcribed</td><td><span class="count"><db:formatNumber value="${volunteerPortalCounts?.specimens}"/></span></td></tr>
+                <tr><td>Fieldnotes pages transcribed</td><td><span class="count"><db:formatNumber value="${volunteerPortalCounts?.fieldnotes}"/></span></td></tr>
+                <tr><td>Volunteers</td><td><span class="count"><db:formatNumber value="${volunteerPortalCounts?.volunteerCount}"/></span></td></tr>
+                <tr><td>Expeditions active</td><td><span class="count"><db:formatNumber value="${volunteerPortalCounts?.activeExpeditionsCount}"/></span></td></tr>
+                <tr><td>Expeditions completed</td><td><span class="count"><db:formatNumber value="${volunteerPortalCounts?.completedExpeditionsCount}"/></span></td></tr>
+                <tr><td>Total expeditions</td><td><span class="count"><db:formatNumber value="${volunteerPortalCounts?.expeditionCount}"/></span></td></tr>
                 </tbody>
             </table>
         </div>
+        </g:if>
+        <g:if test="${volunteerPortalCounts}">
+            <div class='link-group' tabindex="14" id="bvp-topic">
+                <h2><a target="_blank" href="http://volunteer.ala.org.au/">DigiVol - top volunteers</a></h2>
+                <table>
+                    <tbody>
+                    <g:each in="${volunteerPortalCounts.topTenVolunteers.take(7)}" var="volunteer" >
+                        <tr><td>${volunteer[0]}</td><td><span class="count"><db:formatNumber value="${volunteer[1]}"/></span></td></tr>
+                    </g:each>
+                    </tbody>
+                </table>
+            </div>
         </g:if>
         <div class='link-group click-thru' tabindex="14" id="conservation-topic">
             <h2>Conservation status</h2>
@@ -379,14 +396,15 @@
             %{--</div>--}%
         %{--</div>--}%
         <div class='link-group' tabindex="23" id="images-breakdown-topic">
-            <h2>Species Images<a href="http://bie.ala.org.au/search?q=&fq=hasImage:true&fq=rank:species">&nbsp;&nbsp;<span class="count"><db:formatNumber value="${imagesBreakdown["speciesWithImages"]}"/></span></a></h2>
+            <h2>Species images&nbsp;&nbsp;<span class="count"><db:formatNumber value="${imagesBreakdown["speciesWithImages"]}"/></span></h2>
             <div id="imagesBreakdown">
                 <table>
+                    <tr><td>Taxa with images</td><td>${imagesBreakdown["taxaWithImages"]}</td></tr>
                     <tr><td>Species with images</td><td>${imagesBreakdown["speciesWithImages"]}</td></tr>
                     <tr><td>Subspecies with images</td><td>${imagesBreakdown["subspeciesWithImages"]}</td></tr>
-                    <tr><td>Taxa with images from<br/> Biodiversity Volunteer Portal</td><td>${imagesBreakdown["taxaWithImagesFromVolunteerPortal"]}</td></tr>
+                    <tr><td>Taxa with images from<br/> DigiVol</td><td>${imagesBreakdown["taxaWithImagesFromVolunteerPortal"]}</td></tr>
                     <tr><td>Taxa with images from<br/> citizen science</td><td>${imagesBreakdown["taxaWithImagesFromCS"]}</td></tr>
-                    <tr><td>Images viewed </td><td>${loggerTotals["2000"]["records"]} </td></tr>
+                    <tr><td>Total number of images </td><td>${imagesBreakdown["imageTotal"]} </td></tr>
                 </table>
             </div>
         </div>

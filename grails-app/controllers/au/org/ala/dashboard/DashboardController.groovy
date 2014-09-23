@@ -39,7 +39,7 @@ class DashboardController {
          boldCounts: metadataService.getBoldCounts(),
          typeCounts: metadataService.getTypeStats(),
          dateStats: metadataService.getDateStats(),
-         volunteerPortalCounts: metadataService.get('volunteerPortalCounts'),
+         volunteerPortalCounts: metadataService.getVolunteerStats(),
          spatialLayers: metadataService.getSpatialLayers(),
          stateConservation: metadataService.getSpeciesByConservationStatus(),
          loggerTotals: metadataService.getLoggerTotals(),
