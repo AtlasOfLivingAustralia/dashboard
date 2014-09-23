@@ -218,7 +218,7 @@
                 </tbody>
             </table>
         </div>
-        <g:if test="${volunteerPortalCounts}">
+        <g:if test="${ volunteerPortalCounts}">
         <div class='link-group' tabindex="13" id="bvp-topic">
             <h2><a target="_blank" href="http://volunteer.ala.org.au/">DigiVol <smaller>(Volunteer portal)</smaller></a></h2>
             <table>
@@ -233,7 +233,7 @@
             </table>
         </div>
         </g:if>
-        <g:if test="${volunteerPortalCounts}">
+        <g:if test="${false && volunteerPortalCounts}">
             <div class='link-group' tabindex="14" id="bvp-topic">
                 <h2><a target="_blank" href="http://volunteer.ala.org.au/">DigiVol - top volunteers</a></h2>
                 <table>
