@@ -1,5 +1,8 @@
 package au.org.ala.dashboard
 
+/**
+ * This is a Quartz job to refresh the dashboard cache for a given key entry
+ */
 class RefreshCacheEntryJob {
     static triggers = { }
 
