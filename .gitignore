@@ -1,10 +1,5 @@
 
-.idea/compiler.xml
+.idea/*
+target/*
+*.iml
 
-.idea/compiler.xml
-
-.idea/copyright/profiles_settings.xml
-
-.idea/copyright/profiles_settings.xml
-
-dashboard-grailsPlugins.iml
