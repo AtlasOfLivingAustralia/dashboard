@@ -2,4 +2,6 @@
 .idea/*
 target/*
 *.iml
+bower_components/*
+
 
