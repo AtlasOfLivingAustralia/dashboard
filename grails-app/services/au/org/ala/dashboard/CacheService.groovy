@@ -23,13 +23,29 @@ class CacheService {
      */
     def get(String key, Closure source, int maxAgeInDays = 1) {
         def cached = cache[key]
-        if (cached && cached.resp && !(new Date().after(cached.time + maxAgeInDays))) {
-            log.info "using cache for " + key
-            return cached.resp
+        def results
+
+        if (cached?.resp && !(new Date().after(cached?.time + maxAgeInDays))) {
+            log.info "using cache for ${key}"
+            results = cached.resp
+        } else if (cached?.resp && new Date().after(cached?.time + maxAgeInDays)) {
+            log.info "cached result for ${key} has expired"
+            // This prevents new user from refreshing the cache while it is happening in the background
+            cached.time = new Date()
+            // We trigger the cache refresh for this particular key in a separate thread
+            RefreshCacheEntryJob.triggerNow([cache: cache, key: key, source: source])
+            // We return the current cached value which probably is not the new one for the current request
+            results = cached.resp
+        } else {
+            try {
+                log.debug "retrieving " + key
+                results = source.call()
+                cache.put key, [resp: results, time: new Date()]
+            } catch (e) {
+                log.error "There was a problem retrieving the dashboard data for key ${key}: ${e.message}"
+            }
         }
-        log.debug "retrieving " + key
-        def results = source.call()
-        cache.put key, [resp: results, time: new Date()]
+
         return results
     }
 
@@ -58,3 +74,6 @@ class CacheService {
         return cache[key]?.resp
     }
 }
+
+
+

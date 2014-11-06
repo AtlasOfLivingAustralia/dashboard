@@ -1,0 +1,21 @@
+{
+  "name": "dashboard",
+  "version": "0.2",
+  "homepage": "https://github.com/AtlasOfLivingAustralia/dashboard",
+  "authors": [
+    "Angel Ruiz <aruizca@gmail.com>"
+  ],
+  "license": "apache 2",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.0",
+    "freewall": "~1.0.4"
+  }
+}
