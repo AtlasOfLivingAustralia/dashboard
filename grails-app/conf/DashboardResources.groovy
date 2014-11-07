@@ -10,5 +10,10 @@ modules = {
         dependsOn 'charts'
         resource url: '/js/dashboard.js'
     }
+
+    'jquery.cookie' {
+        dependsOn 'jquery'
+        resource url: '/js/jquery.cookie.js'
+    }
 }
 
