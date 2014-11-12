@@ -27,6 +27,7 @@ grails.project.dependency.resolution = {
         // runtime 'mysql:mysql-connector-java:5.1.16'
         runtime 'org.apache.ant:ant:1.7.1'    //you can also use runtime
         runtime 'org.apache.ant:ant-launcher:1.7.1'
+        compile 'net.sf.opencsv:opencsv:2.3'
     }
 
     plugins {
@@ -34,12 +35,14 @@ grails.project.dependency.resolution = {
         build ":release:3.0.1"
 
         compile ':scaffolding:2.0.3'
-        compile ":rest:0.7"
         compile ":quartz:1.0.2"
 
         runtime ':resources:1.2.8'
-        runtime ":jquery:1.7.1"
         runtime ":ala-charts:0.2.3"
+        runtime (":ala-web-theme:0.8.3-SNAPSHOT") {
+            exclude "servlet-api"
+            exclude "svn"
+        }
 
     }
 }

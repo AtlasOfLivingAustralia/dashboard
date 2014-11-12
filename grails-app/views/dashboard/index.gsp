@@ -3,11 +3,9 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="layout" content="ala3"/>
+    <meta name="layout" content="main"/>
     <title>Data Profile | Atlas of Living Australia</title>
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'dashboard.css')}"/>
     <link rel="stylesheet" href="${resource(dir: 'css/smoothness', file: 'jquery-ui-1.8.16.custom.css')}"/>
-    <!--[if IE 7]> <link rel="stylesheet" href="${resource(dir: 'css', file: 'dashboard-ie7.css')}" type="text/css"> <![endif]-->
     <script type="text/javascript" language="javascript" src="http://www.google.com/jsapi"></script>
     <r:require modules="jqueryui, charts, dashboard, jquery.cookie"/>
 </head>
@@ -427,33 +425,33 @@
 
             <div id="tree"></div>
         </div>
-        %{--<div class='link-group' tabindex="20" id="event-summary-topic">--}%
-        %{--<h2>Usage statistics</h2>--}%
-        %{--<div id="usageStats">--}%
-        %{--<table>--}%
-        %{--<tr>--}%
-        %{--<td>Records downloaded</td>--}%
-        %{--<td>${loggerTotals["1002"]["events"]} events</td>--}%
-        %{--<td>${loggerTotals["1002"]["records"]} records</td>--}%
-        %{--</tr>--}%
-        %{--<tr>--}%
+        <div class='link-group' tabindex="20" id="event-summary-topic">
+        <h2>Usage statistics</h2>
+        <div id="usageStats">
+        <table>
+        <tr>
+        <td>Records downloaded</td>
+        <td>${loggerTotals["1002"]["events"]} events</td>
+        <td>${loggerTotals["1002"]["records"]} records</td>
+        </tr>
+        <tr>
 
-        %{--</tr>--}%
-        %{--<tr>--}%
-        %{--<td>Records viewed</td>--}%
-        %{--<td>${loggerTotals["1000"]["events"]} events</td>--}%
-        %{--<td>${loggerTotals["1000"]["records"]} records</td>--}%
-        %{--</tr>--}%
-        %{--<!----}%
-        %{--<tr>--}%
-        %{--<td>Records Viewed On Map</td>--}%
-        %{--<td>${loggerTotals["1001"]["events"]} events</td>--}%
-        %{--<td>${loggerTotals["1001"]["records"]} records</td>--}%
-        %{--</tr>--}%
-        %{---->--}%
-        %{--</table>--}%
-        %{--</div>--}%
-        %{--</div>--}%
+        </tr>
+        <tr>
+        <td>Records viewed</td>
+        <td>${loggerTotals["1000"]["events"]} events</td>
+        <td>${loggerTotals["1000"]["records"]} records</td>
+        </tr>
+        <!--
+        <tr>
+        <td>Records Viewed On Map</td>
+        <td>${loggerTotals["1001"]["events"]} events</td>
+        <td>${loggerTotals["1001"]["records"]} records</td>
+        </tr>
+        -->
+        </table>
+        </div>
+        </div>
         <div class='link-group' tabindex="21" id="reason-breakdown-topic">
             <h2>Occurrence downloads by reason</h2>
 
@@ -472,18 +470,18 @@
                 </table>
             </div>
         </div>
-        %{--<div class='link-group' tabindex="22" id="email-breakdown-topic">--}%
-        %{--<h2>Occurrence downloads by user type</h2>--}%
-        %{--<div id="emailBreakdown">--}%
-        %{--<table>--}%
-        %{--<tr><td>Education</td><td>${loggerEmailBreakdown["edu"]["events"]} events</td><td>${loggerEmailBreakdown["edu"]["records"]} records</td></tr>--}%
-        %{--<tr><td>Government</td><td>${loggerEmailBreakdown["gov"]["events"]} events</td><td>${loggerEmailBreakdown["gov"]["records"]} records</td></tr>--}%
-        %{--<tr><td>Other</td><td>${loggerEmailBreakdown["other"]["events"]} events</td><td>${loggerEmailBreakdown["other"]["records"]} records</td></tr>--}%
-        %{--<tr><td>Unspecified</td><td>${loggerEmailBreakdown["unspecified"]["events"]} events</td><td>${loggerEmailBreakdown["unspecified"]["records"]} records</td></tr>--}%
+        <div class='link-group' tabindex="22" id="email-breakdown-topic">
+        <h2>Occurrence downloads by user type</h2>
+        <div id="emailBreakdown">
+        <table>
+        <tr><td>Education</td><td>${loggerEmailBreakdown["edu"]["events"]} events</td><td>${loggerEmailBreakdown["edu"]["records"]} records</td></tr>
+        <tr><td>Government</td><td>${loggerEmailBreakdown["gov"]["events"]} events</td><td>${loggerEmailBreakdown["gov"]["records"]} records</td></tr>
+        <tr><td>Other</td><td>${loggerEmailBreakdown["other"]["events"]} events</td><td>${loggerEmailBreakdown["other"]["records"]} records</td></tr>
+        <tr><td>Unspecified</td><td>${loggerEmailBreakdown["unspecified"]["events"]} events</td><td>${loggerEmailBreakdown["unspecified"]["records"]} records</td></tr>
         %{--<tr><td>TOTAL</td><td>${loggerEmailBreakdown["total"]["events"]} events</td><td>${loggerEmailBreakdown["total"]["records"]} records</td></tr>--}%
-        %{--</table>--}%
-        %{--</div>--}%
-        %{--</div>--}%
+        </table>
+        </div>
+        </div>
         <div class='link-group' tabindex="23" id="images-breakdown-topic">
             <h2>Species images&nbsp;&nbsp;<span class="count"><db:formatNumber
                     value="${imagesBreakdown["speciesWithImages"]}"/></span></h2>
