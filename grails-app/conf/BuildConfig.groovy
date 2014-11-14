@@ -36,6 +36,7 @@ grails.project.dependency.resolution = {
 
         compile ':scaffolding:2.0.3'
         compile ":quartz:1.0.2"
+        compile ":font-awesome-resources:4.2.0.0"
 
         runtime ':resources:1.2.8'
         runtime ":ala-charts:0.2.3"

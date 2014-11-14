@@ -8,9 +8,9 @@ modules = {
 
     dashboard {
         dependsOn 'charts'
+        resource url: '/js/holder.js'
         resource url: '/js/dashboard.js'
         resource url: '/css/dashboard.css', attrs:[media:'all']
-        resource url: '/css/dashboard-ie7.css', attrs:[media:'all'], wrapper: {s -> "<!--[if IE 7]> $s <![endif]-->"}
     }
 
     'jquery.cookie' {
