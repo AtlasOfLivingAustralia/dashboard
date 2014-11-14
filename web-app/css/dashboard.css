@@ -242,3 +242,19 @@ footer {
 
 
 /* End Specific Panel Content */
+
+/* Media queries */
+
+@media (max-width: 800px) {
+    body {
+        padding: 0;
+    }
+}
+
+@media (max-width: 620px) {
+    #floatContainer [class*="span"] {
+        margin-left: 0;
+    }
+}
+
+/* Media queries */
