@@ -8,7 +8,6 @@ modules = {
 
     dashboard {
         dependsOn 'charts'
-        resource url: '/js/holder.js'
         resource url: '/js/dashboard.js'
         resource url: '/css/dashboard.css', attrs:[media:'all']
     }
