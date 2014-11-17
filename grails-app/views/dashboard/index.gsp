@@ -7,7 +7,7 @@
     <title>Data Profile | Atlas of Living Australia</title>
     <link rel="stylesheet" href="${resource(dir: 'css/smoothness', file: 'jquery-ui-1.8.16.custom.css')}"/>
     <script type="text/javascript" language="javascript" src="http://www.google.com/jsapi"></script>
-    <r:require modules="jqueryui, charts, font-awesome, dashboard, jquery.cookie"/>
+    <r:require modules="jquery-ui, charts, font-awesome, dashboard, jquery.cookie, touch-support"/>
 </head>
 
 <body>
@@ -822,7 +822,8 @@
             cursor: "move",
             update: function(){
                 serializeListOrderToCookie();
-            }
+            },
+            handle: ".panel-heading"
         });
 
         restoreListOrderFromCookie();

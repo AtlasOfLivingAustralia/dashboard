@@ -1,9 +1,13 @@
 // resource bundles
 modules = {
 
-    jqueryui {
+    'jquery-ui' {
         dependsOn 'jquery'
         resource url: '/js/jquery-ui-1.8.16.custom.min.js'
+    }
+
+    'touch-support' {
+        resource url: '/js/jquery.ui.touch-punch-0.2.3.min.js'
     }
 
     dashboard {
