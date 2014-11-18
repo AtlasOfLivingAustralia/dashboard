@@ -204,14 +204,14 @@ log4j = {
     appenders {
         environments {
             production {
-                rollingFile name: "tomcatLog", maxFileSize: 102400000, file: logging.dir + "/specieslist.log", threshold: org.apache.log4j.Level.ERROR, layout: pattern(conversionPattern: "%d %-5p [%c{1}] %m%n")
+                rollingFile name: "tomcatLog", maxFileSize: 102400000, file: logging.dir + "/dashboard.log", threshold: org.apache.log4j.Level.ERROR, layout: pattern(conversionPattern: "%d %-5p [%c{1}] %m%n")
                 'null' name: "stacktrace"
             }
             development {
                 console name: "stdout", layout: pattern(conversionPattern: "%d %-5p [%c{1}] %m%n"), threshold: org.apache.log4j.Level.DEBUG
             }
             test {
-                rollingFile name: "tomcatLog", maxFileSize: 102400000, file: "/tmp/specieslist-test.log", threshold: org.apache.log4j.Level.DEBUG, layout: pattern(conversionPattern: "%d %-5p [%c{1}] %m%n")
+                rollingFile name: "tomcatLog", maxFileSize: 102400000, file: "/tmp/dashboard-test.log", threshold: org.apache.log4j.Level.DEBUG, layout: pattern(conversionPattern: "%d %-5p [%c{1}] %m%n")
                 'null' name: "stacktrace"
             }
         }
@@ -251,11 +251,14 @@ log4j = {
             'grails.spring.BeanBuilder',
             'grails.plugin.webxml'
     info 'grails.app',
-            'au.org.ala.specieslist'
+            'au.org.ala.specieslist',
+            'org.quartz'
     debug 'grails.app',
             'grails.app.domain',
             'grails.app.controller',
             'grails.app.service',
             'grails.app.tagLib',
-            'au.org.ala.specieslist'
+            'au.org.ala.specieslist',
+            'grails.app.jobs'
+
 }

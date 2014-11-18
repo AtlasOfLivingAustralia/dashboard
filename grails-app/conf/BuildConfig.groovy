@@ -43,6 +43,8 @@ grails.project.dependency.resolution = {
         runtime (":ala-web-theme:0.8.3-SNAPSHOT") {
             exclude "servlet-api"
             exclude "svn"
+            exclude "cache"
+            exclude "cache-ehcache"
         }
 
     }

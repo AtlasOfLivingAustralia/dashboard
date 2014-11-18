@@ -8,6 +8,7 @@ class RefreshCacheEntryJob {
 
     def execute(context) {
         try {
+            log.debug("Adding ${context.key} key to cache")
             context.cache.put(context.key , [resp: context.source.call(), time: new Date()])
         } catch (e) {
             log.error "There was a problem retrieving the dashboard data for key ${key}: ${e.message}"
