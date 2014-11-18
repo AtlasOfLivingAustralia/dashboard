@@ -811,6 +811,9 @@
     var sortablelistSelector = "#floatContainer";
     var sortablelistCookieName = "alaDashboardCustomSorting";
     var sortablelistCookieExp = 365;
+    var sortableOriginalOrder = $.map($("#floatContainer > div"), function(val, i) {
+        return $(val).attr("id");
+    });
 
     $(function () {
         $(sortablelistSelector).sortable({

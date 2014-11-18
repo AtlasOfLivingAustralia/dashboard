@@ -209,7 +209,10 @@ function wireActions(serverUrl) {
         });
     });
     // reset layout
-    $('#resetLayout').click(restoreOrder);
+    $('#resetLayout').click(function() {
+        $.cookie(sortablelistCookieName, sortableOriginalOrder, {expires: sortablelistCookieExp, path: "/"});
+        restoreListOrderFromCookie();
+    });
     // show json
     $('#showJson').click(function () {
         document.location.href = serverUrl + "/dashboard/data";
@@ -291,27 +294,6 @@ function wireActions(serverUrl) {
     $('.info-link').click(function () {
         $(this).parent().find('div.info').toggle();
     });
-}
-
-function restoreOrder() {
-    var $container = $('#floatContainer'),
-        $items = $container.find('.link-group'),
-        itemCount = $items.length,
-        $toMove;
-
-    for (var i = 0; i < itemCount; i++) {
-        // check whether the corresponding item is in the correct slot
-        if ($($items[i]).attr('tabindex') !== i) {
-            // find the right one and cut it
-            $toMove = $container.find('.link-group[tabindex=' + i + ']').remove();
-            // paste before this item
-            $($items[i]).before($toMove);
-            // need to refresh the items list from the new positions
-            $items = $container.find('.link-group');
-        }
-    }
-    drawFacetCharts(biocacheFacets.rawFacetData);
-    collectionsChart.draw();
 }
 
 /**
