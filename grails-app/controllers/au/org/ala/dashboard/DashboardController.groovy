@@ -168,7 +168,11 @@ class DashboardController {
     }
 
     def writeCsvFile(filename, values, header) {
-        new File(grailsApplication.config.csv.temp.dir + filename + '.csv').withWriter { out ->
+        File dir = new File(grailsApplication.config.csv.temp.dir)
+        if (!dir.exists()) {
+            dir.mkdirs()
+        }
+        new File(dir.absolutePath + '/' + filename + '.csv').withWriter { out ->
             def csv = new CSVWriter(out/*, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER*/)
             if (header) { csv.writeNext(header as String[]) }
             if (values instanceof Map) {
