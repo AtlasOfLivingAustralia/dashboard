@@ -40,7 +40,7 @@ grails.project.dependency.resolution = {
 
         runtime ':resources:1.2.8'
         runtime ":ala-charts:0.2.3"
-        runtime (":ala-web-theme:0.8.3-SNAPSHOT") {
+        runtime (":ala-web-theme:0.8.3") {
             exclude "servlet-api"
             exclude "svn"
             exclude "cache"
