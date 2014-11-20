@@ -20,5 +20,9 @@ modules = {
         dependsOn 'jquery'
         resource url: '/js/jquery.cookie.js'
     }
+
+    markdown {
+        resource url: 'js/markdown.js'
+    }
 }
 

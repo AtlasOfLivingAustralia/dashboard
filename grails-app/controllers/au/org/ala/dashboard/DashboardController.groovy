@@ -15,8 +15,8 @@
 
 package au.org.ala.dashboard
 
-import grails.converters.JSON
 import au.com.bytecode.opencsv.CSVWriter
+import grails.converters.JSON
 
 class DashboardController {
 
@@ -26,6 +26,7 @@ class DashboardController {
      * Show main dashboard page.
      */
     def index = {
+        //TODO Model should be populated by the service
         [basisOfRecord: metadataService.getBasisOfRecord(),
          mostRecorded: metadataService.getMostRecordedSpecies('all'),
          totalRecords: metadataService.getTotalAndDuplicates(),
@@ -46,7 +47,8 @@ class DashboardController {
          loggerReasonBreakdown: metadataService.getLoggerReasonBreakdown(),
          loggerEmailBreakdown: metadataService.getLoggerEmailBreakdown(),
          loggerTemporalBreakdown: metadataService.getLoggerReasonTemporalBreakdown(),
-         imagesBreakdown: metadataService.getImagesBreakdown()
+         imagesBreakdown: metadataService.getImagesBreakdown(),
+         panelInfo: metadataService.getPanelInfo() as JSON
         ]
     }
 

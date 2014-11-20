@@ -1,6 +1,5 @@
 package au.org.ala.dashboard
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import grails.converters.JSON
 
 /**
@@ -12,6 +11,8 @@ import grails.converters.JSON
 class CacheService {
 
     static cache = [:]
+
+    def grailsApplication
 
     /**
      * Returns the cached results for the specified key if available and fresh
@@ -65,7 +66,7 @@ class CacheService {
      */
     def loadStaticCacheFromFile(key) {
         log.info 'loading static data from file'
-        def json = new File(ConfigurationHolder.config.dashboard.data.file as String).text
+        def json = new File(grailsApplication.config.dashboard.data.file as String).text
         if (json) {
             JSON.parse(json).each { k,v ->
                 cache.put k, [resp: v, time: new Date()]

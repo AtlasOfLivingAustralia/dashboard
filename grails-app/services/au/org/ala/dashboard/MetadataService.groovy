@@ -1,9 +1,10 @@
 package au.org.ala.dashboard
 
 import grails.converters.JSON
-import java.text.SimpleDateFormat
 import groovy.json.JsonSlurper
 import org.apache.commons.lang.StringUtils
+
+import java.text.SimpleDateFormat
 
 class MetadataService {
 
@@ -600,6 +601,10 @@ class MetadataService {
 
     def getIdentifyLifeCounts() {
         return get('identifyLife')
+    }
+
+    def getPanelInfo() {
+        return get('info')
     }
 
     /* -------------------------------- UTILITIES --------------------------------------------*/

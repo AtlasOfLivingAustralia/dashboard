@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="grails.converters.JSON" contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +7,7 @@
     <title>Data Profile | Atlas of Living Australia</title>
     <link rel="stylesheet" href="${resource(dir: 'css/smoothness', file: 'jquery-ui-1.8.16.custom.css')}"/>
     <script type="text/javascript" language="javascript" src="http://www.google.com/jsapi"></script>
-    <r:require modules="jquery-ui, charts, font-awesome, dashboard, jquery.cookie, touch-support"/>
+    <r:require modules="jquery-ui, charts, font-awesome, dashboard, jquery.cookie, touch-support, markdown"/>
 </head>
 
 <body>
@@ -42,7 +42,7 @@
         <div class="span4" id="records-topic">
             <div class="panel">
                 <div class="panel-heading">
-                    <div class="panel-title">Occurrence records<i class="fa fa-info-circle pull-right"></i>
+                    <div class="panel-title">Occurrence records<i class="fa fa-info-circle pull-right hidden"></i>
                     </div>
                 </div>
                 <div class="panel-body">
@@ -58,6 +58,8 @@
                            id="duplicateCount" class="link"><em><db:addCommas value="${totalRecords.duplicates}"/></em></a>.
                     </p>
                 </div>
+                <div class="panel-body panel-info hidden">
+                </div>
             </div>
         </div>
         <div class="span4" id="datasets-topic">
@@ -66,7 +68,7 @@
                     <div class="panel-title">
                         <a href="http://collections.ala.org.au/datasets"><span class="count">${datasets.total}</span></a>
                         Data sets
-                        <i class="fa fa-info-circle pull-right"></i>
+                        <i class="fa fa-info-circle pull-right hidden"></i>
                     </div>
                 </div>
                 <div class="panel-body">
@@ -121,7 +123,7 @@
         <div class="span4" id="basis-topic">
             <div class="panel">
                 <div class="panel-heading">
-                    <div class="panel-title">Basis of records<i class="fa fa-info-circle pull-right"></i></div>
+                    <div class="panel-title">Basis of records<i class="fa fa-info-circle pull-right hidden"></i></div>
                 </div>
                 <div class="panel-body">
                     <g:if test="${basisOfRecord.error.asBoolean()}">
@@ -156,7 +158,7 @@
         <div class="span4" id="collections-topic">
             <div class="panel">
                 <div class="panel-heading">
-                    <div class="panel-title"><a href="http://collections.ala.org.au"><span class="count">${collections.total}</span></a> Collections<i class="fa fa-info-circle pull-right"></i></div>
+                    <div class="panel-title"><a href="http://collections.ala.org.au"><span class="count">${collections.total}</span></a> Collections<i class="fa fa-info-circle pull-right hidden"></i></div>
                 </div>
                 <div class="panel-body">
                     <div id="collectionsByCategory">
@@ -169,7 +171,7 @@
         <div class="span4" id="date-topic">
             <div class="panel">
                 <div class="panel-heading">
-                    <div class="panel-title">Records by date<i class="fa fa-info-circle pull-right"></i></div>
+                    <div class="panel-title">Records by date<i class="fa fa-info-circle pull-right hidden"></i></div>
                 </div>
                 <div class="panel-body">
                     <table class="table table-condensed table-striped table-hover">
@@ -196,7 +198,7 @@
         <div class="span4" id="nsl-topic">
             <div class="panel">
                 <div class="panel-heading">
-                    <div class="panel-title">National Species Lists<i class="fa fa-info-circle pull-right"></i></div>
+                    <div class="panel-title">National Species Lists<i class="fa fa-info-circle pull-right hidden"></i></div>
                 </div>
                 <div class="panel-body">
                     <table class="table table-condensed table-striped table-hover">
@@ -223,7 +225,7 @@
                 <div class="panel-heading">
                     <div class="panel-title">
                         <a href="http://spatial.ala.org.au/layers"><span class="count">${spatialLayers.total}</span></a> Spatial layers
-                        <i class="fa fa-info-circle pull-right"></i>
+                        <i class="fa fa-info-circle pull-right hidden"></i>
                     </div>
                 </div>
                 <div class="panel-body">
@@ -255,7 +257,7 @@
         <div class="span4" id="state-topic">
             <div class="panel">
                 <div class="panel-heading">
-                    <div class="panel-title">Records by state and territory<i class="fa fa-info-circle pull-right"></i></div>
+                    <div class="panel-title">Records by state and territory<i class="fa fa-info-circle pull-right hidden"></i></div>
                 </div>
                 <div class="panel-body">
                     <div id="stateChart">
@@ -268,7 +270,7 @@
         <div class="span4" id="most-topic">
             <div class="panel">
                 <div class="panel-heading">
-                    <div class="panel-title">Most recorded species<i class="fa fa-info-circle pull-right"></i></div>
+                    <div class="panel-title">Most recorded species<i class="fa fa-info-circle pull-right hidden"></i></div>
                 </div>
                 <div class="panel-body">
                     <div id="mostRecorded">
@@ -299,7 +301,7 @@
                             <span class="count"><db:formatNumber value="${typeCounts.total}"/></span>
                         </a>
                         Type specimens
-                        <i class="fa fa-info-circle pull-right"></i>
+                        <i class="fa fa-info-circle pull-right hidden"></i>
                     </div>
                 </div>
                 <div class="panel-body">
@@ -348,7 +350,7 @@
             <div class="panel">
                 <div class="panel-heading">
                     <div class="panel-title">
-                        <a target="_blank" href="http://bold.ala.org.au/"> Barcode of life</a><i class="fa fa-info-circle pull-right"></i>
+                        <a target="_blank" href="http://bold.ala.org.au/"> Barcode of life</a><i class="fa fa-info-circle pull-right hidden"></i>
                     </div>
                 </div>
                 <div class="panel-body">
@@ -372,7 +374,7 @@
         <div class="span4" id="bhl-topic">
             <div class="panel">
                 <div class="panel-heading">
-                    <div class="panel-title">Biodiversity heritage library<i class="fa fa-info-circle pull-right"></i></div>
+                    <div class="panel-title">Biodiversity heritage library<i class="fa fa-info-circle pull-right hidden"></i></div>
                 </div>
                 <div class="panel-body">
                     <div class="text-center">
@@ -398,7 +400,7 @@
                     <div class="panel-heading">
                         <div class="panel-title">
                             <a target="_blank" href="http://volunteer.ala.org.au/">DigiVol <smaller>(Volunteer portal)</smaller></a>
-                            <i class="fa fa-info-circle pull-right"></i>
+                            <i class="fa fa-info-circle pull-right hidden"></i>
                         </div>
                     </div>
                     <div class="panel-body">
@@ -427,7 +429,7 @@
             <div class="span4" id="bvp-topic">
                 <div class="panel">
                     <div class="panel-heading">
-                        <div class="panel-title"><a target="_blank" href="http://volunteer.ala.org.au/">DigiVol - top volunteers</a><i class="fa fa-info-circle pull-right"></i></div>
+                        <div class="panel-title"><a target="_blank" href="http://volunteer.ala.org.au/">DigiVol - top volunteers</a><i class="fa fa-info-circle pull-right hidden"></i></div>
                     </div>
                     <div class="panel-body">
                         <table class="click-thru table table-condensed table-striped table-hover">
@@ -446,7 +448,7 @@
         <div class="span4" id="conservation-topic">
             <div class="panel">
                 <div class="panel-heading">
-                    <div class="panel-title">Conservation status<i class="fa fa-info-circle pull-right"></i></div>
+                    <div class="panel-title">Conservation status<i class="fa fa-info-circle pull-right hidden"></i></div>
                 </div>
                 <div class="panel-body">
                     <table class="click-thru table table-condensed table-striped table-hover">
@@ -482,7 +484,7 @@
         <div class="span4" id="dataProvider-topic">
             <div class="panel">
                 <div class="panel-heading">
-                    <div class="panel-title">Records by data provider<i class="fa fa-info-circle pull-right"></i></div>
+                    <div class="panel-title">Records by data provider<i class="fa fa-info-circle pull-right hidden"></i></div>
                 </div>
                 <div class="panel-body">
                     <table class="click-thru table table-condensed table-striped table-hover">
@@ -519,7 +521,7 @@
         <div class="span4" id="institutions-topic">
             <div class="panel">
                 <div class="panel-heading">
-                    <div class="panel-title">Records by institution<i class="fa fa-info-circle pull-right"></i></div>
+                    <div class="panel-title">Records by institution<i class="fa fa-info-circle pull-right hidden"></i></div>
                 </div>
                 <div class="panel-body">
                     <table class="table table-condensed table-striped table-hover">
@@ -554,7 +556,7 @@
         <div class="span4" id="lifeform-topic">
             <div class="panel">
                 <div class="panel-heading">
-                    <div class="panel-title">Records by life form<i class="fa fa-info-circle pull-right"></i></div>
+                    <div class="panel-title">Records by life form<i class="fa fa-info-circle pull-right hidden"></i></div>
                 </div>
                 <div class="panel-body">
                     <table id="lifeformsTable" class="table table-condensed table-striped table-hover"></table>
@@ -566,7 +568,7 @@
         <div class="span6" id="decade-topic">
             <div class="panel">
                 <div class="panel-heading">
-                    <div class="panel-title">Records and species by decade<i class="fa fa-info-circle pull-right"></i></div>
+                    <div class="panel-title">Records and species by decade<i class="fa fa-info-circle pull-right hidden"></i></div>
                 </div>
                 <div class="panel-body">
                     <div id="decadeChart" class="text-center">
@@ -579,7 +581,7 @@
         <div class="span4" id="tree-topic">
             <div class="panel">
                 <div class="panel-heading">
-                    <div class="panel-title">Occurrence tree<i class="fa fa-info-circle pull-right"></i></div>
+                    <div class="panel-title">Occurrence tree<i class="fa fa-info-circle pull-right hidden"></i></div>
                 </div>
                 <div class="panel-body">
                     <div id="tree"></div>
@@ -590,7 +592,7 @@
         <div class="span4" id="event-summary-topic">
             <div class="panel">
                 <div class="panel-heading">
-                    <div class="panel-title">Usage statistics<i class="fa fa-info-circle pull-right"></i></div>
+                    <div class="panel-title">Usage statistics<i class="fa fa-info-circle pull-right hidden"></i></div>
                 </div>
                 <div class="panel-body">
                     <div id="usageStats">
@@ -619,7 +621,7 @@
         <div class="span6" id="reason-breakdown-topic">
             <div class="panel">
                 <div class="panel-heading">
-                    <div class="panel-title">Occurrence downloads by reason<i class="fa fa-info-circle pull-right"></i></div>
+                    <div class="panel-title">Occurrence downloads by reason<i class="fa fa-info-circle pull-right hidden"></i></div>
                 </div>
                 <div class="panel-body">
                     <div id="reasonBreakdown">
@@ -643,7 +645,7 @@
         <div class="span4" id="email-breakdown-topic">
             <div class="panel">
                 <div class="panel-heading">
-                    <div class="panel-title">Occurrence downloads by user type<i class="fa fa-info-circle pull-right"></i></div>
+                    <div class="panel-title">Occurrence downloads by user type<i class="fa fa-info-circle pull-right hidden"></i></div>
                 </div>
                 <div class="panel-body">
                     <div id="emailBreakdown">
@@ -665,7 +667,7 @@
                     <div class="panel-title">
                         Species images&nbsp;&nbsp;
                         <span class="count"><db:formatNumber value="${imagesBreakdown["speciesWithImages"]}"/></span>
-                        <i class="fa fa-info-circle pull-right"></i>
+                        <i class="fa fa-info-circle pull-right hidden"></i>
                     </div>
                 </div>
                 <div class="panel-body">
@@ -689,7 +691,27 @@
 
 
 
+
 <r:script>
+
+    <g:applyCodec encodeAs="none">
+        var panelInfo = ${panelInfo};
+    </g:applyCodec>
+
+    function setupPanelInfo() {
+        $.each(panelInfo, function(panelId, info) {
+            $('#' + panelId + ' .panel-title i').removeClass('hidden');
+            $('#' + panelId + ' .panel-title i').click(function() {
+                $('#' + panelId + ' .panel-body').toggleClass('hidden');
+            });
+            $('#' + panelId + ' .panel-info').html(markdown.toHTML(info));
+        });
+    }
+
+    $(function() {
+        setupPanelInfo();
+    });
+
     function drawVisualization() {
       // Create and populate the data table.
       var data = new google.visualization.DataTable();
