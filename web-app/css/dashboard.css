@@ -77,6 +77,10 @@ footer {
     margin-left: 20px;
 }
 
+.link {
+    cursor: pointer;
+}
+
 /* Start Dashboard Panels */
 .panel {
     padding: 15px;
