@@ -5,6 +5,8 @@ branches:
   only:
   - master
 before_install:
+- echo 'Australia/Canberra' | sudo tee /etc/timezone
+- date "+%Y-%m-%d %H:%M:%S"
 - rm -rf ~/.gvm
 - curl -s get.gvmtool.net > ~/install_gvm.sh
 - chmod 775 ~/install_gvm.sh
