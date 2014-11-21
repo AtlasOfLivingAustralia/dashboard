@@ -26,30 +26,7 @@ class DashboardController {
      * Show main dashboard page.
      */
     def index = {
-        //TODO Model should be populated by the service
-        [basisOfRecord: metadataService.getBasisOfRecord(),
-         mostRecorded: metadataService.getMostRecordedSpecies('all'),
-         totalRecords: metadataService.getTotalAndDuplicates(),
-         collections: metadataService.getCollectionsByCategory(),
-         datasets: metadataService.getDatasets(),
-         dataProviders: metadataService.getDataProviders(),
-         institutions: metadataService.getInstitutions(),
-         taxaCounts: metadataService.getTaxaCounts(),
-         identifyLifeCounts: metadataService.getIdentifyLifeCounts(),
-         bhlCounts: metadataService.getBHLCounts(),
-         boldCounts: metadataService.getBoldCounts(),
-         typeCounts: metadataService.getTypeStats(),
-         dateStats: metadataService.getDateStats(),
-         volunteerPortalCounts: metadataService.getVolunteerStats(),
-         spatialLayers: metadataService.getSpatialLayers(),
-         stateConservation: metadataService.getSpeciesByConservationStatus(),
-         loggerTotals: metadataService.getLoggerTotals(),
-         loggerReasonBreakdown: metadataService.getLoggerReasonBreakdown(),
-         loggerEmailBreakdown: metadataService.getLoggerEmailBreakdown(),
-         loggerTemporalBreakdown: metadataService.getLoggerReasonTemporalBreakdown(),
-         imagesBreakdown: metadataService.getImagesBreakdown(),
-         panelInfo: metadataService.getPanelInfo() as JSON
-        ]
+        metadataService.getDashboardModel()
     }
 
     def mostRecorded(String group) {
