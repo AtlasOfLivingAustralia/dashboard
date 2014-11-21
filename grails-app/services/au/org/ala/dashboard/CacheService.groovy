@@ -2,6 +2,8 @@ package au.org.ala.dashboard
 
 import grails.converters.JSON
 
+import static grails.async.Promises.task
+
 /**
  * Handles caching of service responses (after transforming).
  * Uses passed closures to handle service requests - so remains independent
@@ -34,7 +36,13 @@ class CacheService {
             // This prevents new user from refreshing the cache while it is happening in the background
             cached.time = new Date()
             // We trigger the cache refresh for this particular key in a separate thread
-            RefreshCacheEntryJob.triggerNow([cache: cache, key: key, source: source])
+            def refreshTask = task {
+                refreshCache(key, cache, source)
+            }
+
+            refreshTask.onComplete {
+                log.info("Cache entry with key ${key} has been refreshed")
+            }
             // We return the current cached value which probably is not the new one for the current request
             results = cached.resp
         } else {
@@ -73,6 +81,15 @@ class CacheService {
             }
         }
         return cache[key]?.resp
+    }
+
+    def refreshCache(key, cache, source) {
+        try {
+            log.debug("Adding ${key} key to cache")
+            cache.put(key , [resp: source.call(), time: new Date()])
+        } catch (e) {
+            log.error "There was a problem retrieving the dashboard data for key ${key}: ${e.message}"
+        }
     }
 }
 
