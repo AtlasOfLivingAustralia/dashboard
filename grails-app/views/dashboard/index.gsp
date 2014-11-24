@@ -261,7 +261,7 @@
                 </div>
                 <div class="panel-body">
                     <div id="stateChart">
-                        <g:img dir="images" file="spinner.gif"/>
+
                     </div>
                 </div>
             </div>
