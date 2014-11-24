@@ -38,7 +38,7 @@
         </div>
     </div>
 
-    <section id="floatContainer">
+    <div id="floatContainer">
         <div class="span4" id="records-topic">
             <div class="panel">
                 <div class="panel-heading">
@@ -686,7 +686,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 </div>
 
 

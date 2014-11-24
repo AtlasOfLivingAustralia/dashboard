@@ -71,6 +71,8 @@ footer {
 
 #floatContainer {
     padding-top: 2em;
+    display: table;
+    position: relative;
 }
 
 #floatContainer [class*="span"] {
@@ -258,6 +260,23 @@ footer {
 @media (max-width: 620px) {
     #floatContainer [class*="span"] {
         margin-left: 0;
+        display: block !important;
+    }
+}
+
+@media (min-width: 1601px) and (min-aspect-ratio: 16/11) {
+    #floatContainer {
+        width: 86%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (max-aspect-ratio: 4/3) {
+    #floatContainer {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
     }
 }
 
