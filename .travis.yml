@@ -27,3 +27,9 @@ env:
   global:
   - secure: PhZOxgYEeHTiKBX91OQK66Wuby1N7uJ+6QuqfpP/D/CaYANznICxepHxWyv3j1aQqOM13n+6sIHp+5BW/LMFK6NqxKt0TtNi/zEZfetsYBlrfZoClZPxQIkby5OlONxhFhpRQYd4LIhup04XNZayc0nvPSNjoQJhryA8ahvG5PQ=
   - secure: Ns1bV2qlVX5hMhUoPg4HcIcQ59i2zznecy2hSfjwp6KTAdzUXLswNROv+iL8uXLsIlEZlkglKsfAYRpta0FLPSsrFay5h7nZuD9L4rMM7nrVRnDW+dBK/RmWUTx8mKNntA4wkvlChuaY7v/vF8K9HvSRUM8UjIdqAtwq9ZaFB1M=
+notifications:
+  hipchat:
+    room:
+      secure: fe3iK+XrBAFDQDspTW9+McvoAKz68va7ZQn1NxRQWPJmbRdeetAjEwYRjWrkuYky5JUoxvDRF9NbDHmNSnFvvUK3QX6HlZ1N7/W9/8/gR2Zy5dCuQEU+6666EMMixmYB8S2t3P1eSvhvVCpVKisqxn4hJbvAXIEFLki/jEZIY9o=
+    template:
+      - '%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}'
