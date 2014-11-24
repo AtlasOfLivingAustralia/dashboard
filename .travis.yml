@@ -30,6 +30,6 @@ env:
 notifications:
   hipchat:
     room:
-      - secure: fe3iK+XrBAFDQDspTW9+McvoAKz68va7ZQn1NxRQWPJmbRdeetAjEwYRjWrkuYky5JUoxvDRF9NbDHmNSnFvvUK3QX6HlZ1N7/W9/8/gR2Zy5dCuQEU+6666EMMixmYB8S2t3P1eSvhvVCpVKisqxn4hJbvAXIEFLki/jEZIY9o=
+      - TblKAZacjnH7HDSbLZYX63XOn5uWxA8q4cWh6wIp@960661
     template:
       - '%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}'
