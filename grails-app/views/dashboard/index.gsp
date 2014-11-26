@@ -738,54 +738,25 @@
 
     $(function() {
         setupPanelInfo();
-        // Initialize BioCache Facets
-        //dashboard.biocacheFacets.init({biocacheServicesUrl: biocacheServicesUrl})
     });
 
-    %{--function drawVisualization() {--}%
-      %{--// Create and populate the data table.--}%
-      %{--var data = new google.visualization.DataTable();--}%
-      %{--data.addColumn('string', 'Lifeform');--}%
-      %{--data.addColumn('number', 'No. Records');--}%
-      %{--data.addRows(8);--}%
-      %{--data.setCell(0, 0, 'Animals');--}%
-      %{--data.setCell(1, 0, 'Birds');--}%
-      %{--data.setCell(2, 0, 'Plants');--}%
-      %{--data.setCell(3, 0, 'Angiosperms');--}%
-      %{--data.setCell(4, 0, 'Dicots');--}%
-      %{--data.setCell(5, 0, 'Arthropods');--}%
-      %{--data.setCell(6, 0, 'Mammals');--}%
-      %{--data.setCell(7, 0, 'Fish');--}%
-      %{--data.setCell(0, 1, 23912635);--}%
-      %{--data.setCell(1, 1, 19157148);--}%
-      %{--data.setCell(2, 1, 5920693);--}%
-      %{--data.setCell(3, 1, 3451984);--}%
-      %{--data.setCell(4, 1, 2663865);--}%
-      %{--data.setCell(5, 1, 1346124);--}%
-      %{--data.setCell(6, 1, 937775);--}%
-      %{--data.setCell(7, 1, 839419);--}%
-
-      %{--// Create and draw the visualization.--}%
-      %{--visualization = new google.visualization.Table(document.getElementById('testChart'));--}%
-      %{--visualization.draw(data, {width: "220px", page: 'enable', pageSize: 5});--}%
-    %{--}--}%
 
 
 
         serverUrl = "${grailsApplication.config.grails.serverURL}"
-        stateChartOptions = {
-          error: "badQuery",
-          query: "*:*",
-          charts: ['state'],
-          chartsDiv: 'stateChart',
-          clickThru: true,
-          width: 360,
-          height: 180,
-          title: "",
-          fontSize: 11.5,
-          chartArea: {left:0, top:0, width:"100%", height: "100%"},
-          state: { legend: {textStyle: {fontSize: 11.3}}, backgroundColor: 'transparent'}
-        },
+        %{--stateChartOptions = {--}%
+          %{--error: "badQuery",--}%
+          %{--query: "*:*",--}%
+          %{--charts: ['state'],--}%
+          %{--chartsDiv: 'stateChart',--}%
+          %{--clickThru: true,--}%
+          %{--width: 360,--}%
+          %{--height: 180,--}%
+          %{--title: "",--}%
+          %{--fontSize: 11.5,--}%
+          %{--chartArea: {left:0, top:0, width:"100%", height: "100%"},--}%
+          %{--state: { legend: {textStyle: {fontSize: 11.3}}, backgroundColor: 'transparent'}--}%
+        %{--},--}%
         decadeChartOptions = {
           error: "badQuery",
           query: "*:*",
