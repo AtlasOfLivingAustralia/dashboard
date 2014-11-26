@@ -1,4 +1,5 @@
 <%@ page import="grails.converters.JSON" contentType="text/html;charset=UTF-8" %>
+<%@page expressionCodec="none" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,7 +7,7 @@
     <meta name="layout" content="main"/>
     <title>Data Profile | Atlas of Living Australia</title>
     <link rel="stylesheet" href="${resource(dir: 'css/smoothness', file: 'jquery-ui-1.8.16.custom.css')}"/>
-    <script type="text/javascript" language="javascript" src="http://www.google.com/jsapi"></script>
+    <gvisualization:apiImport/>
     <r:require modules="jquery-ui, charts, font-awesome, dashboard, jquery.cookie, touch-support, markdown"/>
 </head>
 
@@ -162,8 +163,11 @@
                 </div>
                 <div class="panel-body">
                     <div id="collectionsByCategory">
-                        <span class="helper"></span><g:img dir="images" file="spinner.gif"/>
+                        <g:img dir="images" file="spinner.gif"/>
                     </div>
+                    <r:script>
+                        ${g.remoteFunction(controller: 'charts', action: 'collections', update: 'collectionsByCategory')}
+                    </r:script>
                 </div>
             </div>
         </div>
@@ -260,9 +264,29 @@
                     <div class="panel-title">Records by state and territory<i class="fa fa-info-circle pull-right hidden"></i></div>
                 </div>
                 <div class="panel-body">
-                    <div id="stateChart">
-
+                    <div id="stateAndTerritoryRecords">
+                        <g:img dir="images" file="spinner.gif"/>
                     </div>
+                    <r:script>
+                        ${g.remoteFunction(controller: 'charts', action: 'stateAndTerritoryRecords', update: 'stateAndTerritoryRecords')}
+                    </r:script>
+                </div>
+            </div>
+        </div>
+
+        <div class="span4" id="identifyLife-topic">
+            <div class="panel">
+                <div class="panel-heading">
+                    <div class="panel-title">Identify Life<i class="fa fa-info-circle pull-right hidden"></i></div>
+                </div>
+                <div class="panel-body">
+
+                    <p><span class="item">Identification keys:</span></p>
+                    <a target="_blank" href="http://www.identifylife.org/">
+                        <g:img dir="images/dashboard" file="identify-life-2.png"/>
+                    </a>
+                    <a href="http://keycentral.identifylife.org/Secure/KeyStore/List.aspx?t="><span
+                            class="count">${identifyLifeCounts.keys}</span></a>
                 </div>
             </div>
         </div>
@@ -693,6 +717,10 @@
 
 
 <r:script>
+    var biocacheServicesUrl = "${grailsApplication.config.biocache.baseURL}ws/",
+        biocacheWebappUrl = "${grailsApplication.config.biocache.baseURL}",
+        bieWebappUrl = "${grailsApplication.config.bie.baseURL}",
+        collectionsWebappUrl = "${grailsApplication.config.collectory.baseURL}";
 
     <g:applyCodec encodeAs="none">
         var panelInfo = ${panelInfo};
@@ -710,40 +738,40 @@
 
     $(function() {
         setupPanelInfo();
+        // Initialize BioCache Facets
+        //dashboard.biocacheFacets.init({biocacheServicesUrl: biocacheServicesUrl})
     });
 
-    function drawVisualization() {
-      // Create and populate the data table.
-      var data = new google.visualization.DataTable();
-      data.addColumn('string', 'Lifeform');
-      data.addColumn('number', 'No. Records');
-      data.addRows(8);
-      data.setCell(0, 0, 'Animals');
-      data.setCell(1, 0, 'Birds');
-      data.setCell(2, 0, 'Plants');
-      data.setCell(3, 0, 'Angiosperms');
-      data.setCell(4, 0, 'Dicots');
-      data.setCell(5, 0, 'Arthropods');
-      data.setCell(6, 0, 'Mammals');
-      data.setCell(7, 0, 'Fish');
-      data.setCell(0, 1, 23912635);
-      data.setCell(1, 1, 19157148);
-      data.setCell(2, 1, 5920693);
-      data.setCell(3, 1, 3451984);
-      data.setCell(4, 1, 2663865);
-      data.setCell(5, 1, 1346124);
-      data.setCell(6, 1, 937775);
-      data.setCell(7, 1, 839419);
+    %{--function drawVisualization() {--}%
+      %{--// Create and populate the data table.--}%
+      %{--var data = new google.visualization.DataTable();--}%
+      %{--data.addColumn('string', 'Lifeform');--}%
+      %{--data.addColumn('number', 'No. Records');--}%
+      %{--data.addRows(8);--}%
+      %{--data.setCell(0, 0, 'Animals');--}%
+      %{--data.setCell(1, 0, 'Birds');--}%
+      %{--data.setCell(2, 0, 'Plants');--}%
+      %{--data.setCell(3, 0, 'Angiosperms');--}%
+      %{--data.setCell(4, 0, 'Dicots');--}%
+      %{--data.setCell(5, 0, 'Arthropods');--}%
+      %{--data.setCell(6, 0, 'Mammals');--}%
+      %{--data.setCell(7, 0, 'Fish');--}%
+      %{--data.setCell(0, 1, 23912635);--}%
+      %{--data.setCell(1, 1, 19157148);--}%
+      %{--data.setCell(2, 1, 5920693);--}%
+      %{--data.setCell(3, 1, 3451984);--}%
+      %{--data.setCell(4, 1, 2663865);--}%
+      %{--data.setCell(5, 1, 1346124);--}%
+      %{--data.setCell(6, 1, 937775);--}%
+      %{--data.setCell(7, 1, 839419);--}%
 
-      // Create and draw the visualization.
-      visualization = new google.visualization.Table(document.getElementById('testChart'));
-      visualization.draw(data, {width: "220px", page: 'enable', pageSize: 5});
-    }
+      %{--// Create and draw the visualization.--}%
+      %{--visualization = new google.visualization.Table(document.getElementById('testChart'));--}%
+      %{--visualization.draw(data, {width: "220px", page: 'enable', pageSize: 5});--}%
+    %{--}--}%
 
-    var biocacheServicesUrl = "${grailsApplication.config.biocache.baseURL}ws/",
-        biocacheWebappUrl = "${grailsApplication.config.biocache.baseURL}",
-        bieWebappUrl = "${grailsApplication.config.bie.baseURL}",
-        collectionsWebappUrl = "${grailsApplication.config.collectory.baseURL}";
+
+
         serverUrl = "${grailsApplication.config.grails.serverURL}"
         stateChartOptions = {
           error: "badQuery",
@@ -808,12 +836,12 @@
     google.load("visualization", "1", {packages:["corechart","table"]});
     google.setOnLoadCallback(function() {
         // collections
-        collectionsChart.init({
-            plants: "${collections.plants}",
-            micro: "${collections.micro}",
-            insects: "${collections.insects}",
-            otherFauna: "${collections.otherFauna}"
-        });
+        %{--collectionsChart.init({--}%
+            %{--plants: "${collections.plants}",--}%
+            %{--micro: "${collections.micro}",--}%
+            %{--insects: "${collections.insects}",--}%
+            %{--otherFauna: "${collections.otherFauna}"--}%
+        %{--});--}%
 
         // decades
         decadesChart.init("${grailsApplication.config.grails.serverURL}/dashboard/decadesAsArray");
@@ -840,7 +868,7 @@
     $(function () {
         $(sortablelistSelector).sortable({
             stop: function(event, ui) {
-                drawFacetCharts(biocacheFacets.rawFacetData);
+                //drawFacetCharts(biocacheFacets.rawFacetData);
                 collectionsChart.draw();
             },
             tolerance: 'pointer',
@@ -874,9 +902,9 @@
 
 
     function drawFacetCharts(data) {
-        facetChartGroup.drawFacetCharts(data, stateChartOptions);
+        //facetChartGroup.drawFacetCharts(data, stateChartOptions);
         //facetChartGroup.drawFacetCharts(data, decadeChartOptions);
-        facetChartGroup.drawFacetCharts(data, lifeformChartOptions);
+        //facetChartGroup.drawFacetCharts(data, lifeformChartOptions);
         drawLifeformsTable(biocacheWebappUrl);
     }
 

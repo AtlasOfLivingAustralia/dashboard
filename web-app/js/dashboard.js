@@ -1,3 +1,44 @@
+
+var dashboard = {
+    init: function (options) {
+        // TODO
+    },
+
+    // Charts behaviour
+    charts: {
+        collection: {
+            /**
+             * Event handler that redirects the user to the URL that corresponds to the selected chart portion
+             * @param visualization
+             * @param data
+             */
+            showCollection: function(visualization, data) {
+                if(visualization.getSelection() && visualization.getSelection().length > 0) {
+                    var slice = data.getValue(visualization.getSelection()[0].row, 0),
+                        cat = "";
+                    switch (slice) {
+                        case 'Plants':
+                            cat = 'plants';
+                            break;
+                        case 'Microbes':
+                            cat = 'microbes';
+                            break;
+                        case 'Insects':
+                            cat = 'insects';
+                            break;
+                        case 'Other fauna':
+                            cat = 'fauna';
+                            break;
+                    }
+                    //TODO This should no be hardcoded
+                    document.location.href = "http://collections.ala.org.au?start=" + cat;
+                }
+            }
+        }
+    }
+};
+
+
 /**
  * Created by IntelliJ IDEA.
  * User: markew
@@ -65,49 +106,6 @@ var biocacheFacets = {
     }
 };
 
-/*------------------------------------ Collections chart -----------------------------------------*/
-var collectionsChart = {
-    chart: null,
-    dataTable: null,
-    options: {},
-    init: function (counts) {
-        this.dataTable = new google.visualization.DataTable();
-        this.options = {width: 180, height: 180, pieSliceText: 'label', is3D: true,
-                    pieSliceTextStyle: {fontSize: 11.5},
-                    chartArea: {top: 8, left: 8, width: "90%", height:"90%"},
-                    legend: {position: 'none'},
-                    backgroundColor: {fill: 'transparent'}};
-        this.dataTable.addColumn('string', 'category');
-        this.dataTable.addColumn('number','collections');
-        //dataTable.addColumn('string','value');
-        this.dataTable.addRow(['Plants', Number(counts.plants)/*, 'plants'*/]);
-        this.dataTable.addRow(['Insects', Number(counts.insects)/*, 'ento'*/]);
-        this.dataTable.addRow(['Other fauna', Number(counts.otherFauna)/*, 'fauna'*/]);
-        this.dataTable.addRow(['Microbes', Number(counts.micro)/*, 'microbes'*/]);
-
-        this.draw();
-    },
-    draw: function () {
-        var that = this;
-
-        this.chart = new google.visualization.PieChart(document.getElementById('collectionsByCategory'));
-
-        google.visualization.events.addListener(this.chart, 'select', function() {
-            var slice = that.dataTable.getValue(that.chart.getSelection()[0].row,0),
-                    cat = "";
-            switch(slice) {
-                case 'Plants': cat = 'plants'; break;
-                case 'Microbes': cat = 'microbes'; break;
-                case 'Insects': cat = 'insects'; break;
-                case 'Other fauna': cat = 'fauna'; break;
-            }
-            document.location.href = "http://collections.ala.org.au?start=" + cat;
-        });
-
-        this.chart.draw(this.dataTable, this.options);
-    }
-};
-
 /*------------------------------------ Decades chart -----------------------------------------*/
 var decadesChart = {
     chart: null,
@@ -143,7 +141,8 @@ var decadesChart = {
     }
 };
 
-/*------------------------------------ Lifeforms chart -----------------------------------------*/
+/*------------------------------------ Lifeforms table -----------------------------------------*/
+
 function drawLifeformsTable(biocacheWebappUrl) {
     var $table = $('#lifeformsTable'),
         content = "",

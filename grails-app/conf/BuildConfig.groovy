@@ -35,6 +35,7 @@ grails.project.dependency.resolution = {
         build ":release:3.0.1"
 
         compile ':scaffolding:2.0.3'
+        compile ":google-visualization:0.7.1-SNAPSHOT"
         compile ":font-awesome-resources:4.2.0.0"
 
         runtime ':resources:1.2.8'
