@@ -595,9 +595,12 @@
                     <div class="panel-title">Records and species by decade<i class="fa fa-info-circle pull-right hidden"></i></div>
                 </div>
                 <div class="panel-body">
-                    <div id="decadeChart" class="text-center">
+                    <div id="recordsAndSpeciesByDecade">
                         <g:img dir="images" file="spinner.gif"/>
                     </div>
+                    <r:script>
+                        ${g.remoteFunction(controller: 'charts', action: 'recordsAndSpeciesByDecade', update: 'recordsAndSpeciesByDecade')}
+                    </r:script>
                 </div>
             </div>
         </div>
@@ -815,7 +818,7 @@
         %{--});--}%
 
         // decades
-        decadesChart.init("${grailsApplication.config.grails.serverURL}/dashboard/decadesAsArray");
+        //decadesChart.init("${grailsApplication.config.grails.serverURL}/dashboard/decadesAsArray");
 
         // biocache charts
         if (biocacheFacets.isReady()) {

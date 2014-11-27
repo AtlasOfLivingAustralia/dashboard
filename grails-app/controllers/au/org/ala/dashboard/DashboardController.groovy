@@ -57,12 +57,6 @@ class DashboardController {
 
     /* ---------------------------- data services ---------------------------------*/
 
-    def decadesAsArray = {
-        def results = [['Decade','Records','Species']] +
-                metadataService.getSpeciesByDecade().collect {[it.decade, it.records, it.species]}
-        render results as JSON
-    }
-
     def downloadAsCsv = {
         /* build files as csv */
 

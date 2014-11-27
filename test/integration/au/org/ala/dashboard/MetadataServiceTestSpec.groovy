@@ -15,4 +15,12 @@ class MetadataServiceTestSpec extends IntegrationSpec {
             records instanceof ArrayList
             records != null && records.size() > 1
     }
+
+    def "test retrieval of records and species by decade"() {
+        setup:
+            def results = metadataService.getSpeciesByDecade()
+
+        expect:
+            results != null
+    }
 }

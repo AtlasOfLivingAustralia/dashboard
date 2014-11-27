@@ -196,9 +196,9 @@ class MetadataService {
 
     /**
      * Uses multiple biocache searches to return unique species accepted names for each decade.
-     * @return a list of decades with species and occurrence counts.
+     * @return a list of maps with the following format [decade: <value>, records: <value>, species: <value>]
      */
-    def getSpeciesByDecade() {
+    List getSpeciesByDecade() {
         return cacheService.get("speciesByDecade", {
 
             def baseUrl =

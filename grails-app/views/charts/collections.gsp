@@ -9,7 +9,7 @@
         columns="${columns}"
         data="${data}"
         is3D="${true}"
-        legend="none"
+        legend="${new Expando(position: 'none')}"
         pieSliceText="label" chartArea="${new Expando(width: '95%', height: '90%', left: 20)}"
         pieSliceTextStyle="${new Expando(fontSize: '12')}"
         backgroundColor="${new Expando(fill: 'transparent')}"

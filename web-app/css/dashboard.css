@@ -209,13 +209,13 @@ footer {
     padding-top: 2em;
 }
 
-#decadeChart {
+#recordsAndSpeciesByDecade {
     text-align: center;
     height: 230px;
     width: 100%;
 }
 
-#collectionsByCategory > img, #stateAndTerritoryRecords > img, #decadeChart img  {
+#collectionsByCategory > img, #stateAndTerritoryRecords > img, #recordsAndSpeciesByDecade img  {
     position: relative;
     top: 45%;
     margin: auto;
@@ -225,7 +225,7 @@ footer {
     margin: auto;
 }
 
-#decadeChart > div {
+#recordsAndSpeciesByDecade > div {
     margin: auto !important;
 }
 
