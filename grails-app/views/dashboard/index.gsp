@@ -716,189 +716,23 @@
     </div>
 </div>
 
-
-
-
 <r:script>
-    var biocacheServicesUrl = "${grailsApplication.config.biocache.baseURL}ws/",
-        biocacheWebappUrl = "${grailsApplication.config.biocache.baseURL}",
-        bieWebappUrl = "${grailsApplication.config.bie.baseURL}",
-        collectionsWebappUrl = "${grailsApplication.config.collectory.baseURL}";
+    var alaWsUrls = {
+        collections: '${grailsApplication.config.collectory.baseURL}',
+        biocache: '${grailsApplication.config.biocache.baseURL}',
+        bie: '${grailsApplication.config.bie.baseURL}',
+        app: '${grailsApplication.config.grails.serverURL}'
+    }
 
     <g:applyCodec encodeAs="none">
-        var panelInfo = ${panelInfo};
+    var panelInfo = ${panelInfo};
     </g:applyCodec>
 
-    function setupPanelInfo() {
-        $.each(panelInfo, function(panelId, info) {
-            $('#' + panelId + ' .panel-title i').removeClass('hidden');
-            $('#' + panelId + ' .panel-title i').click(function() {
-                $('#' + panelId + ' .panel-body').toggleClass('hidden');
-            });
-            $('#' + panelId + ' .panel-info').html(markdown.toHTML(info));
-        });
-    }
-
     $(function() {
-        setupPanelInfo();
-    });
-
-
-
-
-        serverUrl = "${grailsApplication.config.grails.serverURL}"
-        %{--stateChartOptions = {--}%
-          %{--error: "badQuery",--}%
-          %{--query: "*:*",--}%
-          %{--charts: ['state'],--}%
-          %{--chartsDiv: 'stateChart',--}%
-          %{--clickThru: true,--}%
-          %{--width: 360,--}%
-          %{--height: 180,--}%
-          %{--title: "",--}%
-          %{--fontSize: 11.5,--}%
-          %{--chartArea: {left:0, top:0, width:"100%", height: "100%"},--}%
-          %{--state: { legend: {textStyle: {fontSize: 11.3}}, backgroundColor: 'transparent'}--}%
-        %{--},--}%
-        decadeChartOptions = {
-          error: "badQuery",
-          query: "*:*",
-          charts: ['decade'],
-          chartsDiv: 'decadeChart',
-          clickThru: true,
-          width: 400,
-          height: 180,
-          chartArea: {left:40, top:0, width:"97%", height: "80%"},
-          vAxis: {textPosition: 'in'}
-        },
-        lifeformChartOptions = {
-          error: "badQuery",
-          query: "*:*",
-          charts: ['species_group'],
-          chartsDiv: 'lifeformChart',
-          ignore: [],
-          clickThru: true,
-          width: 300,
-          height: 250,
-          title: 'By higher-level group',
-          chartType: 'table',
-          page: 'enable',
-          species_group: {
-          chartArea: {left:4, width:"30%"}}/*,
-          vAxis: {minValue: 0, textPosition:'in'},
-          colors: ['#108628'],
-          reverseCategories:true,
-          hAxis:{slantedTextAngle:60}*/
-        },
-        taxonomyTreeOptions = {
-          /* base url of the collectory */
-          collectionsUrl: "${grailsApplication.config.grails.serverURL}",
-          /* base url of the biocache ws*/
-          biocacheServicesUrl: biocacheServicesUrl,
-          /* base url of the biocache webapp*/
-          biocacheWebappUrl: biocacheWebappUrl,
-          serverUrl: "${grailsApplication.config.grails.serverURL}",
-          theme: 'classic',
-          icons: true,
-          title: '',
-          /* the id of the div to create the charts in - defaults is 'charts' */
-          targetDivId: "tree",
-          /* a query to set the scope of the records */
-          query: "*:*"
-        };
-
-    google.load("visualization", "1", {packages:["corechart","table"]});
-    google.setOnLoadCallback(function() {
-        // collections
-        %{--collectionsChart.init({--}%
-            %{--plants: "${collections.plants}",--}%
-            %{--micro: "${collections.micro}",--}%
-            %{--insects: "${collections.insects}",--}%
-            %{--otherFauna: "${collections.otherFauna}"--}%
-        %{--});--}%
-
-        // decades
-        //decadesChart.init("${grailsApplication.config.grails.serverURL}/dashboard/decadesAsArray");
-
-        // biocache charts
-        if (biocacheFacets.isReady()) {
-            // facet data loaded so draw now
-            drawFacetCharts(biocacheFacets.rawFacetData);
-        } else {
-            // wait til facet data is loaded
-            biocacheFacets.onDataLoaded(drawFacetCharts);
-        }
-    });
-
-    // Init sortable grid layout
-    // -------------------------
-    var sortablelistSelector = "#floatContainer";
-    var sortablelistCookieName = "alaDashboardCustomSorting";
-    var sortablelistCookieExp = 365;
-    var sortableOriginalOrder = $.map($("#floatContainer > div"), function(val, i) {
-        return $(val).attr("id");
-    });
-
-    $(function () {
-        $(sortablelistSelector).sortable({
-            stop: function(event, ui) {
-                //drawFacetCharts(biocacheFacets.rawFacetData);
-                collectionsChart.draw();
-            },
-            tolerance: 'pointer',
-            cursor: "move",
-            update: function(){
-                serializeListOrderToCookie();
-            },
-            handle: ".panel-heading"
+        dashboard.init({
+            urls: alaWsUrls
         });
-
-        restoreListOrderFromCookie();
     });
-
-    /**
-     *
-     */
-    function serializeListOrderToCookie() {
-        $.cookie(sortablelistCookieName, $(sortablelistSelector).sortable("toArray"), {expires: sortablelistCookieExp, path: "/"});
-    }
-
-    function restoreListOrderFromCookie() {
-        var i, previousorder;
-        var cookie = $.cookie(sortablelistCookieName);
-        if (!cookie) { return; }
-        previousorder = cookie.split(',');
-        for (i = 0; i < previousorder.length; i++) {
-            $('#'+previousorder[i]).appendTo($(sortablelistSelector));
-        }
-    }
-
-
-
-    function drawFacetCharts(data) {
-        //facetChartGroup.drawFacetCharts(data, stateChartOptions);
-        //facetChartGroup.drawFacetCharts(data, decadeChartOptions);
-        //facetChartGroup.drawFacetCharts(data, lifeformChartOptions);
-        drawLifeformsTable(biocacheWebappUrl);
-    }
-
-    wireActions("${grailsApplication.config.grails.serverURL}");
-
-    // set most recorded data to match the current selection (for back button state)
-    $('#mostSppGroup').change();
-
-    // tree
-    initTaxonTree(taxonomyTreeOptions);
-
-    // init facets then wait til charts are ready
-    biocacheFacets.init({biocacheServicesUrl: biocacheServicesUrl});
-
-    //reasons
-    $('#loggerReasonBreakdownTable .hideableRow').hide();
-    $('#showAllLoggerReasons').click(function(){
-         $('#loggerReasonBreakdownTable .hideableRow').toggle('slow');
-    });
-
 </r:script>
 </body>
 </html>
