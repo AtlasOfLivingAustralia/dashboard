@@ -1,4 +1,3 @@
-<%@page defaultCodec="none" %>
 <div id="collections-chart"></div>
 <gvisualization:pieCoreChart
         name="collections"

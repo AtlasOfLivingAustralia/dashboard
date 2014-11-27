@@ -1,4 +1,3 @@
-<%@page defaultCodec="none" %>
 <div id="decades-chart"></div>
 <gvisualization:columnCoreChart
         name="decades"

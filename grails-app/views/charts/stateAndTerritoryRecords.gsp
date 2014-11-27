@@ -1,4 +1,3 @@
-<%@page defaultCodec="none" %>
 <div id="stateAndTerritoryRecords-chart"></div>
 <gvisualization:pieCoreChart
         name="stateAndTerritoryRecords"
