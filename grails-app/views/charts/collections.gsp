@@ -8,7 +8,7 @@
         data="${data}"
         is3D="${true}"
         legend="${new Expando(position: 'none')}"
-        pieSliceText="label" chartArea="${new Expando(width: '95%', height: '90%', left: 20)}"
+        pieSliceText="label" chartArea="${new Expando(width: '100%', height: '100%')}"
         pieSliceTextStyle="${new Expando(fontSize: '12')}"
         backgroundColor="${new Expando(fill: 'transparent')}"
         select="function() {dashboard.charts.collection.showCollection(collections, collections_data)}"
