@@ -43,7 +43,7 @@ var dashboard = {
 
         //reasons
         $('#loggerReasonBreakdownTable .hideableRow').hide();
-        $('#showAllLoggerReasons').click(function(){
+        $('#showAllLoggerReasons').on('click touch', function(){
             $('#loggerReasonBreakdownTable .hideableRow').toggle('slow');
         });
     },
@@ -186,8 +186,8 @@ var dashboard = {
         });
         // reset layout
         $('#resetLayout').click(function() {
-            $.cookie(sortablelistCookieName, sortableOriginalOrder, {expires: sortablelistCookieExp, path: "/"});
-            restoreListOrderFromCookie();
+            $.cookie(dashboard.sortableFeature.sortableListCookieName, dashboard.sortableFeature.sortableOriginalOrder, {expires: dashboard.sortableFeature.sortableListCookieExp, path: "/"});
+            dashboard.sortableFeature.restoreListOrderFromCookie();
         });
         // show json
         $('#showJson').click(function () {

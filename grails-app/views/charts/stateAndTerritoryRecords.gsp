@@ -4,7 +4,6 @@
         dynamicLoading="${true}"
         elementId="stateAndTerritoryRecords-chart"
         title=""
-        width="350" height="200"
         columns="${columns}"
         data="${data}"
         is3D="${true}"

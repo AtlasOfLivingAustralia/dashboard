@@ -4,9 +4,9 @@
         dynamicLoading="${true}"
         elementId="decades-chart"
         title=""
-        width="500" height="250"
         columns="${columns}"
         data="${data}"
+        height="250"
         vAxes="${new Expando(0: new Expando(logScale: true))}"
-        chartArea="${new Expando(left: 85,width: '80%', height: '65%')}"
+        chartArea="${new Expando(left: 85)}"
         legend="${new Expando(position: 'bottom', alignment: 'center')}"/>

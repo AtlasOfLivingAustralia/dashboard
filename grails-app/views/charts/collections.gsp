@@ -4,7 +4,6 @@
         dynamicLoading="${true}"
         elementId="collections-chart"
         title=""
-        width="310" height="210"
         columns="${columns}"
         data="${data}"
         is3D="${true}"
