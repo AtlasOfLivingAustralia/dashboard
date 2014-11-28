@@ -8,5 +8,5 @@
         data="${data}"
         height="250"
         vAxes="${new Expando(0: new Expando(logScale: true))}"
-        chartArea="${new Expando(left: 85)}"
+        chartArea="${new Expando(left: 85, width: '80%')}"
         legend="${new Expando(position: 'bottom', alignment: 'center')}"/>

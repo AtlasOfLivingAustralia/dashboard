@@ -293,13 +293,13 @@ footer {
     }
 }
 
-@media (max-width: 767px) and (min-width: 481px)  {
+@media (max-width: 979px) and (min-width: 768px)  {
     #lifeform-topic {
         width: 352px;
     }
 }
 
-@media (max-width: 1200px) and (min-width: 768px)  {
+@media (max-width: 1200px) and (min-width: 980px)  {
     #lifeform-topic {
         width: 460px;
     }
