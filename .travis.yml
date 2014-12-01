@@ -5,6 +5,8 @@ branches:
   only:
   - master
 before_install:
+- export TZ=Australia/Canberra
+- date
 - rm -rf ~/.gvm
 - curl -s get.gvmtool.net > ~/install_gvm.sh
 - chmod 775 ~/install_gvm.sh
@@ -25,3 +27,12 @@ env:
   global:
   - secure: PhZOxgYEeHTiKBX91OQK66Wuby1N7uJ+6QuqfpP/D/CaYANznICxepHxWyv3j1aQqOM13n+6sIHp+5BW/LMFK6NqxKt0TtNi/zEZfetsYBlrfZoClZPxQIkby5OlONxhFhpRQYd4LIhup04XNZayc0nvPSNjoQJhryA8ahvG5PQ=
   - secure: Ns1bV2qlVX5hMhUoPg4HcIcQ59i2zznecy2hSfjwp6KTAdzUXLswNROv+iL8uXLsIlEZlkglKsfAYRpta0FLPSsrFay5h7nZuD9L4rMM7nrVRnDW+dBK/RmWUTx8mKNntA4wkvlChuaY7v/vF8K9HvSRUM8UjIdqAtwq9ZaFB1M=
+notifications:
+  email:
+    recipients:
+      - Angel.Ruiz@csiro.au
+  hipchat:
+    room:
+      - TblKAZacjnH7HDSbLZYX63XOn5uWxA8q4cWh6wIp@960661
+    template:
+      - '%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}'

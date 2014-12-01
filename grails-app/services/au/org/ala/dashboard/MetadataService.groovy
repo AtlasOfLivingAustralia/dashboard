@@ -1,13 +1,45 @@
 package au.org.ala.dashboard
 
 import grails.converters.JSON
-import java.text.SimpleDateFormat
 import groovy.json.JsonSlurper
 import org.apache.commons.lang.StringUtils
+
+import java.text.SimpleDateFormat
 
 class MetadataService {
 
     def webService, cacheService, grailsApplication
+
+    /**
+     * Populates the model for the dashboard view
+     * @return
+     */
+    Map getDashboardModel() {
+        [basisOfRecord: getBasisOfRecord(),
+         mostRecorded: getMostRecordedSpecies('all'),
+         totalRecords: getTotalAndDuplicates(),
+         collections: getCollectionsByCategory(),
+         datasets: getDatasets(),
+         dataProviders: getDataProviders(),
+         institutions: getInstitutions(),
+         taxaCounts: getTaxaCounts(),
+         identifyLifeCounts: getIdentifyLifeCounts(),
+         bhlCounts: getBHLCounts(),
+         boldCounts: getBoldCounts(),
+         typeCounts: getTypeStats(),
+         dateStats: getDateStats(),
+         volunteerPortalCounts: getVolunteerStats(),
+         spatialLayers: getSpatialLayers(),
+         stateConservation: getSpeciesByConservationStatus(),
+         loggerTotals: getLoggerTotals(),
+         loggerReasonBreakdown: getLoggerReasonBreakdown(),
+         loggerEmailBreakdown: getLoggerEmailBreakdown(),
+         loggerTemporalBreakdown: getLoggerReasonTemporalBreakdown(),
+         imagesBreakdown: getImagesBreakdown(),
+         panelInfo: getPanelInfo() as JSON
+        ]
+    }
+    
 
     /**
      * Uses a cached biocache lookup to return the total number of occurrence records and the number of
@@ -600,6 +632,10 @@ class MetadataService {
 
     def getIdentifyLifeCounts() {
         return get('identifyLife')
+    }
+
+    def getPanelInfo() {
+        return get('info')
     }
 
     /* -------------------------------- UTILITIES --------------------------------------------*/

@@ -15,8 +15,8 @@
 
 package au.org.ala.dashboard
 
-import grails.converters.JSON
 import au.com.bytecode.opencsv.CSVWriter
+import grails.converters.JSON
 
 class DashboardController {
 
@@ -26,28 +26,7 @@ class DashboardController {
      * Show main dashboard page.
      */
     def index = {
-        [basisOfRecord: metadataService.getBasisOfRecord(),
-         mostRecorded: metadataService.getMostRecordedSpecies('all'),
-         totalRecords: metadataService.getTotalAndDuplicates(),
-         collections: metadataService.getCollectionsByCategory(),
-         datasets: metadataService.getDatasets(),
-         dataProviders: metadataService.getDataProviders(),
-         institutions: metadataService.getInstitutions(),
-         taxaCounts: metadataService.getTaxaCounts(),
-         identifyLifeCounts: metadataService.getIdentifyLifeCounts(),
-         bhlCounts: metadataService.getBHLCounts(),
-         boldCounts: metadataService.getBoldCounts(),
-         typeCounts: metadataService.getTypeStats(),
-         dateStats: metadataService.getDateStats(),
-         volunteerPortalCounts: metadataService.getVolunteerStats(),
-         spatialLayers: metadataService.getSpatialLayers(),
-         stateConservation: metadataService.getSpeciesByConservationStatus(),
-         loggerTotals: metadataService.getLoggerTotals(),
-         loggerReasonBreakdown: metadataService.getLoggerReasonBreakdown(),
-         loggerEmailBreakdown: metadataService.getLoggerEmailBreakdown(),
-         loggerTemporalBreakdown: metadataService.getLoggerReasonTemporalBreakdown(),
-         imagesBreakdown: metadataService.getImagesBreakdown()
-        ]
+        metadataService.getDashboardModel()
     }
 
     def mostRecorded(String group) {
@@ -166,7 +145,11 @@ class DashboardController {
     }
 
     def writeCsvFile(filename, values, header) {
-        new File(grailsApplication.config.csv.temp.dir + filename + '.csv').withWriter { out ->
+        File dir = new File(grailsApplication.config.csv.temp.dir)
+        if (!dir.exists()) {
+            dir.mkdirs()
+        }
+        new File(dir.absolutePath + '/' + filename + '.csv').withWriter { out ->
             def csv = new CSVWriter(out/*, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER*/)
             if (header) { csv.writeNext(header as String[]) }
             if (values instanceof Map) {
