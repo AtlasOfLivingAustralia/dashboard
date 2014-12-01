@@ -5,7 +5,7 @@ import groovy.time.TimeCategory
 import spock.lang.Specification
 
 @TestFor(CacheService)
-class CacheServiceTestsSpec extends Specification{
+class CacheServiceSpec extends Specification{
 
     def setup() {
         //Initialize cache before each test

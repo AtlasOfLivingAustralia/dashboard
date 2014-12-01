@@ -3,7 +3,7 @@ package au.org.ala.dashboard
 import grails.test.spock.IntegrationSpec
 import spock.lang.Shared
 
-class MetadataServiceTestSpec extends IntegrationSpec {
+class MetadataServiceSpec extends IntegrationSpec {
 
     @Shared def metadataService
 
