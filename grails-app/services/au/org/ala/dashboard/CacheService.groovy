@@ -84,9 +84,12 @@ class CacheService {
     }
 
     def refreshCache(key, cache, source) {
+        log.debug("Adding ${key} key to cache")
         try {
-            log.debug("Adding ${key} key to cache")
-            cache.put(key , [resp: source.call(), time: new Date()])
+            def value = source.call()
+            if (value) {
+                cache.put(key, [resp: source.call(), time: new Date()])
+            }
         } catch (e) {
             log.error "There was a problem retrieving the dashboard data for key ${key}: ${e.message}"
         }
