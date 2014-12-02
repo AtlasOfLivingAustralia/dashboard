@@ -4,42 +4,48 @@ import grails.converters.JSON
 import groovy.json.JsonSlurper
 import org.apache.commons.lang.StringUtils
 
+import javax.annotation.PostConstruct
 import java.text.SimpleDateFormat
 
 class MetadataService {
 
     def webService, cacheService, grailsApplication
 
-    /**
+    String BIO_CACHE_URL
+
+    @PostConstruct
+    def init() {
+        BIO_CACHE_URL = grailsApplication.config.biocache.baseURL
+    }
+/**
      * Populates the model for the dashboard view
      * @return
      */
     Map getDashboardModel() {
-        [basisOfRecord: getBasisOfRecord(),
-         mostRecorded: getMostRecordedSpecies('all'),
-         totalRecords: getTotalAndDuplicates(),
-         collections: getCollectionsByCategory(),
-         datasets: getDatasets(),
-         dataProviders: getDataProviders(),
-         institutions: getInstitutions(),
-         taxaCounts: getTaxaCounts(),
-         identifyLifeCounts: getIdentifyLifeCounts(),
-         bhlCounts: getBHLCounts(),
-         boldCounts: getBoldCounts(),
-         typeCounts: getTypeStats(),
-         dateStats: getDateStats(),
-         volunteerPortalCounts: getVolunteerStats(),
-         spatialLayers: getSpatialLayers(),
-         stateConservation: getSpeciesByConservationStatus(),
-         loggerTotals: getLoggerTotals(),
-         loggerReasonBreakdown: getLoggerReasonBreakdown(),
-         loggerEmailBreakdown: getLoggerEmailBreakdown(),
+        [basisOfRecord          : getBasisOfRecord(),
+         mostRecorded           : getMostRecordedSpecies('all'),
+         totalRecords           : getTotalAndDuplicates(),
+         collections            : getCollectionsByCategory(),
+         datasets               : getDatasets(),
+         dataProviders          : getDataProviders(),
+         institutions           : getInstitutions(),
+         taxaCounts             : getTaxaCounts(),
+         identifyLifeCounts     : getIdentifyLifeCounts(),
+         bhlCounts              : getBHLCounts(),
+         boldCounts             : getBoldCounts(),
+         typeCounts             : getTypeStats(),
+         dateStats              : getDateStats(),
+         volunteerPortalCounts  : getVolunteerStats(),
+         spatialLayers          : getSpatialLayers(),
+         stateConservation      : getSpeciesByConservationStatus(),
+         loggerTotals           : getLoggerTotals(),
+         loggerReasonBreakdown  : getLoggerReasonBreakdown(),
+         loggerEmailBreakdown   : getLoggerEmailBreakdown(),
          loggerTemporalBreakdown: getLoggerReasonTemporalBreakdown(),
-         imagesBreakdown: getImagesBreakdown(),
-         panelInfo: getPanelInfo() as JSON
+         imagesBreakdown        : getImagesBreakdown(),
+         panelInfo              : getPanelInfo() as JSON
         ]
     }
-    
 
     /**
      * Uses a cached biocache lookup to return the total number of occurrence records and the number of
@@ -49,7 +55,7 @@ class MetadataService {
     def getTotalAndDuplicates() {
         return cacheService.get('duplicate_status', {
             def raw = biocacheFacetCount('duplicate_status')
-            [error: raw.error, total: raw.total, duplicates: raw.facets.find({it.facet == 'D'}).count]
+            [error: raw.error, total: raw.total, duplicates: raw.facets.find({ it.facet == 'D' }).count]
         })
     }
 
@@ -81,29 +87,29 @@ class MetadataService {
      */
     def getMostRecordedSpecies(group) {
         cacheService.get('mostRecorded' + group, {
-                // get the guids for the 6 most recorded species
-                def fq = (group.toLowerCase() =~ 'all' ? '' : "&fq=species_group:${group}")
-                def results = biocacheFacetCount('species_guid', "*:*${fq}&flimit=6")
+            // get the guids for the 6 most recorded species
+            def fq = (group.toLowerCase() =~ 'all' ? '' : "&fq=species_group:${group}")
+            def results = biocacheFacetCount('species_guid', "*:*${fq}&flimit=6")
 
-                // look up the name and common names
-                def guids = results.facets.collect {it.facet}
-                def md = bieBulkLookup(guids)
-                results.facets.each {
-                    def data = md[it.facet]
-                    if (data) {
-                        it.name = data.name
-                        it.common = data.common
-                    }
+            // look up the name and common names
+            def guids = results.facets.collect { it.facet }
+            def md = bieBulkLookup(guids)
+            results.facets.each {
+                def data = md[it.facet]
+                if (data) {
+                    it.name = data.name
+                    it.common = data.common
                 }
+            }
 
-                return results
-            })
+            return results
+        })
     }
 
-    def getVolunteerStats(){
+    def getVolunteerStats() {
         cacheService.get('volunteerStats', {
-           // earliest record
-           webService.getJson("http://volunteer.ala.org.au/ws/stats")
+            // earliest record
+            webService.getJson("http://volunteer.ala.org.au/ws/stats")
         })
     }
 
@@ -114,46 +120,46 @@ class MetadataService {
      */
     def getDateStats() {
         cacheService.get('dateStats', {
-                def results = [:]
+            def results = [:]
 
-                // earliest record
-                def a = webService.getJson(grailsApplication.config.biocache.baseURL +
-                        "/ws/occurrences/search?q=!assertions:invalidCollectionDate&pageSize=1&sort=occurrence_date&facet=off")
-                def earliestUuid = a?.occurrences[0]?.uuid
-                if(a?.occurrences[0]?.eventDate){
-                    def earliest = new Date(a?.occurrences[0]?.eventDate)
-                    def earliestDate = new SimpleDateFormat("d MMMM yyyy").format(earliest)
-                    results.earliest = [uuid: earliestUuid, display: earliestDate]
-                } else {
-                    log.error("Earliest date is invalid. See record: " + a?.occurrences[0]?.uuid)
-                }
+            // earliest record
+            def a = webService.getJson(grailsApplication.config.biocache.baseURL +
+                    "/ws/occurrences/search?q=!assertions:invalidCollectionDate&pageSize=1&sort=occurrence_date&facet=off")
+            def earliestUuid = a?.occurrences[0]?.uuid
+            if (a?.occurrences[0]?.eventDate) {
+                def earliest = new Date(a?.occurrences[0]?.eventDate)
+                def earliestDate = new SimpleDateFormat("d MMMM yyyy").format(earliest)
+                results.earliest = [uuid: earliestUuid, display: earliestDate]
+            } else {
+                log.error("Earliest date is invalid. See record: " + a?.occurrences[0]?.uuid)
+            }
 
-                // latest record
-                def b = webService.getJson(grailsApplication.config.biocache.baseURL +
-                        "/ws/occurrences/search?q=!assertions:invalidCollectionDate&pageSize=1&sort=occurrence_date&dir=desc&facet=off")
-                def latestUuid = b.occurrences[0].uuid
-                def latest = new Date(b.occurrences[0].eventDate)
-                def latestDate = new SimpleDateFormat("d MMMM yyyy").format(latest)
-                results.latest = [uuid: latestUuid, display: latestDate]
+            // latest record
+            def b = webService.getJson(grailsApplication.config.biocache.baseURL +
+                    "/ws/occurrences/search?q=!assertions:invalidCollectionDate&pageSize=1&sort=occurrence_date&dir=desc&facet=off")
+            def latestUuid = b.occurrences[0].uuid
+            def latest = new Date(b.occurrences[0].eventDate)
+            def latestDate = new SimpleDateFormat("d MMMM yyyy").format(latest)
+            results.latest = [uuid: latestUuid, display: latestDate]
 
-                // latest record with image
-                def bi = webService.getJson(grailsApplication.config.biocache.baseURL +
-                        "/ws/occurrences/search?q=!assertions:invalidCollectionDate%20AND%20occurrence_date:%5B*%20TO%20*%5D&pageSize=1&sort=first_loaded_date&dir=desc&facet=off&fq=multimedia:Image")
-                def latestImageUuid = bi.occurrences[0].uuid
-                def latestImage = new Date(bi.occurrences[0].eventDate)
-                def latestImageDate = new SimpleDateFormat("d MMMM yyyy").format(latestImage)
-                results.latestImage = [uuid: latestImageUuid, display: latestImageDate]
+            // latest record with image
+            def bi = webService.getJson(grailsApplication.config.biocache.baseURL +
+                    "/ws/occurrences/search?q=!assertions:invalidCollectionDate%20AND%20occurrence_date:%5B*%20TO%20*%5D&pageSize=1&sort=first_loaded_date&dir=desc&facet=off&fq=multimedia:Image")
+            def latestImageUuid = bi.occurrences[0].uuid
+            def latestImage = new Date(bi.occurrences[0].eventDate)
+            def latestImageDate = new SimpleDateFormat("d MMMM yyyy").format(latestImage)
+            results.latestImage = [uuid: latestImageUuid, display: latestImageDate]
 
-                // get counts by century
-                [1600,1700,1800,1900,2000].each {
-                    def url = grailsApplication.config.biocache.baseURL +
-                            "/ws/occurrences/search?q=*:*&pageSize=0&facet=off&fq=occurrence_year:[${it}-01-01T00:00:00Z%20TO%20${it + 99}-12-31T23:59:59Z]"
-                    def c = webService.getJson(url)
-                    results['c' + it] = c.totalRecords
-                }
+            // get counts by century
+            [1600, 1700, 1800, 1900, 2000].each {
+                def url = grailsApplication.config.biocache.baseURL +
+                        "/ws/occurrences/search?q=*:*&pageSize=0&facet=off&fq=occurrence_year:[${it}-01-01T00:00:00Z%20TO%20${it + 99}-12-31T23:59:59Z]"
+                def c = webService.getJson(url)
+                results['c' + it] = c.totalRecords
+            }
 
-                return results
-            })
+            return results
+        })
     }
 
     /**
@@ -161,42 +167,43 @@ class MetadataService {
      * @return map
      */
     def getTypeStats = {
-        return cacheService.get('typeStats',{
+        return cacheService.get('typeStats', {
 
-                def results = [:]
+            def results = [:]
 
-                // type counts
-                def facets = biocacheFacetCount('type_status', '*:*')
-                facets.facets.each {
-                    if (it.facet != 'notatype') {
-                        results[it.facet] = it.count
-                    }
+            // type counts
+            def facets = biocacheFacetCount('type_status', '*:*')
+            facets.facets.each {
+                if (it.facet != 'notatype') {
+                    results[it.facet] = it.count
                 }
-                results.total = results.values().sum {it}
+            }
+            results.total = results.values().sum { it }
 
-                // type counts with images
-                results.withImage = [:]
-                facets = biocacheFacetCount('type_status',"*:*&fq=multimedia:Image")
-                facets.facets.each {
-                    if (it.facet != 'notatype') {
-                        results.withImage[it.facet] = it.count
-                    }
+            // type counts with images
+            results.withImage = [:]
+            facets = biocacheFacetCount('type_status', "*:*&fq=multimedia:Image")
+            facets.facets.each {
+                if (it.facet != 'notatype') {
+                    results.withImage[it.facet] = it.count
                 }
-                results.withImage.total = results.withImage.values().sum {it}
+            }
+            results.withImage.total = results.withImage.values().sum { it }
 
-                return results
-            })
+            return results
+        })
     }
 
     /**
      * Uses multiple biocache searches to return unique species accepted names for each decade.
-     * @return a list of decades with species and occurrence counts.
+     * @return a list of maps with the following format [decade: <value>, records: <value>, species: <value>]
      */
-    def getSpeciesByDecade() {
+    List getSpeciesByDecade() {
         return cacheService.get("speciesByDecade", {
 
             def baseUrl =
-                "http://biocache.ala.org.au/ws/explore/groups.json?q=*:*&pageSize=10&fq=occurrence_year:"  //[1750-01-01T00:00:00Z+TO+1760-12-31T23:59:59Z]
+                    "http://biocache.ala.org.au/ws/explore/groups.json?q=*:*&pageSize=10&fq=occurrence_year:"
+            //[1750-01-01T00:00:00Z+TO+1760-12-31T23:59:59Z]
 
             def data = []
             (184..201).each {
@@ -212,7 +219,7 @@ class MetadataService {
                 def url = baseUrl + '[' + from + '+TO+' + to + ']'
                 def json = new URL(url).text
                 def result = JSON.parse(json)
-                def totals = result.find { it.name == 'ALL_SPECIES'}
+                def totals = result.find { it.name == 'ALL_SPECIES' }
                 data << [decade: decade, records: totals.count, species: totals.speciesCount]
             }
 
@@ -250,7 +257,7 @@ class MetadataService {
             // look up most recently added
             def json = new URL("http://collections.ala.org.au/ws/dataResource").text
             def allDRs = new JsonSlurper().parseText(json)
-            allDRs.sort {it.uid[2..-1].toInteger()}
+            allDRs.sort { it.uid[2..-1].toInteger() }
             def last = allDRs.last()
 
             def results = [total: resp.total, groups: resp.groups, last: last]
@@ -286,18 +293,18 @@ class MetadataService {
                 return [error: "${action} failed", reason: e.message]
             }
 
-            def environmental = resp.count { it.type == 'Environmental'}
-            def contextual = resp.count { it.type == 'Contextual'}
-            def terrestrial = resp.count { it.domain == 'Terrestrial'}
-            def marine = resp.count { it.domain == 'Marine' || it.classification1 == 'Marine'}
+            def environmental = resp.count { it.type == 'Environmental' }
+            def contextual = resp.count { it.type == 'Contextual' }
+            def terrestrial = resp.count { it.domain == 'Terrestrial' }
+            def marine = resp.count { it.domain == 'Marine' || it.classification1 == 'Marine' }
 
-            def results = [total: resp.size(), groups: [
+            def results = [total         : resp.size(), groups: [
                     environmental: environmental,
-                    contextual: contextual,
-                    terrestrial: terrestrial,
-                    marine: marine
-                    ],
-                    classification: resp.countBy {it.classification1}]
+                    contextual   : contextual,
+                    terrestrial  : terrestrial,
+                    marine       : marine
+            ],
+                           classification: resp.countBy { it.classification1 }]
 
             return results
         })
@@ -310,12 +317,12 @@ class MetadataService {
                     "/ws/explore/groups.json?pageSize=10&q=state_conservation:"
 
             def data = []
-            ['Endangered','Near Threatened','Least Concern/Unknown','Listed under FFG Act','Extinct','Parent Species (Unofficial)'].each {
+            ['Endangered', 'Near Threatened', 'Least Concern/Unknown', 'Listed under FFG Act', 'Extinct', 'Parent Species (Unofficial)'].each {
                 def url = baseUrl + '"' + URLEncoder.encode(it) + '"'
                 def json = new URL(url).text
                 def result = JSON.parse(json)
-                def totals = result.find { it.name == 'ALL_SPECIES'}
-                data << [status: it,  records: totals.count, species: totals.speciesCount]
+                def totals = result.find { it.name == 'ALL_SPECIES' }
+                data << [status: it, records: totals.count, species: totals.speciesCount]
             }
             return data
         })
@@ -408,18 +415,22 @@ class MetadataService {
         }
 
         // hack to workaround biocache bug
-        if (facetName == 'decade') { facetName = 'occurrence_year'}
+        if (facetName == 'decade') {
+            facetName = 'occurrence_year'
+        }
 
         /*if (facetName == 'type_status') {
             println resp
         }*/
         // handle no results
-        if (!resp || !resp.facetResults) { return [error: "Biocache lookup failed", reason: "no data"] }
-        resp.facetResults.find({ it.fieldName == facetName})?.fieldResult?.each { facet ->
-            facets << [display: humanise(facet.label),
-                       facet: facet.label,
+        if (!resp || !resp.facetResults) {
+            return [error: "Biocache lookup failed", reason: "no data"]
+        }
+        resp.facetResults.find({ it.fieldName == facetName })?.fieldResult?.each { facet ->
+            facets << [display       : humanise(facet.label),
+                       facet         : facet.label,
                        formattedCount: format(facet.count as long),
-                       count: facet.count as long
+                       count         : facet.count as long
             ]
         }
 
@@ -438,15 +449,15 @@ class MetadataService {
         //println "returned from doPost ${data.resp}"
         def results = [:]
         if (!data.error) {
-            data.resp.searchDTOList.each {taxon ->
+            data.resp.searchDTOList.each { taxon ->
                 def name = taxon.name ?: taxon.nameComplete
                 results.put taxon.guid, [
                         common: taxon.commonNameSingle,
-                        name: name,
-                        image: [largeImageUrl: taxon.largeImageUrl,
-                                smallImageUrl: taxon.smallImageUrl,
-                                thumbnailUrl: taxon.thumbnailUrl,
-                                imageMetadataUrl: taxon.imageMetadataUrl]]
+                        name  : name,
+                        image : [largeImageUrl   : taxon.largeImageUrl,
+                                 smallImageUrl   : taxon.smallImageUrl,
+                                 thumbnailUrl    : taxon.thumbnailUrl,
+                                 imageMetadataUrl: taxon.imageMetadataUrl]]
             }
         }
         //println "returned from bie lookup ${results}"
@@ -467,7 +478,7 @@ class MetadataService {
 
             for (k in totals.keys()) {
                 def keyMap = totals[k]
-                results[k] = ["events" : format(keyMap["events"] as long), "records" : format(keyMap["records"] as long)]
+                results[k] = ["events": format(keyMap["events"] as long), "records": format(keyMap["records"] as long)]
             }
 
             return results
@@ -491,7 +502,7 @@ class MetadataService {
             def unclassifiedCount = sortedBreakdowns.get("unclassified")
             def testingCount = sortedBreakdowns.get("testing")
 
-            if(unclassifiedCount) {
+            if (unclassifiedCount) {
                 other["events"] = other["events"] + unclassifiedCount["events"]
                 other["records"] = other["records"] + unclassifiedCount["records"]
             }
@@ -500,7 +511,7 @@ class MetadataService {
             def testingEvents = 0
             def testingRecords = 0
 
-            if(testingCount) {
+            if (testingCount) {
 //                other["events"] = other["events"] + testingCount["events"]
 //                other["records"] = other["records"] + testingCount["records"]
                 testingEvents = testingCount["events"] as long
@@ -526,7 +537,7 @@ class MetadataService {
         })
     }
 
-   def getLoggerReasonTemporalBreakdown() {
+    def getLoggerReasonTemporalBreakdown() {
         cacheService.get('loggerReasonBreakdown', {
             def results = []
             // earliest record
@@ -544,9 +555,9 @@ class MetadataService {
             def allTimeEmailBreakdown = webService.getJson(grailsApplication.config.logger.baseURL +
                     "/service/emailBreakdown?eventId=1002").all
 
-            ["edu","gov","other","unspecified"].each {
+            ["edu", "gov", "other", "unspecified"].each {
                 def keyMap = allTimeEmailBreakdown.emailBreakdown[it]
-                results[it] = ["events" : format(keyMap["events"] as long), "records" : format(keyMap["records"] as long)]
+                results[it] = ["events": format(keyMap["events"] as long), "records": format(keyMap["records"] as long)]
             }
 
 //            results["total"] = ["events" : format(allTimeEmailBreakdown.events as long), "records" : format(allTimeEmailBreakdown.records as long)]
@@ -555,12 +566,13 @@ class MetadataService {
         })
     }
 
-    def getImagesBreakdown(){
+    def getImagesBreakdown() {
         cacheService.get('imagesBreakdown', {
 
             def results = [:]
 
             def bieUrl = grailsApplication.config.bie.baseURL
+            //TODO Why is this not used ans why are all the urls harcoded
             //def biocacheUrl = grailsApplication.config.biocache.baseURL
 
             def taxaWithImages = webService.getJson("http://biocache.ala.org.au/ws/occurrence/facets?facets=taxon_name&pageSize=0&q=multimedia:Image")[0].count
@@ -580,7 +592,7 @@ class MetadataService {
             if (vpResources) {
                 resourcesQuery = "data_resource_uid:("
                 vpResources.eachWithIndex() { res, i ->
-                    if (i>0) {
+                    if (i > 0) {
                         resourcesQuery = resourcesQuery + "%20OR%20"
                     }
                     resourcesQuery = resourcesQuery + res.uid
@@ -603,11 +615,20 @@ class MetadataService {
         })
     }
 
+    /**
+     * Provides a List with the number of records for each state record with the following format:
+     * @return [[label: <value>, count: <value<], ...]
+     */
+    List getStateAndTerritoryRecords() {
+        def results = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_STATE_TERRITORY_FACETED_RESULTS}")
+        ((results.facetResults.find {it.fieldName == 'state'}).fieldResult as ArrayList)
+    }
+
 
     /* -------------------------------- STATIC LOOKUPS --------------------------------------------*/
 
     def get = { key ->
-        return cacheService.get(key, {cacheService.loadStaticCacheFromFile(key)})
+        return cacheService.get(key, { cacheService.loadStaticCacheFromFile(key) })
     }
 
     def getCollectionsByCategory() {
@@ -639,11 +660,12 @@ class MetadataService {
     }
 
     /* -------------------------------- UTILITIES --------------------------------------------*/
+
     String format(i) {
         if (i >= 1000000000) {
-            return String.format("%9.2f", i/1000000000) + 'B'
+            return String.format("%9.2f", i / 1000000000) + 'B'
         } else if (i >= 1000000) {
-            return String.format("%6.2f", i/1000000) + 'M'
+            return String.format("%6.2f", i / 1000000) + 'M'
         }
         return addCommas(i)
     }
@@ -668,21 +690,20 @@ class MetadataService {
         s.eachWithIndex { c, i ->
             // first or last
             if (i == 0 || i == l) {
-                r +=  c
+                r += c
             }
             // upper preceded by lower - xX
-            else if (c in 'A'..'Z' && s[i-1] in 'a'..'z') {
+            else if (c in 'A'..'Z' && s[i - 1] in 'a'..'z') {
                 // followed by upper - -xXX
-                if (s[i+1] in 'A'..'Z') {
-                    r +=  ' ' + c
+                if (s[i + 1] in 'A'..'Z') {
+                    r += ' ' + c
                 }
                 // followed by lower or number - xXx
                 else {
-                    r +=  ' ' + c.toLowerCase()
+                    r += ' ' + c.toLowerCase()
                 }
-            }
-            else {
-                r +=  c
+            } else {
+                r += c
             }
         }
         return r
