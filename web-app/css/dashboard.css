@@ -302,6 +302,14 @@ footer {
     }
 }
 
+@media (min-width: 2500px) and (min-aspect-ratio: 16/11) {
+    #floatContainer {
+        width: 93%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
 @media (max-aspect-ratio: 4/3) {
     #floatContainer {
         width: 100%;
