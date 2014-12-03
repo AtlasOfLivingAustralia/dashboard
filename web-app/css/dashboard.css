@@ -27,6 +27,18 @@ footer {
     background-color: #757042;
 }
 
+.breadcrumb > li {
+    text-shadow: none !important;
+}
+
+#show-error-button {
+    color: #e9322d;
+}
+
+.popover {
+    color: #e9322d;
+}
+
 .dashboard #page-header {
     background:#4c3b2f url(../images/skin/bg_getinvolved.jpg) center center no-repeat;
     color: white;
@@ -77,6 +89,11 @@ footer {
 
 #floatContainer [class*="span"] {
     margin-left: 20px;
+}
+
+#alert-container {
+    margin-left: 1.5em;
+    margin-right: 1.5em;
 }
 
 .link {

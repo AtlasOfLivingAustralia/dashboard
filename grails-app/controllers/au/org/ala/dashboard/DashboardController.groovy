@@ -29,6 +29,102 @@ class DashboardController {
         metadataService.getDashboardModel()
     }
 
+    def collectionPanel = {
+        render view: 'panels/collectionPanel', model: [collections: metadataService.getCollectionsByCategory()]
+    }
+
+    def recordsPanel = {
+        render view: 'panels/recordsPanel', model: [totalRecords: metadataService.getTotalAndDuplicates()]
+    }
+
+    def datasetsPanel = {
+        render view: 'panels/datasetsPanel', model: [datasets: metadataService.getDatasets()]
+    }
+
+    def basisRecordsPanel = {
+        render view: 'panels/basisRecordsPanel', model: [basisOfRecord: metadataService.getBasisOfRecord()]
+    }
+
+    def dateRecordsPanel = {
+        render view: 'panels/dateRecordsPanel', model: [dateStats: metadataService.getDateStats()]
+    }
+
+    def nslPanel = {
+        render view: 'panels/nslPanel', model: [taxaCounts: metadataService.getTaxaCounts()]
+    }
+
+    def spatialPanel = {
+        render view: 'panels/spatialPanel', model: [spatialLayers: metadataService.getSpatialLayers()]
+    }
+
+    def statePanel = {
+        render view: 'panels/statePanel', model: []
+    }
+
+    def identifyLifePanel = {
+        render view: 'panels/identifyLifePanel', model: [identifyLifeCounts: metadataService.getIdentifyLifeCounts()]
+    }
+
+    def mostRecordedSpeciesPanel = {
+        render view: 'panels/mostRecordedSpeciesPanel', model: [mostRecorded: metadataService.getMostRecordedSpecies('all')]
+    }
+
+    def typeSpecimensPanel = {
+        render view: 'panels/typeSpecimensPanel', model: [typeCounts: metadataService.getTypeStats()]
+    }
+
+    def barcodeOfLifePanel = {
+        render view: 'panels/barcodeOfLifePanel', model: [boldCounts: metadataService.getBoldCounts()]
+    }
+
+    def bhlPanel = {
+        render view: 'panels/bhlPanel', model: [bhlCounts: metadataService.getBHLCounts()]
+    }
+
+    def volunteerPortalPanel = {
+        render view: 'panels/volunteerPortalPanel', model: [volunteerPortalCounts: metadataService.getVolunteerStats()]
+    }
+
+    def conservationStatusPanel = {
+        render view: 'panels/conservationStatusPanel', model: [stateConservation: metadataService.getSpeciesByConservationStatus()]
+    }
+
+    def recordsByDataProviderPanel = {
+        render view: 'panels/recordsByDataProviderPanel', model: [dataProviders: metadataService.getDataProviders()]
+    }
+
+    def recordsByInstitutionPanel = {
+        render view: 'panels/recordsByInstitutionPanel', model: [institutions: metadataService.getInstitutions()]
+    }
+
+    def recordsByLifeFormPanel = {
+        render view: 'panels/recordsByLifeFormPanel'
+    }
+
+    def recordsAndSpeciesByDecadePanel = {
+        render view: 'panels/recordsAndSpeciesByDecadePanel'
+    }
+
+    def occurrenceTreePanel = {
+        render view: 'panels/occurrenceTreePanel'
+    }
+
+    def usageStatisticsPanel = {
+        render view: 'panels/usageStatisticsPanel', model: [loggerTotals: metadataService.getLoggerTotals()]
+    }
+
+    def downloadsByReasonPanel = {
+        render view: 'panels/downloadsByReasonPanel', model: [loggerReasonBreakdown: metadataService.getLoggerReasonBreakdown()]
+    }
+
+    def downloadsByUserTypePanel = {
+        render view: 'panels/downloadsByUserTypePanel', model: [loggerEmailBreakdown: metadataService.getLoggerEmailBreakdown()]
+    }
+
+    def speciesImagesPanel = {
+        render view: 'panels/speciesImagesPanel', model: [imagesBreakdown: metadataService.getImagesBreakdown()]
+    }
+
     def mostRecorded(String group) {
         def facets = metadataService.getMostRecordedSpecies(group)
         render facets as JSON

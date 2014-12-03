@@ -10,6 +10,8 @@ var dashboard = {
         app: null
     },
 
+    panelRenderingErrors: [],
+
     /**
      * Initialize the dashboard dynamic features
      * @param options
@@ -46,6 +48,16 @@ var dashboard = {
         $('#showAllLoggerReasons').on('click touch', function(){
             $('#loggerReasonBreakdownTable .hideableRow').toggle('slow');
         });
+
+        if(dashboard.panelRenderingErrors.length > 0) {
+            var html = '';
+            $.each(dashboard.panelRenderingErrors, function(i, fileName) {
+                html += '<li>Error rendering ' + fileName + '</li>';
+            });
+            $('#show-error-button').attr('data-content', html);
+            $('#show-error-button').popover();
+            $('#show-error-button').toggleClass('initiallyHidden');
+        }
     },
 
     /**
