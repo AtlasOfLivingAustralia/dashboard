@@ -263,6 +263,19 @@ footer {
     margin-bottom: 1em;
 }
 
+#identifyLife {
+    margin: 2em 0;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+#identifyLife > a {
+    font-weight: bold;
+}
+
+#identifyLife-logo {
+    text-align: center;
+}
 
 /* End Specific Panel Content */
 
