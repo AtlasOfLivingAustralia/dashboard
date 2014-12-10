@@ -27,6 +27,18 @@ footer {
     background-color: #757042;
 }
 
+.breadcrumb > li {
+    text-shadow: none !important;
+}
+
+#show-error-button {
+    color: #e9322d;
+}
+
+.popover {
+    color: #e9322d;
+}
+
 .dashboard #page-header {
     background:#4c3b2f url(../images/skin/bg_getinvolved.jpg) center center no-repeat;
     color: white;
@@ -77,6 +89,11 @@ footer {
 
 #floatContainer [class*="span"] {
     margin-left: 20px;
+}
+
+#alert-container {
+    margin-left: 1.5em;
+    margin-right: 1.5em;
 }
 
 .link {
@@ -246,6 +263,19 @@ footer {
     margin-bottom: 1em;
 }
 
+#identifyLife {
+    margin: 2em 0;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+#identifyLife > a {
+    font-weight: bold;
+}
+
+#identifyLife-logo {
+    text-align: center;
+}
 
 /* End Specific Panel Content */
 
@@ -280,6 +310,14 @@ footer {
 @media (min-width: 1601px) and (min-aspect-ratio: 16/11) {
     #floatContainer {
         width: 86%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (min-width: 2500px) and (min-aspect-ratio: 16/11) {
+    #floatContainer {
+        width: 93%;
         margin-left: auto;
         margin-right: auto;
     }
