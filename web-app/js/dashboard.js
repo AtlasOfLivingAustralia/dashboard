@@ -242,40 +242,40 @@ var dashboard = {
         // datasets links
         $('#datasets-topic td:first-child').click(function () {
             var type = $(this).attr('id');
-            document.location.href = collectionsWebappUrl + "/datasets#filters=resourceType:" + type;
+            document.location.href = dashboard.urls.collections + "/datasets#filters=resourceType:" + type;
         });
         // basis of record links
         $('#basis-topic td:first-child').click(function () {
             var basis = $(this).attr('id');
-            document.location.href = biocacheWebappUrl + "/occurrences/search?q=*:*&fq=basis_of_record:" + basis.substring(3);
+            document.location.href = dashboard.urls.biocache + "/occurrences/search?q=*:*&fq=basis_of_record:" + basis.substring(3);
         });
         // type status links
         $('#typeStatus-topic td:first-child').click(function () {
             var id = $(this).attr('id');
             if (id.length > 5 && id.substr(0,5) === 'image') {
-                document.location.href = biocacheWebappUrl + "/occurrences/search?q=*:*&fq=type_status:" +
+                document.location.href = dashboard.urls.biocache + "/occurrences/search?q=*:*&fq=type_status:" +
                 id.substr(5) + "&fq=multimedia:Image#imagesView";
             } else {
-                document.location.href = biocacheWebappUrl + "/occurrences/search?q=*:*&fq=type_status:" + id;
+                document.location.href = dashboard.urls.biocache + "/occurrences/search?q=*:*&fq=type_status:" + id;
             }
         });
         // species links
         $('#most-topic').on('click', 'td:first-child', function (event) {
             var guid = $(event.currentTarget).attr('id');
-            document.location.href = bieWebappUrl + "/species/" + guid;
+            document.location.href = dashboard.urls.bie + "/species/" + guid;
         });
         // by date links
         $('#date-topic td:first-child').click(function () {
             var id = $(this).attr('id');
             if (id.length > 4) {
                 // handle earliest/latest by linking to record via uuid
-                document.location.href = biocacheWebappUrl + "/occurrence/" + id;
+                document.location.href = dashboard.urls.biocache + "/occurrence/" + id;
             } else {
                 // treat as first year of a century
                 var startYear = Number(id),
                     endYear = startYear + 99,
                     range = "[" + startYear + "-01-01T00:00:00Z+TO+" + endYear + "-12-31T23:59:59Z]";
-                document.location.href = biocacheWebappUrl + "/occurrences/search?q=*:*&fq=occurrence_year:" + range;
+                document.location.href = dashboard.urls.biocache + "/occurrences/search?q=*:*&fq=occurrence_year:" + range;
             }
         });
         // info links

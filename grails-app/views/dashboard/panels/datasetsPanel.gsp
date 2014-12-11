@@ -9,26 +9,26 @@
         </div>
         <div class="panel-body">
             <table class="table table-condensed table-striped table-hover">
-                <tr>
+                <tr class="link">
                     <td id="website">Harvested websites</td>
                     <td>
                         <span class="count"><db:formatNumber
                                 value="${datasets.groups.website}"/></span>
                     </td>
                 </tr>
-                <tr>
+                <tr class="link">
                     <td id="records">Occurrence record sets</td>
                     <td><span class="count"><db:formatNumber
                             value="${datasets.groups.records}"/></span>
                     </td>
                 </tr>
-                <tr>
+                <tr class="link">
                     <td id="document">Document sets</td>
                     <td><span class="count"><db:formatNumber
                             value="${datasets.groups.document}"/></span>
                     </td>
                 </tr>
-                <tr>
+                <tr class="link">
                     <td id="uploads">Uploaded record sets</td>
                     <td><span class="count"><db:formatNumber
                             value="${datasets.groups.uploads}"/></span>
