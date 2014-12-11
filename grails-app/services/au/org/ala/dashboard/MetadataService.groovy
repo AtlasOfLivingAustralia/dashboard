@@ -22,7 +22,29 @@ class MetadataService {
      * @return
      */
     Map getDashboardModel() {
-        [panelInfo: getPanelInfo() as JSON]
+        [basisOfRecord          : getBasisOfRecord(),
+         mostRecorded           : getMostRecordedSpecies('all'),
+         totalRecords           : getTotalAndDuplicates(),
+         collections            : getCollectionsByCategory(),
+         datasets               : getDatasets(),
+         dataProviders          : getDataProviders(),
+         institutions           : getInstitutions(),
+         taxaCounts             : getTaxaCounts(),
+         identifyLifeCounts     : getIdentifyLifeCounts(),
+         bhlCounts              : getBHLCounts(),
+         boldCounts             : getBoldCounts(),
+         typeCounts             : getTypeStats(),
+         dateStats              : getDateStats(),
+         volunteerPortalCounts  : getVolunteerStats(),
+         spatialLayers          : getSpatialLayers(),
+         stateConservation      : getSpeciesByConservationStatus(),
+         loggerTotals           : getLoggerTotals(),
+         loggerReasonBreakdown  : getLoggerReasonBreakdown(),
+         loggerEmailBreakdown   : getLoggerEmailBreakdown(),
+         loggerTemporalBreakdown: getLoggerReasonTemporalBreakdown(),
+         imagesBreakdown        : getImagesBreakdown(),
+         panelInfo              : getPanelInfo() as JSON
+        ]
     }
 
     /**
