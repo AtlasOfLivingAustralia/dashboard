@@ -149,7 +149,7 @@ var dashboard = {
                     if(i>5){
                         className = 'hideable';
                     }
-                    content += "<tr class='" + className +"'><td>" + list[i].label + "</td>" + "<td>" + format(list[i].count) + "</td>";
+                    content += "<tr class='link " + className +"'><td>" + list[i].label + "</td>" + "<td>" + format(list[i].count) + "</td>";
                     content += "<td>" + list[c+i].label + "</td>" + "<td>" + format(list[c+i].count) + "</td></tr>";
                 }
 
@@ -157,7 +157,7 @@ var dashboard = {
                 // add click listener
                 $('#lifeformsTable td:nth-child(odd)').click(function () {
                     var group = $(this).html();
-                    document.location.href = biocacheWebappUrl + "occurrences/search?q=*:*&fq=species_group:" + group;
+                    document.location.href = dashboard.urls.biocache + "/occurrences/search?q=*:*&fq=species_group:" + group;
                 });
 
                 //lifeforms
