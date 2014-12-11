@@ -203,11 +203,11 @@ var dashboard = {
         });
         // show json
         $('#showJson').click(function () {
-            document.location.href = serverUrl + "/dashboard/data";
+            document.location.href = dashboard.urls.app + "/dashboard/data";
         });
         // download csv
         $('#downloadCsv').click(function () {
-            document.location.href = serverUrl + "/dashboard/downloadAsCsv";
+            document.location.href = dashboard.urls.app + "/dashboard/downloadAsCsv";
         });
         // more.. in basis topic
         $('#moreBasisLink').click(function () {
