@@ -98,7 +98,7 @@ class DashboardController {
     }
 
     def recordsByLifeFormPanel = {
-        render view: 'panels/recordsByLifeFormPanel'
+        render view: 'panels/recordsByLifeFormPanel', model: [records: metadataService.getRecordsByLifeForm()]
     }
 
     def recordsAndSpeciesByDecadePanel = {

@@ -22,28 +22,31 @@ class MetadataService {
      * @return
      */
     Map getDashboardModel() {
-        [basisOfRecord          : getBasisOfRecord(),
-         mostRecorded           : getMostRecordedSpecies('all'),
-         totalRecords           : getTotalAndDuplicates(),
-         collections            : getCollectionsByCategory(),
-         datasets               : getDatasets(),
-         dataProviders          : getDataProviders(),
-         institutions           : getInstitutions(),
-         taxaCounts             : getTaxaCounts(),
-         identifyLifeCounts     : getIdentifyLifeCounts(),
-         bhlCounts              : getBHLCounts(),
-         boldCounts             : getBoldCounts(),
-         typeCounts             : getTypeStats(),
-         dateStats              : getDateStats(),
-         volunteerPortalCounts  : getVolunteerStats(),
-         spatialLayers          : getSpatialLayers(),
-         stateConservation      : getSpeciesByConservationStatus(),
-         loggerTotals           : getLoggerTotals(),
-         loggerReasonBreakdown  : getLoggerReasonBreakdown(),
-         loggerEmailBreakdown   : getLoggerEmailBreakdown(),
-         loggerTemporalBreakdown: getLoggerReasonTemporalBreakdown(),
-         imagesBreakdown        : getImagesBreakdown(),
-         panelInfo              : getPanelInfo() as JSON
+        [
+            basisOfRecord           : getBasisOfRecord(),
+            mostRecorded            : getMostRecordedSpecies('all'),
+            totalRecords            : getTotalAndDuplicates(),
+            collections             : getCollectionsByCategory(),
+            datasets                : getDatasets(),
+            dataProviders           : getDataProviders(),
+            institutions            : getInstitutions(),
+            taxaCounts              : getTaxaCounts(),
+            identifyLifeCounts      : getIdentifyLifeCounts(),
+            bhlCounts               : getBHLCounts(),
+            boldCounts              : getBoldCounts(),
+            typeCounts              : getTypeStats(),
+            dateStats               : getDateStats(),
+            volunteerPortalCounts   : getVolunteerStats(),
+            spatialLayers           : getSpatialLayers(),
+            stateConservation       : getSpeciesByConservationStatus(),
+            loggerTotals            : getLoggerTotals(),
+            loggerReasonBreakdown   : getLoggerReasonBreakdown(),
+            loggerEmailBreakdown    : getLoggerEmailBreakdown(),
+            loggerTemporalBreakdown : getLoggerReasonTemporalBreakdown(),
+            imagesBreakdown         : getImagesBreakdown(),
+            panelInfo               : getPanelInfo() as JSON,
+            stateAndTerritoryRecords: getStateAndTerritoryRecords(),
+            recordsByLifeForm       : getRecordsByLifeForm()
         ]
     }
 
@@ -616,12 +619,27 @@ class MetadataService {
     }
 
     /**
-     * Provides a List with the number of records for each state record with the following format:
+     * Provides a List with the number of records for each state record in the following format:
      * @return [[label: <value>, count: <value<], ...]
      */
     List getStateAndTerritoryRecords() {
-        def results = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_STATE_TERRITORY_FACETED_RESULTS}")
-        ((results.facetResults.find {it.fieldName == 'state'}).fieldResult as ArrayList)
+        return cacheService.get('state_and_territory_records', {
+            def results = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_STATE_TERRITORY_FACETED_RESULTS}")
+            ((results.facetResults.find {it.fieldName == 'state'}).fieldResult as ArrayList)
+        })
+
+    }
+
+    /**
+     * Provides a List with the records by life form in the following format:
+     * @return [[label: <value>, count: <value<], ...]
+     */
+    List getRecordsByLifeForm() {
+        return cacheService.get('records_by_life_form', {
+            def results = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_RECORDS_BY_LIFE_FORM}")
+
+            results?.facetResults?.fieldResult[0]
+        })
     }
 
 

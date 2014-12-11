@@ -20,7 +20,7 @@ var dashboard = {
         dashboard.urls = options.urls;
         dashboard.sortableFeature.init();
         dashboard.setupPanelInfo();
-        dashboard.drawLifeformsTable();
+        dashboard.setupRecordsByLifeFormTable();
         dashboard.wireActions();
 
         // set most recorded data to match the current selection (for back button state)
@@ -123,49 +123,20 @@ var dashboard = {
         }
     },
 
-    // TODO Move this to server side. This is actually hard to watch!!
-    drawLifeformsTable: function() {
-        $.ajax({
-            url: dashboard.urls.biocache + "ws/occurrences/search.json?pageSize=0" +
-            "&q=*:*&facets=species_group&flimit=200",
-            dataType: 'jsonp',
-            success: function(data) {
-                // transform facet results list into map keyed on field name (the facet name in the data)
-                var facetMap = {};
+    /**
+     *
+     */
+    setupRecordsByLifeFormTable: function() {
+        // add click listener
+        $('#lifeformsTable td:nth-child(odd)').click(function () {
+            var group = $(this).html();
+            document.location.href = dashboard.urls.biocache + "/occurrences/search?q=*:*&fq=species_group:" + group;
+        });
 
-                $.each(data.facetResults, function(idx, obj) {
-                    facetMap[obj.fieldName] = obj.fieldResult;
-                });
-
-                var $table = $('#lifeformsTable'),
-                    content = "",
-                    list = facetMap.species_group,
-                    l = list.length,
-                    c = Math.floor(l/2);
-
-                for (i = 0; i < c; i++) {
-
-                    var className = '';
-                    if(i>5){
-                        className = 'hideable';
-                    }
-                    content += "<tr class='link " + className +"'><td>" + list[i].label + "</td>" + "<td>" + format(list[i].count) + "</td>";
-                    content += "<td>" + list[c+i].label + "</td>" + "<td>" + format(list[c+i].count) + "</td></tr>";
-                }
-
-                $table.html($(content));
-                // add click listener
-                $('#lifeformsTable td:nth-child(odd)').click(function () {
-                    var group = $(this).html();
-                    document.location.href = dashboard.urls.biocache + "/occurrences/search?q=*:*&fq=species_group:" + group;
-                });
-
-                //lifeforms
-                $('#lifeformsTable .hideable').hide();
-                $('#showAllLifeforms').click(function(){
-                    $('#lifeformsTable .hideable').toggle('slow');
-                });
-            }
+        //lifeforms
+        $('#lifeformsTable .hideable').hide();
+        $('#showAllLifeforms').click(function(){
+            $('#lifeformsTable .hideable').toggle('slow');
         });
     },
 
