@@ -26,7 +26,7 @@ class DashboardController {
      * Show main dashboard page.
      */
     def index = {
-        [panelInfo: getPanelInfo() as JSON]
+        [panelInfo: metadataService.getPanelInfo() as JSON]
     }
 
     def collectionPanel = {
