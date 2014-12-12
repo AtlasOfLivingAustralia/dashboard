@@ -30,7 +30,7 @@ var dashboard = {
             /* base url of the collectory */
             collectionsUrl: dashboard.urls.collections,
             /* base url of the biocache ws*/
-            biocacheServicesUrl: dashboard.urls.biocache + 'ws/',
+            biocacheServicesUrl: dashboard.urls.biocache + '/ws/',
             /* base url of the biocache webapp*/
             biocacheWebappUrl: dashboard.urls.biocache,
             serverUrl: dashboard.urls.app,

@@ -24,105 +24,7 @@ if(System.getenv(ENV_NAME) && new File(System.getenv(ENV_NAME)).exists()) {
 }
 println "[${appName}] (*) grails.config.locations = ${grails.config.locations}"
 
-/* External Servers */
 
-/******* ALA standard config ************/
-if (!bie.baseURL) {
-    bie.baseURL = "http://bie.ala.org.au/"
-}
-if (!bie.searchPath) {
-    bie.searchPath = "/search"
-}
-if (!biocache.baseURL) {
-    biocache.baseURL = "http://biocache.ala.org.au/"
-}
-if (!spatial.baseURL) {
-    spatial.baseURL = "http://spatial.ala.org.au/"
-}
-if (!ala.baseURL) {
-    ala.baseURL = "http://www.ala.org.au"
-}
-if (!collectory.baseURL) {
-    collectory.baseURL = "http://collections.ala.org.au"
-}
-
-if (!logger.baseURL) {
-    logger.baseURL = "http://logger.ala.org.au"
-}
-//if(!runWithNoExternalConfig){
-//runWithNoExternalConfig = true
-//}
-//if(!serverName){
-//    serverName = 'http://lists.ala.org.au'
-//}
-//if (!collectory.enableSync) {
-//    collectory.enableSync = false
-//}
-//if (!collectory.baseURL) {
-//    collectory.baseURL="http://collections.ala.org.au"
-//}
-//if (!security.cas.uriFilterPattern ) {
-//    security.cas.uriFilterPattern = '/speciesList, /speciesList/.*, /admin, /admin/.*, /speciesListItem/listAuth/.*, /editor, /editor/.*'
-//}
-//if (!security.cas.authenticateOnlyIfLoggedInPattern) {
-//    security.cas.authenticateOnlyIfLoggedInPattern = "/speciesListItem/list,/speciesListItem/list/.*"
-//}
-//if (!security.cas.casServerName) {
-//    security.cas.casServerName = 'https://auth.ala.org.au'
-//}
-//if (!security.cas.uriExclusionFilterPattern) {
-//    ssecurity.cas.uriExclusionFilterPattern = '/images.*,/css.*,/js.*,/speciesList/occurrences/.*,/speciesList/fieldGuide/.*,/ws/speciesList'
-//}
-//if (!security.cas.loginUrl) {
-//    security.cas.loginUrl = 'https://auth.ala.org.au/cas/login'
-//}
-//if (!security.cas.logoutUrl) {
-//    security.cas.logoutUrl = 'https://auth.ala.org.au/cas/logout'
-//}
-//if (!security.cas.casServerUrlPrefix) {
-//    security.cas.casServerUrlPrefix = 'https://auth.ala.org.au/cas'
-//}
-//if (!security.cas.bypass) {
-//    security.cas.bypass = false
-//}
-//if (!downloadLimit) {
-//    downloadLimit = "200"
-//}
-//if (!biocacheService.baseURL) {
-//    biocacheService.baseURL = "http://biocache.ala.org.au/ws"
-//}
-//if (!headerAndFooter.baseURL ) {
-//    headerAndFooter.baseURL = "http://www2.ala.org.au/commonui"
-//}
-//if (!ala.baseURL) {
-//    ala.baseURL = "http://www.ala.org.au"
-//}
-//if (!bie.baseURL) {
-//    bie.baseURL = "http://bie.ala.org.au"
-//}
-//if (!bieService.baseURL) {
-//    bieService.baseURL = "http://bie.ala.org.au/ws"
-//}
-//if (!biocache.baseURL) {
-//    biocache.baseURL = "http://biocache.ala.org.au"
-//}
-//if (!fieldGuide.baseURL) {
-//    fieldGuide.baseURL = "http://fieldguide.ala.org.au"
-//}
-//if (!bie.searchPath) {
-//    bie.searchPath = "/search"
-//}
-//if (!bie.download) {
-//    bie.download = "/data/bie-staging/species-list"
-//}
-//if (!bie.nameIndexLocation) {
-//    bie.nameIndexLocation = "/data/lucene/namematching_v13"
-//}
-if (!skin.fluidLayout) {
-    skin.fluidLayout = true
-}
-updateUserDetailsOnStartup = false
-/******* End of ALA standard config ************/
 /******************************************************************************\
  *  APP CONFIG
  \******************************************************************************/
@@ -222,37 +124,7 @@ log4j = {
         warn 'tomcatLog'
         additivity = true
     }
-    error 'org.codehaus.groovy.grails.web.servlet', // controllers
-            'org.codehaus.groovy.grails.web.pages', // GSP
-            'org.codehaus.groovy.grails.web.sitemesh', // layouts
-            'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
-            'org.codehaus.groovy.grails.web.mapping', // URL mapping
-            'org.codehaus.groovy.grails.commons', // core / classloading
-            'org.codehaus.groovy.grails.plugins', // plugins
-            'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
-            'org.springframework',
-            'org.hibernate',
-            'net.sf.ehcache.hibernate',
-            'org.codehaus.groovy.grails.plugins.orm.auditable',
-            'org.mortbay.log', 'org.springframework.webflow',
-            'grails.app',
-            'org.apache',
-            'org',
-            'com',
-            'au',
-            'grails.app',
-            'net',
-            'grails.util.GrailsUtil',
-            'grails.app.service.org.grails.plugin.resource',
-            'grails.app.service.org.grails.plugin.resource.ResourceTagLib',
-            'grails.app',
-            'grails.plugin.springcache',
-            'au.org.ala.cas.client',
-            'grails.spring.BeanBuilder',
-            'grails.plugin.webxml'
-    info 'grails.app',
-            'au.org.ala.specieslist',
-            'org.quartz'
+
     debug 'grails.app',
             'grails.app.domain',
             'grails.app.controller',

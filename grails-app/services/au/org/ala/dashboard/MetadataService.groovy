@@ -11,11 +11,17 @@ class MetadataService {
 
     def webService, cacheService, grailsApplication
 
-    String BIO_CACHE_URL
+    String BIO_CACHE_URL, VOLUNTEER_URL, COLLECTORY_URL, SPATIAL_URL,BIE_URL, LOGGER_URL
 
     @PostConstruct
     def init() {
         BIO_CACHE_URL = grailsApplication.config.biocache.baseURL
+        VOLUNTEER_URL = grailsApplication.config.volunteer.baseUrl
+        COLLECTORY_URL = grailsApplication.config.collectory.baseURL
+        SPATIAL_URL = grailsApplication.config.spatial.baseURL
+        BIE_URL = grailsApplication.config.bie.baseURL
+        LOGGER_URL = grailsApplication.config.logger.baseURL
+
     }
 /**
      * Populates the model for the dashboard view
@@ -76,7 +82,7 @@ class MetadataService {
      * Uses a cached biocache lookup to return the counts for the specified facet.
      * @return map with facets and any errors - [error: <errors>, reason: <reason if error>, facets: <facet values>]
      */
-    def getBiocacheFacet(facetName) {
+    def getBiocacheFacet(String facetName) {
         return cacheService.get(facetName, {
             biocacheFacetCount(facetName)
         })
@@ -112,7 +118,7 @@ class MetadataService {
     def getVolunteerStats() {
         cacheService.get('volunteerStats', {
             // earliest record
-            webService.getJson("http://volunteer.ala.org.au/ws/stats")
+            webService.getJson("${VOLUNTEER_URL}${Constants.WebServices.PARTIAL_URL_VOLUNTEER_STATS}")
         })
     }
 
@@ -121,13 +127,12 @@ class MetadataService {
      * records by century.
      * @return map
      */
-    def getDateStats() {
+    Map getDateStats() {
         cacheService.get('dateStats', {
             def results = [:]
 
             // earliest record
-            def a = webService.getJson(grailsApplication.config.biocache.baseURL +
-                    "/ws/occurrences/search?q=!assertions:invalidCollectionDate&pageSize=1&sort=occurrence_date&facet=off")
+            def a = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_DATE_STATS_EARLIEST_RECORD}")
             def earliestUuid = a?.occurrences[0]?.uuid
             if (a?.occurrences[0]?.eventDate) {
                 def earliest = new Date(a?.occurrences[0]?.eventDate)
@@ -138,25 +143,22 @@ class MetadataService {
             }
 
             // latest record
-            def b = webService.getJson(grailsApplication.config.biocache.baseURL +
-                    "/ws/occurrences/search?q=!assertions:invalidCollectionDate&pageSize=1&sort=occurrence_date&dir=desc&facet=off")
+            def b = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_DATE_STATS_LATEST_RECORD}")
             def latestUuid = b.occurrences[0].uuid
             def latest = new Date(b.occurrences[0].eventDate)
             def latestDate = new SimpleDateFormat("d MMMM yyyy").format(latest)
             results.latest = [uuid: latestUuid, display: latestDate]
 
             // latest record with image
-            def bi = webService.getJson(grailsApplication.config.biocache.baseURL +
-                    "/ws/occurrences/search?q=!assertions:invalidCollectionDate%20AND%20occurrence_date:%5B*%20TO%20*%5D&pageSize=1&sort=first_loaded_date&dir=desc&facet=off&fq=multimedia:Image")
+            def bi = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_DATE_STATS_LATEST_RECORD_WITH_IMAGE}")
             def latestImageUuid = bi.occurrences[0].uuid
             def latestImage = new Date(bi.occurrences[0].eventDate)
             def latestImageDate = new SimpleDateFormat("d MMMM yyyy").format(latestImage)
             results.latestImage = [uuid: latestImageUuid, display: latestImageDate]
 
             // get counts by century
-            [1600, 1700, 1800, 1900, 2000].each {
-                def url = grailsApplication.config.biocache.baseURL +
-                        "/ws/occurrences/search?q=*:*&pageSize=0&facet=off&fq=occurrence_year:[${it}-01-01T00:00:00Z%20TO%20${it + 99}-12-31T23:59:59Z]"
+            [1600, 1700, 1800, 1900, 2000].each { century ->
+                def url = "${BIO_CACHE_URL}/ws/occurrences/search?q=*:*&pageSize=0&facet=off&fq=occurrence_year:[${century}-01-01T00:00:00Z%20TO%20${century + 99}-12-31T23:59:59Z]"
                 def c = webService.getJson(url)
                 results['c' + it] = c.totalRecords
             }
@@ -204,11 +206,9 @@ class MetadataService {
     List getSpeciesByDecade() {
         return cacheService.get("speciesByDecade", {
 
-            def baseUrl =
-                    "http://biocache.ala.org.au/ws/explore/groups.json?q=*:*&pageSize=10&fq=occurrence_year:"
-            //[1750-01-01T00:00:00Z+TO+1760-12-31T23:59:59Z]
+            String baseUrl = "${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_SPECIES_BY_DECADE}"
 
-            def data = []
+            List data = []
             (184..201).each {
                 def from, decade
                 if (it == 184) {
@@ -240,8 +240,7 @@ class MetadataService {
             // look it up
             log.info "looking up datasets"
             def resp = null
-            def url = grailsApplication.config.collectory.baseURL +
-                    "/ws/dataResource/count/resourceType?public=true"
+            String url = "${COLLECTORY_URL}${Constants.WebServices.PARTIAL_URL_COUNT_DATASETS_BY_TYPE}"
 
             def conn = new URL(url).openConnection()
             try {
@@ -258,7 +257,7 @@ class MetadataService {
             }
 
             // look up most recently added
-            def json = new URL("http://collections.ala.org.au/ws/dataResource").text
+            def json = new URL("${COLLECTORY_URL}/ws/dataResource").text
             def allDRs = new JsonSlurper().parseText(json)
             allDRs.sort { it.uid[2..-1].toInteger() }
             def last = allDRs.last()
@@ -279,8 +278,7 @@ class MetadataService {
             log.info "looking up spatial layers"
             // look it up
             def resp = null
-            def url = grailsApplication.config.spatial.baseURL +
-                    "/layers.json"
+            def url = "${SPATIAL_URL}/layers.json"
 
             def conn = new URL(url).openConnection()
             try {
@@ -316,8 +314,8 @@ class MetadataService {
     def getSpeciesByConservationStatus() {
         return cacheService.get('speciesByConservationStatus', {
 
-            def baseUrl = grailsApplication.config.biocache.baseURL +
-                    "/ws/explore/groups.json?pageSize=10&q=state_conservation:"
+            def baseUrl = "${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_SPECIES_BY_CONSERVATION_STATUS}"
+                    ""
 
             def data = []
             ['Endangered', 'Near Threatened', 'Least Concern/Unknown', 'Listed under FFG Act', 'Extinct', 'Parent Species (Unofficial)'].each {
@@ -338,7 +336,7 @@ class MetadataService {
             def results = getBiocacheFacet('data_provider_uid')?.facets
 
             // get metadata for name and acronym
-            def dpMetadata = JSON.parse(new URL(grailsApplication.config.collectory.baseURL + "/lookup/dataProvider").text)
+            def dpMetadata = JSON.parse(new URL("${COLLECTORY_URL}/lookup/dataProvider").text)
             def dpMap = [:]
             dpMetadata.each() {
                 dpMap.put it.uid, [acronym: it.acronym, name: it.name, uri: it.uri]
@@ -350,7 +348,7 @@ class MetadataService {
                 if (md) {
                     it.name = md.name
                     it.acronym = md.acronym
-                    it.uri = grailsApplication.config.collectory.baseURL + '/public/show/' + it.facet
+                    it.uri = "${COLLECTORY_URL}/public/show/${it.facet}"
                     it.display = md.acronym ?: md.name
                 }
             }
@@ -366,7 +364,7 @@ class MetadataService {
             def results = getBiocacheFacet('institution_uid')?.facets
 
             // get metadata for name and acronym
-            def dpMetadata = JSON.parse(new URL(grailsApplication.config.collectory.baseURL + "/lookup/institution").text)
+            def dpMetadata = JSON.parse(new URL("${COLLECTORY_URL}/lookup/institution").text)
             def dpMap = [:]
             dpMetadata.each() {
                 dpMap.put it.uid, [acronym: it.acronym, name: it.name]
@@ -378,7 +376,7 @@ class MetadataService {
                 if (md) {
                     it.name = md.name
                     it.acronym = md.acronym
-                    it.uri = grailsApplication.config.collectory.baseURL + '/public/show/' + it.facet
+                    it.uri = "${COLLECTORY_URL}/public/show/${it.facet}"
                     it.display = (md.name.size() > 30 && md.acronym) ? md.acronym : md.name
                 }
             }
@@ -398,8 +396,7 @@ class MetadataService {
 
         def facets = []
         def resp = null
-        def url = grailsApplication.config.biocache.baseURL +
-                "ws/occurrences/search?q=${query}&pageSize=0&fsort=count&facets=${facetName}"
+        String url = "${BIO_CACHE_URL}/ws/occurrences/search?q=${query}&pageSize=0&fsort=count&facets=${facetName}"
 
         log.info "looking up " + facetName + ", URL: " + url
 
@@ -422,9 +419,6 @@ class MetadataService {
             facetName = 'occurrence_year'
         }
 
-        /*if (facetName == 'type_status') {
-            println resp
-        }*/
         // handle no results
         if (!resp || !resp.facetResults) {
             return [error: "Biocache lookup failed", reason: "no data"]
@@ -446,9 +440,9 @@ class MetadataService {
      * @return metadata for each taxon
      */
     def bieBulkLookup(list) {
-        def url = grailsApplication.config.bie.baseURL
+        def url = BIE_URL
         def data = webService.doPost(url,
-                "ws/species/guids/bulklookup.json", "", (list as JSON).toString())
+                "/ws/species/guids/bulklookup.json", "", (list as JSON).toString())
         //println "returned from doPost ${data.resp}"
         def results = [:]
         if (!data.error) {
@@ -476,8 +470,7 @@ class MetadataService {
             def results = [:]
 
             // earliest record
-            def totals = webService.getJson(grailsApplication.config.logger.baseURL +
-                    "/service/totalsByType").totals
+            def totals = webService.getJson("${LOGGER_URL}/service/totalsByType").totals
 
             for (k in totals.keys()) {
                 def keyMap = totals[k]
@@ -493,8 +486,7 @@ class MetadataService {
             def results = []
 
             // this number includes testing - we need to remove this
-            def allTimeReasonBreakdown = webService.getJson(grailsApplication.config.logger.baseURL +
-                    "/service/reasonBreakdown?eventId=1002").all
+            def allTimeReasonBreakdown = webService.getJson("${LOGGER_URL}/service/reasonBreakdown?eventId=1002").all
 
             //order by counts
             def sortedBreakdowns = allTimeReasonBreakdown.reasonBreakdown.sort { -it.value["events"] }
@@ -544,8 +536,7 @@ class MetadataService {
         cacheService.get('loggerReasonBreakdown', {
             def results = []
             // earliest record
-            def allTimeReasonBreakdown = webService.getJson(grailsApplication.config.logger.baseURL +
-                    "/service/reasonBreakdownMonthly?eventId=1002").all
+            def allTimeReasonBreakdown = webService.getJson("${LOGGER_URL}/service/reasonBreakdownMonthly?eventId=1002").all
             return allTimeReasonBreakdown
         })
     }
@@ -555,15 +546,12 @@ class MetadataService {
             def results = [:]
 
             // earliest record
-            def allTimeEmailBreakdown = webService.getJson(grailsApplication.config.logger.baseURL +
-                    "/service/emailBreakdown?eventId=1002").all
+            def allTimeEmailBreakdown = webService.getJson("${LOGGER_URL}/service/emailBreakdown?eventId=1002").all
 
             ["edu", "gov", "other", "unspecified"].each {
                 def keyMap = allTimeEmailBreakdown.emailBreakdown[it]
                 results[it] = ["events": format(keyMap["events"] as long), "records": format(keyMap["records"] as long)]
             }
-
-//            results["total"] = ["events" : format(allTimeEmailBreakdown.events as long), "records" : format(allTimeEmailBreakdown.records as long)]
 
             return results
         })
