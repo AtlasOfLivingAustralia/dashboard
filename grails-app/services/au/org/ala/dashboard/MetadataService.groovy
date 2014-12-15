@@ -11,7 +11,7 @@ class MetadataService {
 
     def webService, cacheService, grailsApplication
 
-    String BIO_CACHE_URL, VOLUNTEER_URL, COLLECTORY_URL, SPATIAL_URL,BIE_URL, LOGGER_URL
+    String BIO_CACHE_URL, VOLUNTEER_URL, COLLECTORY_URL, SPATIAL_URL,BIE_URL, LOGGER_URL, IMAGES_URL
 
     @PostConstruct
     def init() {
@@ -21,6 +21,7 @@ class MetadataService {
         SPATIAL_URL = grailsApplication.config.spatial.baseURL
         BIE_URL = grailsApplication.config.bie.baseURL
         LOGGER_URL = grailsApplication.config.logger.baseURL
+        IMAGES_URL = grailsApplication.config.images.baseUrl
 
     }
 /**
@@ -470,7 +471,7 @@ class MetadataService {
             def results = [:]
 
             // earliest record
-            def totals = webService.getJson("${LOGGER_URL}/service/totalsByType").totals
+            def totals = webService.getJson("${LOGGER_URL}${Constants.WebServices.PARTIAL_URL_LOGGER_TOTALS}").totals
 
             for (k in totals.keys()) {
                 def keyMap = totals[k]
@@ -486,7 +487,7 @@ class MetadataService {
             def results = []
 
             // this number includes testing - we need to remove this
-            def allTimeReasonBreakdown = webService.getJson("${LOGGER_URL}/service/reasonBreakdown?eventId=1002").all
+            def allTimeReasonBreakdown = webService.getJson("${LOGGER_URL}${Constants.WebServices.PARTIAL_URL_LOGGER_REASON_BREAKDOWN}").all
 
             //order by counts
             def sortedBreakdowns = allTimeReasonBreakdown.reasonBreakdown.sort { -it.value["events"] }
@@ -507,8 +508,6 @@ class MetadataService {
             def testingRecords = 0
 
             if (testingCount) {
-//                other["events"] = other["events"] + testingCount["events"]
-//                other["records"] = other["records"] + testingCount["records"]
                 testingEvents = testingCount["events"] as long
                 testingRecords = testingCount["records"] as long
             }
@@ -536,7 +535,7 @@ class MetadataService {
         cacheService.get('loggerReasonBreakdown', {
             def results = []
             // earliest record
-            def allTimeReasonBreakdown = webService.getJson("${LOGGER_URL}/service/reasonBreakdownMonthly?eventId=1002").all
+            def allTimeReasonBreakdown = webService.getJson("${LOGGER_URL}${Constants.WebServices.PARTIAL_URL_LOGGER_REASON_TEMPORAL_BREAKDOWN}").all
             return allTimeReasonBreakdown
         })
     }
@@ -546,7 +545,7 @@ class MetadataService {
             def results = [:]
 
             // earliest record
-            def allTimeEmailBreakdown = webService.getJson("${LOGGER_URL}/service/emailBreakdown?eventId=1002").all
+            def allTimeEmailBreakdown = webService.getJson("${LOGGER_URL}${Constants.WebServices.PARTIAL_URL_LOGGER_EMAIL_BREAKDOWN}").all
 
             ["edu", "gov", "other", "unspecified"].each {
                 def keyMap = allTimeEmailBreakdown.emailBreakdown[it]
@@ -562,21 +561,17 @@ class MetadataService {
 
             def results = [:]
 
-            def bieUrl = grailsApplication.config.bie.baseURL
-            //TODO Why is this not used ans why are all the urls harcoded
-            //def biocacheUrl = grailsApplication.config.biocache.baseURL
+            def taxaWithImages = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_TAXA_WITH_IMAGES}")[0].count
 
-            def taxaWithImages = webService.getJson("http://biocache.ala.org.au/ws/occurrence/facets?facets=taxon_name&pageSize=0&q=multimedia:Image")[0].count
+            def speciesWithImages = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_SPECIES_WITH_IMAGES}")[0].count
 
-            def speciesWithImages = webService.getJson("http://biocache.ala.org.au/ws/occurrence/facets?q=multimedia:Image%20AND%20(rank:species%20OR%20rank:subspecies)&facets=taxon_name&pageSize=0")[0].count
-
-            def subspeciesWithImages = webService.getJson("http://biocache.ala.org.au/ws/occurrence/facets?q=multimedia:Image%20AND%20rank:subspecies&facets=taxon_name&pageSize=0")[0].count
+            def subspeciesWithImages = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_SUBSPECIES_WITH_IMAGES}")[0].count
 
             results.put("taxaWithImages", taxaWithImages)
             results.put("speciesWithImages", speciesWithImages)
             results.put("subspeciesWithImages", subspeciesWithImages)
 
-            def vpResources = webService.getJson("http://collections.ala.org.au/ws/dataHub/dh6").memberDataResources
+            def vpResources = webService.getJson("${COLLECTORY_URL}/ws/dataHub/dh6").memberDataResources
 //            log.debug "vpResources = ${vpResources}"
             def resourcesQuery = ""
 
@@ -591,15 +586,13 @@ class MetadataService {
                 resourcesQuery = resourcesQuery + ")"
             }
 
-            def taxaURL = "http://biocache.ala.org.au/ws/occurrence/facets?facets=taxon_name&pageSize=0&q=multimedia:Image%20AND%20" + resourcesQuery
-
-            def taxaVPCount = webService.getJson(taxaURL)[0].count
+            def taxaVPCount = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_TAXA_VP_COUNT}${resourcesQuery}")[0].count
             results.put("taxaWithImagesFromVolunteerPortal", taxaVPCount)
 
-            def taxaCSCount = webService.getJson("http://biocache.ala.org.au/ws/occurrence/facets?facets=taxon_name&pageSize=0&q=multimedia:Image%20AND%20provenance:\"Individual%20sightings\"")[0].count
+            def taxaCSCount = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_TAXA_CS_COUNT}")[0].count
             results.put("taxaWithImagesFromCS", taxaCSCount)
 
-            def imageTotal = webService.getJson("http://images.ala.org.au/ws/getRepositoryStatistics").imageCount
+            def imageTotal = webService.getJson("${IMAGES_URL}${Constants.WebServices.PARTIAL_URL_IMAGE_TOTAL}").imageCount
             results.put("imageTotal", imageTotal)
 
             return results
@@ -712,15 +705,8 @@ class MetadataService {
                 r += c
             }
         }
+
         return r
-        //return s.replaceAll(/([A-Z][a-z]+)/, " \$1".toLowerCase())
-        /*return s.replaceAll(
-                String.format("%s|%s|%s",
-                        "(?<=[A-Z])(?=[A-Z][a-z])",
-                        "(?<=[^A-Z])(?=[A-Z])",
-                        "(?<=[A-Za-z])(?=[^A-Za-z])"
-                ),
-                " "
-        );*/
+
     }
 }

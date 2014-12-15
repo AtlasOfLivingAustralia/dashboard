@@ -25,6 +25,25 @@ class Constants {
 
         final static String PARTIAL_URL_SPECIES_BY_CONSERVATION_STATUS= "/ws/explore/groups.json?pageSize=10&q=state_conservation:"
 
+        final static String PARTIAL_URL_LOGGER_TOTALS = "/service/totalsByType"
+
+        final static String PARTIAL_URL_LOGGER_REASON_BREAKDOWN = "/service/reasonBreakdown?eventId=1002"
+
+        final static String PARTIAL_URL_LOGGER_REASON_TEMPORAL_BREAKDOWN = "/service/reasonBreakdownMonthly?eventId=1002"
+
+        final static String PARTIAL_URL_LOGGER_EMAIL_BREAKDOWN = "/service/emailBreakdown?eventId=1002"
+
+        final static String PARTIAL_URL_TAXA_WITH_IMAGES = "/ws/occurrence/facets?facets=taxon_name&pageSize=0&q=multimedia:Image"
+
+        final static String PARTIAL_URL_SPECIES_WITH_IMAGES = "/ws/occurrence/facets?q=multimedia:Image%20AND%20(rank:species%20OR%20rank:subspecies)&facets=taxon_name&pageSize=0"
+
+        final static String PARTIAL_URL_SUBSPECIES_WITH_IMAGES = "/ws/occurrence/facets?q=multimedia:Image%20AND%20rank:subspecies&facets=taxon_name&pageSize=0"
+
+        final static String PARTIAL_URL_TAXA_VP_COUNT = "/ws/occurrence/facets?facets=taxon_name&pageSize=0&q=multimedia:Image%20AND%20"
+
+        final static String PARTIAL_URL_TAXA_CS_COUNT = "/ws/occurrence/facets?facets=taxon_name&pageSize=0&q=multimedia:Image%20AND%20provenance:\"Individual%20sightings\""
+
+        final static String PARTIAL_URL_IMAGE_TOTAL = "/ws/getRepositoryStatistics"
 
     }
 }

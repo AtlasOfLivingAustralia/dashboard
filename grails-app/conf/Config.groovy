@@ -31,6 +31,10 @@ println "[${appName}] (*) grails.config.locations = ${grails.config.locations}"
 dashboard.data.file = "/data/dashboard/data.json"
 csv.temp.dir = "/data/dashboard/csv/"
 
+if (!skin.fluidLayout) {
+    skin.fluidLayout = true
+}
+
 // The ACCEPT header will not be used for content negotiation for user agents containing the following strings (defaults to the 4 major rendering engines)
 grails.mime.disable.accept.header.userAgents = ['Gecko', 'WebKit', 'Presto', 'Trident']
 grails.mime.types = [ // the first one is the default format
