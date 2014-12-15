@@ -82,11 +82,11 @@
 
         <g:include controller="dashboard" action="occurrenceTreePanel"/>
 
-        <g:include controller="dashboard" action="usageStatisticsPanel"/>
+        %{--<g:include controller="dashboard" action="usageStatisticsPanel"/>--}%
 
         <g:include controller="dashboard" action="downloadsByReasonPanel"/>
 
-        <g:include controller="dashboard" action="downloadsByUserTypePanel"/>
+        %{--<g:include controller="dashboard" action="downloadsByUserTypePanel"/>--}%
 
         <g:include controller="dashboard" action="speciesImagesPanel"/>
 
