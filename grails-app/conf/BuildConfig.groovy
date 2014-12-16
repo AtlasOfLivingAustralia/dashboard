@@ -49,6 +49,8 @@ grails.project.dependency.resolution = {
             exclude "cache-ehcache"
         }
         runtime ":jquery:1.11.1"
+        runtime ":zipped-resources:1.0"
+        runtime ":yui-minify-resources:0.1.5"
 
     }
 }

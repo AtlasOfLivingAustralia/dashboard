@@ -7,7 +7,7 @@
     <meta name="layout" content="main"/>
     <title>Dashboard | Atlas of Living Australia</title>
     <gvisualization:apiImport/>
-    <r:require modules="jquery-migration,jquery-ui, charts, font-awesome, dashboard, jquery.cookie, touch-support, markdown"/>
+    <r:require modules="dashboard"/>
 </head>
 
 <body>

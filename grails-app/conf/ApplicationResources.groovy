@@ -1,6 +1,12 @@
 // resource bundles
 modules = {
 
+    dashboard {
+        dependsOn 'jquery-migration','jquery-ui','charts','font-awesome', 'jquery.cookie', 'touch-support', 'markdown'
+        resource url: '/js/dashboard.js'
+        resource url: '/css/dashboard.css', attrs:[media:'all']
+    }
+
     'jquery-migration' {
         dependsOn 'jquery'
 
@@ -16,12 +22,6 @@ modules = {
 
     'touch-support' {
         resource url: '/js/jquery.ui.touch-punch-0.2.3.min.js'
-    }
-
-    dashboard {
-        dependsOn 'charts'
-        resource url: '/js/dashboard.js'
-        resource url: '/css/dashboard.css', attrs:[media:'all']
     }
 
     'jquery.cookie' {
