@@ -66,7 +66,7 @@ var dashboard = {
     setupPanelInfo: function() {
         $.each(panelInfo, function(panelId, info) {
             $('#' + panelId + ' .panel-title i').removeClass('hidden');
-            $('#' + panelId + ' .panel-title i').click(function() {
+            $('#' + panelId + ' .panel-title i').on('click touchstart',function() {
                 $('#' + panelId + ' .panel-body').toggleClass('hidden');
             });
             $('#' + panelId + ' .panel-info').html(markdown.toHTML(info));
@@ -94,7 +94,9 @@ var dashboard = {
                 update: function(){
                     dashboard.sortableFeature.serializeListOrderToCookie();
                 },
-                handle: ".panel-heading"
+                handle: ".panel-heading",
+                delay: 300,
+                cancel: ".info-icon, .info-icon i"
             });
 
             dashboard.sortableFeature.restoreListOrderFromCookie();

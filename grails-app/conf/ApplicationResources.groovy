@@ -1,9 +1,17 @@
 // resource bundles
 modules = {
 
+    'jquery-migration' {
+        dependsOn 'jquery'
+
+        resource url: '/js/jquery-migrate-1.2.1.min.js', disposition: 'head'
+    }
+
     'jquery-ui' {
         dependsOn 'jquery'
-        resource url: '/js/jquery-ui-1.8.16.custom.min.js'
+
+        resource url: '/js/jquery-ui-1.11.2.js'
+        resource url: '/css/smoothness/jquery-ui-1.11.2.min.css', attrs:[media:'all']
     }
 
     'touch-support' {
