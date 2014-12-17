@@ -1,3 +1,5 @@
+import grails.util.Environment
+
 grails.servlet.version = "2.5" // Change depending on target container compliance (2.5 or 3.0)
 grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
@@ -40,7 +42,11 @@ grails.project.dependency.resolution = {
         compile ":google-visualization:1.0-SNAPSHOT"
         compile ":font-awesome-resources:4.2.0.0"
 
-        runtime ':resources:1.2.8'
+        runtime ':resources:1.2.13'
+        if (Environment.current == Environment.PRODUCTION) {
+            runtime ":zipped-resources:1.0"
+            runtime ":yui-minify-resources:0.1.5"
+        }
         runtime ":ala-charts:0.2.3"
         runtime (":ala-web-theme:0.8.4") {
             exclude "servlet-api"
@@ -49,8 +55,6 @@ grails.project.dependency.resolution = {
             exclude "cache-ehcache"
         }
         runtime ":jquery:1.11.1"
-        runtime ":zipped-resources:1.0"
-        runtime ":yui-minify-resources:0.1.5"
 
     }
 }
