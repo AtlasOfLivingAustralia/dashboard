@@ -6,9 +6,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="layout" content="main"/>
     <title>Dashboard | Atlas of Living Australia</title>
-    <link rel="stylesheet" href="${resource(dir: 'css/smoothness', file: 'jquery-ui-1.8.16.custom.css')}"/>
     <gvisualization:apiImport/>
-    <r:require modules="jquery-ui, charts, font-awesome, dashboard, jquery.cookie, touch-support, markdown"/>
+    <r:require modules="dashboard"/>
 </head>
 
 <body>
@@ -82,11 +81,11 @@
 
         <g:include controller="dashboard" action="occurrenceTreePanel"/>
 
-        <g:include controller="dashboard" action="usageStatisticsPanel"/>
+        %{--<g:include controller="dashboard" action="usageStatisticsPanel"/>--}%
 
         <g:include controller="dashboard" action="downloadsByReasonPanel"/>
 
-        <g:include controller="dashboard" action="downloadsByUserTypePanel"/>
+        %{--<g:include controller="dashboard" action="downloadsByUserTypePanel"/>--}%
 
         <g:include controller="dashboard" action="speciesImagesPanel"/>
 
@@ -98,7 +97,7 @@
         collections: '${grailsApplication.config.collectory.baseURL}',
         biocache: '${grailsApplication.config.biocache.baseURL}',
         bie: '${grailsApplication.config.bie.baseURL}',
-        app: '${grailsApplication.config.grails.serverURL}'
+        app: '${request.contextPath}'
     }
 
     <g:applyCodec encodeAs="none">

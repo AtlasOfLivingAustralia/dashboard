@@ -8,9 +8,9 @@
         <g:if test="${mostRecorded.error.asBoolean()}">
           <p class="error" title="${basisOfRecord.reason}">${mostRecorded.error}</p>
         </g:if>
-        <table class="table table-condensed table-striped table-hover">
+        <table class="table table-condensed table-striped table-hover link">
           <g:each in="${mostRecorded.facets}" var="m">
-            <tr><td id="${m.facet}"><em>${m.name}</em>
+            <tr class="link"><td id="${m.facet}"><em>${m.name}</em>
               <g:if test="${m.common}">- ${m.common}</g:if></td>
               <td><span class="count">${m.formattedCount}</span></td>
             </tr>

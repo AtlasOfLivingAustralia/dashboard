@@ -13,7 +13,7 @@
 
             <p class="third-paragraph">
                 We estimate the number of potential duplicate records to be
-                <a href="${grailsApplication.config.biocache.baseURL}occurrences/search?q=*:*&fq=duplicate_status:D"
+                <a href="${grailsApplication.config.biocache.baseURL}/occurrences/search?q=*:*&fq=duplicate_status:D"
                    id="duplicateCount" class="link"><em><db:addCommas value="${totalRecords.duplicates}"/></em></a>.
             </p>
         </div>

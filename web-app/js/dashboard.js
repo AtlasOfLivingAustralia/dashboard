@@ -20,7 +20,7 @@ var dashboard = {
         dashboard.urls = options.urls;
         dashboard.sortableFeature.init();
         dashboard.setupPanelInfo();
-        dashboard.drawLifeformsTable();
+        dashboard.setupRecordsByLifeFormTable();
         dashboard.wireActions();
 
         // set most recorded data to match the current selection (for back button state)
@@ -30,7 +30,7 @@ var dashboard = {
             /* base url of the collectory */
             collectionsUrl: dashboard.urls.collections,
             /* base url of the biocache ws*/
-            biocacheServicesUrl: dashboard.urls.biocache + 'ws/',
+            biocacheServicesUrl: dashboard.urls.biocache + '/ws/',
             /* base url of the biocache webapp*/
             biocacheWebappUrl: dashboard.urls.biocache,
             serverUrl: dashboard.urls.app,
@@ -66,7 +66,7 @@ var dashboard = {
     setupPanelInfo: function() {
         $.each(panelInfo, function(panelId, info) {
             $('#' + panelId + ' .panel-title i').removeClass('hidden');
-            $('#' + panelId + ' .panel-title i').click(function() {
+            $('#' + panelId + ' .panel-title i').on('click touchstart',function() {
                 $('#' + panelId + ' .panel-body').toggleClass('hidden');
             });
             $('#' + panelId + ' .panel-info').html(markdown.toHTML(info));
@@ -94,7 +94,9 @@ var dashboard = {
                 update: function(){
                     dashboard.sortableFeature.serializeListOrderToCookie();
                 },
-                handle: ".panel-heading"
+                handle: ".panel-heading",
+                delay: 300,
+                cancel: ".info-icon, .info-icon i"
             });
 
             dashboard.sortableFeature.restoreListOrderFromCookie();
@@ -123,49 +125,20 @@ var dashboard = {
         }
     },
 
-    // TODO Move this to server side. This is actually hard to watch!!
-    drawLifeformsTable: function() {
-        $.ajax({
-            url: dashboard.urls.biocache + "ws/occurrences/search.json?pageSize=0" +
-            "&q=*:*&facets=species_group&flimit=200",
-            dataType: 'jsonp',
-            success: function(data) {
-                // transform facet results list into map keyed on field name (the facet name in the data)
-                var facetMap = {};
+    /**
+     *
+     */
+    setupRecordsByLifeFormTable: function() {
+        // add click listener
+        $('#lifeformsTable td:nth-child(odd)').click(function () {
+            var group = $(this).html();
+            document.location.href = dashboard.urls.biocache + "/occurrences/search?q=*:*&fq=species_group:" + group;
+        });
 
-                $.each(data.facetResults, function(idx, obj) {
-                    facetMap[obj.fieldName] = obj.fieldResult;
-                });
-
-                var $table = $('#lifeformsTable'),
-                    content = "",
-                    list = facetMap.species_group,
-                    l = list.length,
-                    c = Math.floor(l/2);
-
-                for (i = 0; i < c; i++) {
-
-                    var className = '';
-                    if(i>5){
-                        className = 'hideable';
-                    }
-                    content += "<tr class='" + className +"'><td>" + list[i].label + "</td>" + "<td>" + format(list[i].count) + "</td>";
-                    content += "<td>" + list[c+i].label + "</td>" + "<td>" + format(list[c+i].count) + "</td></tr>";
-                }
-
-                $table.html($(content));
-                // add click listener
-                $('#lifeformsTable td:nth-child(odd)').click(function () {
-                    var group = $(this).html();
-                    document.location.href = biocacheWebappUrl + "occurrences/search?q=*:*&fq=species_group:" + group;
-                });
-
-                //lifeforms
-                $('#lifeformsTable .hideable').hide();
-                $('#showAllLifeforms').click(function(){
-                    $('#lifeformsTable .hideable').toggle('slow');
-                });
-            }
+        //lifeforms
+        $('#lifeformsTable .hideable').hide();
+        $('#showAllLifeforms').click(function(){
+            $('#lifeformsTable .hideable').toggle('slow');
         });
     },
 
@@ -203,11 +176,11 @@ var dashboard = {
         });
         // show json
         $('#showJson').click(function () {
-            document.location.href = serverUrl + "/dashboard/data";
+            document.location.href = dashboard.urls.app + "/dashboard/data";
         });
         // download csv
         $('#downloadCsv').click(function () {
-            document.location.href = serverUrl + "/dashboard/downloadAsCsv";
+            document.location.href = dashboard.urls.app + "/dashboard/downloadAsCsv";
         });
         // more.. in basis topic
         $('#moreBasisLink').click(function () {
@@ -242,40 +215,40 @@ var dashboard = {
         // datasets links
         $('#datasets-topic td:first-child').click(function () {
             var type = $(this).attr('id');
-            document.location.href = collectionsWebappUrl + "/datasets#filters=resourceType:" + type;
+            document.location.href = dashboard.urls.collections + "/datasets#filters=resourceType:" + type;
         });
         // basis of record links
         $('#basis-topic td:first-child').click(function () {
             var basis = $(this).attr('id');
-            document.location.href = biocacheWebappUrl + "/occurrences/search?q=*:*&fq=basis_of_record:" + basis.substring(3);
+            document.location.href = dashboard.urls.biocache + "/occurrences/search?q=*:*&fq=basis_of_record:" + basis.substring(3);
         });
         // type status links
         $('#typeStatus-topic td:first-child').click(function () {
             var id = $(this).attr('id');
             if (id.length > 5 && id.substr(0,5) === 'image') {
-                document.location.href = biocacheWebappUrl + "/occurrences/search?q=*:*&fq=type_status:" +
+                document.location.href = dashboard.urls.biocache + "/occurrences/search?q=*:*&fq=type_status:" +
                 id.substr(5) + "&fq=multimedia:Image#imagesView";
             } else {
-                document.location.href = biocacheWebappUrl + "/occurrences/search?q=*:*&fq=type_status:" + id;
+                document.location.href = dashboard.urls.biocache + "/occurrences/search?q=*:*&fq=type_status:" + id;
             }
         });
         // species links
         $('#most-topic').on('click', 'td:first-child', function (event) {
             var guid = $(event.currentTarget).attr('id');
-            document.location.href = bieWebappUrl + "/species/" + guid;
+            document.location.href = dashboard.urls.bie + "/species/" + guid;
         });
         // by date links
         $('#date-topic td:first-child').click(function () {
             var id = $(this).attr('id');
             if (id.length > 4) {
                 // handle earliest/latest by linking to record via uuid
-                document.location.href = biocacheWebappUrl + "/occurrence/" + id;
+                document.location.href = dashboard.urls.biocache + "/occurrence/" + id;
             } else {
                 // treat as first year of a century
                 var startYear = Number(id),
                     endYear = startYear + 99,
                     range = "[" + startYear + "-01-01T00:00:00Z+TO+" + endYear + "-12-31T23:59:59Z]";
-                document.location.href = biocacheWebappUrl + "/occurrences/search?q=*:*&fq=occurrence_year:" + range;
+                document.location.href = dashboard.urls.biocache + "/occurrences/search?q=*:*&fq=occurrence_year:" + range;
             }
         });
         // info links

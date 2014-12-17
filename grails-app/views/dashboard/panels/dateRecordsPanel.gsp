@@ -4,7 +4,7 @@
       <div class="panel-title">Records by date<i class="fa fa-info-circle pull-right hidden"></i></div>
     </div>
     <div class="panel-body">
-      <table class="table table-condensed table-striped table-hover">
+      <table class="table table-condensed table-striped table-hover link">
         <!--<tr><td id="${dateStats.earliest.uuid}">Earliest record</td><td><span class="count">${dateStats.earliest.display}</span></td>-->
         <tr><td id="${dateStats.latest.uuid}">Latest record</td><td><span
                 class="count">${dateStats.latest.display}</span></td>
