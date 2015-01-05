@@ -39,10 +39,10 @@ grails.project.dependency.resolution = {
         build ":release:3.0.1"
 
         compile ':scaffolding:2.0.3'
-        compile ":google-visualization:1.0-SNAPSHOT"
+        compile ":google-visualization:1.0"
         compile ":font-awesome-resources:4.2.0.0"
 
-        runtime ':resources:1.2.13'
+        runtime ':resources:1.2.8'
         if (Environment.current == Environment.PRODUCTION) {
             runtime ":zipped-resources:1.0"
             runtime ":yui-minify-resources:0.1.5"
