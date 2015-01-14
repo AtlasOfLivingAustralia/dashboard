@@ -8,13 +8,13 @@
         </div>
         <div class="panel-body">
             <table class="table table-condensed table-striped table-hover">
-                <tr><td>Contextual layers</td><td><span class="count">${spatialLayers.groups.contextual}</span></td>
+                <tr><td width="80%">Contextual layers</td><td><span class="count">${spatialLayers.groups.contextual}</span></td>
                 </tr>
                 <tr><td>Environmental/grided layers</td><td><span
                         class="count">${spatialLayers.groups.environmental}</span></td></tr>
             </table>
             <table class="table table-condensed table-striped table-hover">
-                <tr><td>Terrestrial layers</td><td><span class="count">${spatialLayers.groups.terrestrial}</span></td>
+                <tr><td width="80%">Terrestrial layers</td><td><span class="count">${spatialLayers.groups.terrestrial}</span></td>
                 </tr>
                 <tr><td>Marine layers</td><td><span class="count">${spatialLayers.groups.marine}</span></td></tr>
             </table>
@@ -27,7 +27,7 @@
                 </table>
             </div>
 
-            <p style="padding-top: 10px;"><span id="moreSpatialLink" class="link">more..</span></p>
+            <p class="paragraph"><button id="moreSpatialLink" class="btn btn-small">More</button></p>
         </div>
     </div>
 </div>

@@ -16,7 +16,7 @@
                     </tr>
                 </g:each>
             </table>
-            <a href="javascript:void(0);" id="showAllLifeforms">more/less...</a>
+            <p class="paragraph"><a href="javascript:void(0);" id="showAllLifeforms" class="btn btn-small">More</a></p>
         </div>
     </div>
 </div>

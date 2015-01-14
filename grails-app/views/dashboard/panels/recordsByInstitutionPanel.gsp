@@ -27,7 +27,7 @@
                 </div>
             </g:if>
             <g:if test="${institutions.size() > 7}">
-                <p style="padding-top: 2px;"><span id="moreInstitutionLink" class="link moreLink">more..</span></p>
+                <p class="paragraph"><button id="moreInstitutionLink" class="btn btn-small moreLink">More</button></p>
             </g:if>
         </div>
     </div>

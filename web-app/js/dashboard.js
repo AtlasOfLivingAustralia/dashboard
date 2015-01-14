@@ -46,7 +46,8 @@ var dashboard = {
         //reasons
         $('#loggerReasonBreakdownTable .hideableRow').hide();
         $('#showAllLoggerReasons').on('click touch', function(){
-            $('#loggerReasonBreakdownTable .hideableRow').toggle('slow');
+            $('#showAllLoggerReasons').html($('#loggerReasonBreakdownTable tr.hideableRow:visible').length ? 'More' : 'Less');
+            $('#loggerReasonBreakdownTable .hideableRow').toggle(200);
         });
 
         if(dashboard.panelRenderingErrors.length > 0) {
@@ -138,7 +139,8 @@ var dashboard = {
         //lifeforms
         $('#lifeformsTable .hideable').hide();
         $('#showAllLifeforms').click(function(){
-            $('#lifeformsTable .hideable').toggle('slow');
+            $('#showAllLifeforms').html($('#lifeformsTable tr.hideable:visible').length ? 'More' : 'Less');
+            $('#lifeformsTable .hideable').toggle(200);
         });
     },
 
@@ -184,9 +186,9 @@ var dashboard = {
         });
         // more.. in basis topic
         $('#moreBasisLink').click(function () {
-            var open = ($('#moreBasisLink').html() === 'less..'),
+            var open = ($('#moreBasisLink').html() === 'Less'),
                 $extra = $('#moreBasis');
-            $('#moreBasisLink').html(open ? 'more..' : 'less..');
+            $('#moreBasisLink').html(open ? 'More' : 'Less');
             if (open) {
                 $extra.find('td > div').slideUp(300);
             } else {
@@ -197,18 +199,18 @@ var dashboard = {
         // more.. in institution topic
         $('.moreLink').click(function () {
             var $extra = $(this).parent().parent().find('.initiallyHidden'),
-                open = ($(this).html() === 'less..');
+                open = ($(this).html() === 'Less');
             $extra.slideToggle(300);
-            $(this).html(open ? 'more..' : 'less..');
+            $(this).html(open ? 'More' : 'Less');
         });
         // more.. in spatial topic
         $('#moreSpatialLink').click(function () {
-            $('#moreSpatialLink').html($('#moreSpatial:visible').length ? 'more..' : 'less..');
+            $('#moreSpatialLink').html($('#moreSpatial:visible').length ? 'More' : 'Less');
             $('#moreSpatial').toggle(300);
         });
         // more.. in type status topic
         $('#moreTypesLink').click(function () {
-            $('#moreTypesLink').html($('#moreTypes:visible').length ? 'more..' : 'less..');
+            $('#moreTypesLink').html($('#moreTypes:visible').length ? 'More' : 'Less');
             $('#baseTypes').toggle(300);
             $('#moreTypes').toggle(300);
         });

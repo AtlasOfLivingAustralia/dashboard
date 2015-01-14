@@ -14,9 +14,9 @@
                             <td>${r[2]} records</td>
                         </tr>
                     </g:each>
-                    <tr><td colspan="3"><a href="javascript:void(0);" id="showAllLoggerReasons">more/less...</a></td>
-                    </tr>
                 </table>
+
+                <p class="paragraph"><a href="javascript:void(0);" id="showAllLoggerReasons" class="btn btn-small">More</a></p>
             </div>
         </div>
     </div>

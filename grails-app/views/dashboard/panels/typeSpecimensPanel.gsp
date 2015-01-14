@@ -12,16 +12,20 @@
     <div class="panel-body">
       <div id="baseTypes">
         <table class="click-thru table table-condensed table-striped table-hover">
-          <tr><td id="holotype">Holotypes</td><td><span class="count">${typeCounts.holotype}</span></td></tr>
-          <tr><td id="lectotype">Lectotypes</td><td><span class="count">${typeCounts.lectotype}</span></td>
-          </tr>
-          <tr><td id="neotype">Neotypes</td><td><span class="count">${typeCounts.neotype}</span></td></tr>
-          <tr><td id="isotype">Isotypes</td><td><span class="count">${typeCounts.isotype}</span></td></tr>
+          <tbody>
+            <tr><td width="70%" id="holotype">Holotypes</td><td><span class="count">${typeCounts.holotype}</span></td></tr>
+            <tr><td id="lectotype">Lectotypes</td><td><span class="count">${typeCounts.lectotype}</span></td>
+            </tr>
+            <tr><td id="neotype">Neotypes</td><td><span class="count">${typeCounts.neotype}</span></td></tr>
+            <tr><td id="isotype">Isotypes</td><td><span class="count">${typeCounts.isotype}</span></td></tr>
+          </tbody>
         </table>
-        <table>
-          <tr><td>Types with images</td><td><span class="count">${typeCounts.withImage?.total}</span></td>
-          </tr>
+        <table class="click-thru table table-condensed table-striped table-hover">
+          <tbody>
+            <tr><td width="70%">Types with images</td><td><span class="count">${typeCounts.withImage?.total}</span></td></tr>
+          </tbody>
         </table>
+
       </div>
 
       <div id="moreTypes" style="display:none;">
@@ -46,7 +50,7 @@
         </table>
       </div>
 
-      <p style="padding-top: 10px;"><span id="moreTypesLink" class="link">more..</span></p>
+      <p class="paragraph"><button id="moreTypesLink" class="btn btn-small">More</button></p>
     </div>
   </div>
 </div>

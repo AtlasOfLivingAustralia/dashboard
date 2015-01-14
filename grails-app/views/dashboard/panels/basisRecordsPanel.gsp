@@ -28,7 +28,7 @@
                 </g:if>
             </table>
 
-            <p class="paragraph"><span id="moreBasisLink" class="link">more..</span></p>
+            <p class="paragraph"><button id="moreBasisLink" class="btn btn-small">More</button></p>
         </div>
     </div>
 </div>
