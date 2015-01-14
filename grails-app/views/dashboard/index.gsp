@@ -17,7 +17,7 @@
         <div class="span6 v-center">
             <div class="page-header-content left">
                 <ul class="breadcrumb">
-                    <li><a href="http://www.ala.org.au" title="Home">Home</a> <span class="icon icon-arrow-right icon-white"></span></li>
+                    <li><a href="http://www.ala.org.au" title="Home">Home</a> <span class="divider"><i class="fa fa-arrow-right fa-inverse"></i></span></li>
                     <li class="active">
                         Dashboard <i id="show-error-button" data-html="true" data-title="Panel errors" data-trigger="hover" data-content="" class="fa fa-times-circle fa-lg initiallyHidden link"></i>
                     </li>
