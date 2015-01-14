@@ -161,7 +161,7 @@ class MetadataService {
             [1600, 1700, 1800, 1900, 2000].each { century ->
                 def url = "${BIO_CACHE_URL}/ws/occurrences/search?q=*:*&pageSize=0&facet=off&fq=occurrence_year:[${century}-01-01T00:00:00Z%20TO%20${century + 99}-12-31T23:59:59Z]"
                 def c = webService.getJson(url)
-                results['c' + it] = c.totalRecords
+                results['c' + century] = c.totalRecords
             }
 
             return results
