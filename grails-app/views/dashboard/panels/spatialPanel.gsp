@@ -8,21 +8,21 @@
         </div>
         <div class="panel-body">
             <table class="table table-condensed table-striped table-hover">
-                <tr><td width="80%">Contextual layers</td><td><span class="count">${spatialLayers.groups.contextual}</span></td>
+                <tr><td width="80%">Contextual layers</td><td class="numberColumn"><span class="count">${spatialLayers.groups.contextual}</span></td>
                 </tr>
-                <tr><td>Environmental/grided layers</td><td><span
+                <tr><td>Environmental/grided layers</td><td class="numberColumn"><span
                         class="count">${spatialLayers.groups.environmental}</span></td></tr>
             </table>
             <table class="table table-condensed table-striped table-hover">
-                <tr><td width="80%">Terrestrial layers</td><td><span class="count">${spatialLayers.groups.terrestrial}</span></td>
+                <tr><td width="80%">Terrestrial layers</td><td class="numberColumn"><span class="count">${spatialLayers.groups.terrestrial}</span></td>
                 </tr>
-                <tr><td>Marine layers</td><td><span class="count">${spatialLayers.groups.marine}</span></td></tr>
+                <tr><td>Marine layers</td><td class="numberColumn"><span class="count">${spatialLayers.groups.marine}</span></td></tr>
             </table>
 
             <div id="moreSpatial" style="display:none;">
                 <table class="table table-condensed table-striped table-hover">
                     <g:each in="${spatialLayers.classification}" var="c">
-                        <tr><td>${c.key}</td><td><span class="count">${c.value}</span></td></tr>
+                        <tr><td>${c.key}</td><td class="numberColumn"><span class="count">${c.value}</span></td></tr>
                     </g:each>
                 </table>
             </div>

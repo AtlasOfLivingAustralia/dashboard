@@ -42,9 +42,10 @@ grails.project.dependency.resolution = {
         compile ":google-visualization:1.0"
         compile ":font-awesome-resources:4.2.0.0"
 
-        runtime ':resources:1.2.8'
+        runtime ':resources:1.2.14'
         if (Environment.current == Environment.PRODUCTION) {
-            runtime ":zipped-resources:1.0"
+            runtime ":zipped-resources:1.0.1"
+            runtime ":cached-resources:1.1"
             runtime ":yui-minify-resources:0.1.5"
         }
         runtime ":ala-charts:0.2.3"

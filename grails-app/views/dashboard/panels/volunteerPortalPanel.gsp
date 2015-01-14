@@ -10,17 +10,17 @@
             <div class="panel-body">
                 <table class="table table-condensed table-striped table-hover">
                     <tbody>
-                    <tr><td>Specimen labels transcribed</td><td><span class="count"><db:formatNumber
+                    <tr><td>Specimen labels transcribed</td><td class="numberColumn"><span class="count"><db:formatNumber
                             value="${volunteerPortalCounts?.specimens}"/></span></td></tr>
-                    <tr><td>Fieldnotes pages transcribed</td><td><span class="count"><db:formatNumber
+                    <tr><td>Fieldnotes pages transcribed</td><td class="numberColumn"><span class="count"><db:formatNumber
                             value="${volunteerPortalCounts?.fieldnotes}"/></span></td></tr>
-                    <tr><td>Volunteers</td><td><span class="count"><db:formatNumber
+                    <tr><td>Volunteers</td><td class="numberColumn"><span class="count"><db:formatNumber
                             value="${volunteerPortalCounts?.volunteerCount}"/></span></td></tr>
-                    <tr><td>Expeditions active</td><td><span class="count"><db:formatNumber
+                    <tr><td>Expeditions active</td><td class="numberColumn"><span class="count"><db:formatNumber
                             value="${volunteerPortalCounts?.activeExpeditionsCount}"/></span></td></tr>
-                    <tr><td>Expeditions completed</td><td><span class="count"><db:formatNumber
+                    <tr><td>Expeditions completed</td><td class="numberColumn"><span class="count"><db:formatNumber
                             value="${volunteerPortalCounts?.completedExpeditionsCount}"/></span></td></tr>
-                    <tr><td>Total expeditions</td><td><span class="count"><db:formatNumber
+                    <tr><td>Total expeditions</td><td class="numberColumn"><span class="count"><db:formatNumber
                             value="${volunteerPortalCounts?.expeditionCount}"/></span></td></tr>
                     </tbody>
                 </table>

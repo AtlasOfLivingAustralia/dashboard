@@ -10,14 +10,18 @@
         <div class="panel-body">
             <div id="imagesBreakdown">
                 <table class="table table-condensed table-striped table-hover">
-                    <tr><td>Taxa with images</td><td>${imagesBreakdown["taxaWithImages"]}</td></tr>
-                    <tr><td>Species with images</td><td>${imagesBreakdown["speciesWithImages"]}</td></tr>
-                    <tr><td>Subspecies with images</td><td>${imagesBreakdown["subspeciesWithImages"]}</td></tr>
+                    <tbody>
+                    <tr><td>Taxa with images</td><td class="numberColumn">${g.formatNumber(number: imagesBreakdown["taxaWithImages"], type: 'number')}</td></tr>
+                    <tr><td>Species with images</td><td class="numberColumn">${g.formatNumber(number: imagesBreakdown["speciesWithImages"], type: 'number')}</td></tr>
+                    <tr><td>Subspecies with images</td><td class="numberColumn">${g.formatNumber(number: imagesBreakdown["subspeciesWithImages"], type: 'number')}</td></tr>
                     <tr><td>Taxa with images from<br/> DigiVol
-                    </td><td>${imagesBreakdown["taxaWithImagesFromVolunteerPortal"]}</td></tr>
+                    </td><td class="numberColumn">${g.formatNumber(number: imagesBreakdown["taxaWithImagesFromVolunteerPortal"], type: 'number')}</td></tr>
                     <tr><td>Taxa with images from<br/> citizen science
-                    </td><td>${imagesBreakdown["taxaWithImagesFromCS"]}</td></tr>
-                    <tr><td>Total number of images</td><td>${imagesBreakdown["imageTotal"]}</td></tr>
+                    </td><td class="numberColumn">${g.formatNumber(number: imagesBreakdown["taxaWithImagesFromCS"], type: 'number')}</td></tr>
+                    </tbody>
+                    <tfoot>
+                    <tr class="total-highlight"><td>Total number of images</td><td class="numberColumn">${g.formatNumber(number: imagesBreakdown["imageTotal"], type: 'number')}</td></tr>
+                    </tfoot>
                 </table>
             </div>
         </div>

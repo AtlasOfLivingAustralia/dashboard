@@ -9,13 +9,13 @@
             <h5 class="text-center">DNA barcode data <a target="_blank" href="http://bold.ala.org.au/"><g:img dir="images/dashboard" file="bold.png"/></a></h5>
             <table class="table table-condensed table-striped table-hover">
                 <tbody>
-                <tr><td>Records</td><td><span class="count"><db:formatNumber value="${boldCounts?.records}"/></span>
+                <tr><td>Records</td><td class="numberColumn"><span class="count"><db:formatNumber value="${boldCounts?.records}"/></span>
                 </td></tr>
-                <tr><td>Species</td><td><span class="count"><db:formatNumber value="${boldCounts?.species}"/></span>
+                <tr><td>Species</td><td class="numberColumn"><span class="count"><db:formatNumber value="${boldCounts?.species}"/></span>
                 </td></tr>
-                <tr><td>Countries</td><td><span class="count"><db:formatNumber value="${boldCounts?.countries}"/></span>
+                <tr><td>Countries</td><td class="numberColumn"><span class="count"><db:formatNumber value="${boldCounts?.countries}"/></span>
                 </td></tr>
-                <tr><td>Institutions</td><td><span class="count"><db:formatNumber
+                <tr><td>Institutions</td><td class="numberColumn"><span class="count"><db:formatNumber
                         value="${boldCounts?.institutions}"/></span></td></tr>
                 </tbody>
             </table>

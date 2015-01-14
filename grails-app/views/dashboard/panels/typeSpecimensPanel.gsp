@@ -13,16 +13,16 @@
       <div id="baseTypes">
         <table class="click-thru table table-condensed table-striped table-hover">
           <tbody>
-            <tr><td width="70%" id="holotype">Holotypes</td><td><span class="count">${typeCounts.holotype}</span></td></tr>
-            <tr><td id="lectotype">Lectotypes</td><td><span class="count">${typeCounts.lectotype}</span></td>
+            <tr><td width="70%" id="holotype">Holotypes</td><td class="numberColumn"><span class="count">${g.formatNumber(number: typeCounts.holotype, type: 'number')}</span></td></tr>
+            <tr><td id="lectotype">Lectotypes</td><td class="numberColumn"><span class="count">${g.formatNumber(number: typeCounts.lectotype, type: 'number')}</span></td>
             </tr>
-            <tr><td id="neotype">Neotypes</td><td><span class="count">${typeCounts.neotype}</span></td></tr>
-            <tr><td id="isotype">Isotypes</td><td><span class="count">${typeCounts.isotype}</span></td></tr>
+            <tr><td id="neotype">Neotypes</td><td class="numberColumn"><span class="count">${g.formatNumber(number: typeCounts.neotype, type: 'number')}</span></td></tr>
+            <tr><td id="isotype">Isotypes</td><td class="numberColumn"><span class="count">${g.formatNumber(number: typeCounts.isotype, type: 'number')}</span></td></tr>
           </tbody>
         </table>
         <table class="click-thru table table-condensed table-striped table-hover">
           <tbody>
-            <tr><td width="70%">Types with images</td><td><span class="count">${typeCounts.withImage?.total}</span></td></tr>
+            <tr><td width="70%">Types with images</td><td class="numberColumn"><span class="count">${g.formatNumber(number: typeCounts.withImage?.total, type: 'number')}</span></td></tr>
           </tbody>
         </table>
 

@@ -21,6 +21,15 @@ footer {
     margin-top: 0;
 }
 
+.total-highlight {
+    font-weight: bold;
+}
+
+.numberColumn {
+    text-align: right !important;
+    padding-right: 1.2em !important;
+}
+
 #main-content {
     padding: 0;
     margin: 0;

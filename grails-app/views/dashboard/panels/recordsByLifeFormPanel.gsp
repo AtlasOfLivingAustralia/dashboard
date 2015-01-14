@@ -10,9 +10,9 @@
                     <g:set var="cssClass" value="${index > 5 ? 'hideable' : ''}"/>
                     <tr class="link ${cssClass}">
                         <td>${records[index].label}</td>
-                        <td>${records[index].count}</td>
+                        <td class="numberColumn">${g.formatNumber(number: records[index].count, type: 'number')}</td>
                         <td>${records[(index + halfCount) as Integer].label}</td>
-                        <td>${records[(index + halfCount) as Integer].count}</td>
+                        <td class="numberColumn">${g.formatNumber(number: records[(index + halfCount) as Integer].count, type: 'number')}</td>
                     </tr>
                 </g:each>
             </table>
