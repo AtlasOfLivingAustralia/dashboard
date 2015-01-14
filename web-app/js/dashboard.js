@@ -187,12 +187,12 @@ var dashboard = {
         // more.. in basis topic
         $('#moreBasisLink').click(function () {
             var open = ($('#moreBasisLink').html() === 'Less'),
-                $extra = $('#moreBasis');
+                $extra = $('.moreBasis');
             $('#moreBasisLink').html(open ? 'More' : 'Less');
             if (open) {
-                $extra.find('td > div').slideUp(300);
+                $extra.slideUp(300);
             } else {
-                $extra.find('td > div').slideDown(300);
+                $extra.slideDown(300);
             }
         });
         // more.. in dataProvider topic

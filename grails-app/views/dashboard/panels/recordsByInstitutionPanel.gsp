@@ -9,7 +9,7 @@
                     <tr>
                         <td id="${b.uid}" title="${b.name}"><a href="${b.uri}"><db:shorten text="${b.display}"
                                                                                            size="35"/></a></td>
-                        <td><span class="count">${b.formattedCount}</span></td>
+                        <td class="numberColumn"><span class="count">${b.formattedCount}</span></td>
                     </tr>
                 </g:each>
             </table>
@@ -20,7 +20,7 @@
                             <tr>
                                 <td id="${b.uid}" title="${b.name}"><a href="${b.uri}"><db:shorten text="${b.display}"
                                                                                                    size="35"/></a></td>
-                                <td><span class="count">${b.formattedCount}</span></td>
+                                <td class="numberColumn"><span class="count">${b.formattedCount}</span></td>
                             </tr>
                         </g:each>
                     </table>

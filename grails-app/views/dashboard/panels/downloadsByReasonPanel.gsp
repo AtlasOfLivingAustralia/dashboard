@@ -10,8 +10,8 @@
                         <tr id="loggerReasonBreakdown-${r[0] == 'TOTAL' ? 'TOTAL' : rIdx}"
                             class="${rIdx >= 6 && r[0] != 'TOTAL' ? 'hideableRow' : ''} ${r[0] == 'TOTAL' ? 'total-highlight' : ''}">
                             <td>${r[0]}</td>
-                            <td>${r[1]} events</td>
-                            <td>${r[2]} records</td>
+                            <td class="numberColumn">${r[1]} events</td>
+                            <td class="numberColumn">${r[2]} records</td>
                         </tr>
                     </g:each>
                 </table>

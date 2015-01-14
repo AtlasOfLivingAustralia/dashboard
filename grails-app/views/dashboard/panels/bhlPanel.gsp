@@ -9,11 +9,11 @@
             </div>
             <table class="table table-condensed table-striped table-hover">
                 <tbody>
-                <tr><td>Pages</td><td><span class="count"><db:formatNumber value="${bhlCounts?.pages}"/></span></td>
+                <tr><td>Pages</td><td class="numberColumn"><span class="count"><db:formatNumber value="${bhlCounts?.pages}"/></span></td>
                 </tr>
-                <tr><td>Volumes</td><td><span class="count"><db:formatNumber value="${bhlCounts?.volumes}"/></span></td>
+                <tr><td>Volumes</td><td class="numberColumn"><span class="count"><db:formatNumber value="${bhlCounts?.volumes}"/></span></td>
                 </tr>
-                <tr><td>Titles</td><td><span class="count"><db:formatNumber value="${bhlCounts?.titles}"/></span></td>
+                <tr><td>Titles</td><td class="numberColumn"><span class="count"><db:formatNumber value="${bhlCounts?.titles}"/></span></td>
                 </tr>
                 </tbody>
             </table>
