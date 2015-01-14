@@ -38,9 +38,12 @@
 
             <p class="paragraph">
                 Most recently added dataset is:<br/>
-                <a href="${grailsApplication.config.collectory.baseURL}/public/show/${datasets.last.uid}">
-                    <em><db:shorten text="${datasets.last.name}" size="66"/></em></a>
             </p>
+            <div class="text-center">
+                <a href="${grailsApplication.config.collectory.baseURL}/public/show/${datasets.last.uid}">
+                    <h3>"<em><db:shorten text="${datasets.last.name}" size="66"/></em>"</h3>
+                </a>
+            </div>
 
             <div id="datasets-info" class="info" style="display: none;">
                 <p>Much of the content in the Atlas, such as occurrence records, environmental data, images and the
