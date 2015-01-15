@@ -2,7 +2,7 @@
 modules = {
 
     dashboard {
-        dependsOn 'jquery-migration','jquery-ui','charts','font-awesome', 'jquery.cookie', 'touch-support', 'markdown'
+        dependsOn 'jquery-migration','jquery-ui','taxon-tree','font-awesome', 'jquery.cookie', 'touch-support', 'markdown'
         resource url: '/js/dashboard.js'
         resource url: '/css/dashboard.css', attrs:[media:'all']
     }
@@ -27,6 +27,12 @@ modules = {
     'jquery.cookie' {
         dependsOn 'jquery'
         resource url: '/js/jquery.cookie.js'
+    }
+
+    'taxon-tree' {
+        dependsOn 'jquery'
+        resource url: '/js/jquery.jstree.js'
+        resource url: '/js/taxonTree.js'
     }
 
     markdown {
