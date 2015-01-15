@@ -137,10 +137,15 @@ var dashboard = {
         });
 
         //lifeforms
-        $('#lifeformsTable .hideable').hide();
         $('#showAllLifeforms').click(function(){
-            $('#showAllLifeforms').html($('#lifeformsTable tr.hideable:visible').length ? 'More' : 'Less');
-            $('#lifeformsTable .hideable').toggle(200);
+            if ($('#lifeformsTable:visible').length) {
+                $('#lifeformsTable').hide();
+                $('#lifeformsTable-small').show(300);
+            } else {
+                $('#lifeformsTable-small').hide();
+                $('#lifeformsTable').show(300);
+            }
+            $('#showAllLifeforms').html($('#lifeformsTable:visible').length ? 'Less' : 'More');
         });
     },
 
@@ -294,11 +299,3 @@ var dashboard = {
         }
     }
 };
-
-/**
- * Formats numbers as human readable. Handles numbers in the millions.
- * @param count the number
- */
-function format(count) {
-    return addCommas(count);
-}
