@@ -32,6 +32,7 @@ grails.project.dependency.resolution = {
         runtime 'org.apache.ant:ant:1.7.1'    //you can also use runtime
         runtime 'org.apache.ant:ant-launcher:1.7.1'
         compile 'net.sf.opencsv:opencsv:2.3'
+        compile 'com.yahoo.platform.yui:yuicompressor:2.4.8'
     }
 
     plugins {
@@ -46,6 +47,7 @@ grails.project.dependency.resolution = {
         if (Environment.current == Environment.PRODUCTION) {
             runtime ":zipped-resources:1.0.1"
             runtime ":cached-resources:1.1"
+            compile ":cache-headers:1.1.7"
             runtime ":yui-minify-resources:0.1.5"
         }
         runtime (":ala-web-theme:0.8.4") {
@@ -55,6 +57,5 @@ grails.project.dependency.resolution = {
             exclude "cache-ehcache"
         }
         runtime ":jquery:1.11.1"
-
     }
 }
