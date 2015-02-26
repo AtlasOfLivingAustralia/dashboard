@@ -1,25 +1,17 @@
-.v-center {
-    display:table !important;
-    height:80px;
-}
-
-.v-center-content {
-    display:table-cell;
-    vertical-align:middle;
-}
-
-.page-header-content {
-    display:table-cell;
-    vertical-align:middle;
-}
 
 #nav-site > .navbar-inner {
     margin-bottom: 0;
 }
 
+#main {
+    padding-right: 0;
+    padding-left: 0;
+}
+
 footer {
     margin-top: 0;
 }
+
 
 .total-highlight {
     font-weight: bold;
@@ -36,10 +28,6 @@ footer {
     background-color: #757042;
 }
 
-.breadcrumb > li {
-    text-shadow: none !important;
-}
-
 #show-error-button {
     color: #e9322d;
 }
@@ -48,37 +36,8 @@ footer {
     color: #e9322d;
 }
 
-.dashboard #page-header {
-    background:#4c3b2f url(../images/skin/bg_getinvolved.jpg) center center no-repeat;
-    color: white;
-    min-height: 80px;
-}
-
-.dashboard .page-header-content {
-    display:table-cell;
-    vertical-align:middle;
-}
-
-.dashboard .page-header-content.button-group a {
-    color: #000000 !important;
-}
-
 .dashboard .page-header-content.left {
     padding-left: 2em;
-}
-
-.dashboard ul.breadcrumb {
-    background-color: transparent;
-    margin-bottom: 0.5em;
-}
-
-.dashboard ul.breadcrumb li.active {
-    color: white;
-    font-weight: normal;
-}
-
-.dashboard #page-header a {
-    color: white;
 }
 
 .dashboard #page-header button {
@@ -91,18 +50,37 @@ footer {
 }
 
 #floatContainer {
-    padding-top: 2em;
     display: table;
     position: relative;
 }
 
-#floatContainer [class*="span"] {
+#floatContainer [class*="span"]{
     margin-left: 20px;
 }
 
 #alert-container {
     margin-left: 1.5em;
     margin-right: 1.5em;
+}
+
+#pageHeader {
+    min-height: 60px;
+    margin-bottom: 1em;
+    padding-left: 30px;
+}
+
+#pageHeaderLeft, #buttonGroup {
+    display: table !important;
+    min-height: 60px;
+}
+
+#pageHeaderLeft > div, #buttonGroup > div {
+    display:table-cell;
+    vertical-align:middle;
+}
+
+#pageHeaderLeft .breadcrumb {
+    margin-bottom: .5em;
 }
 
 .link {
@@ -230,13 +208,11 @@ footer {
 
 #collectionsByCategory {
     text-align: center;
-    height: 230px;
     width: 100%;
 }
 
 #recordsAndSpeciesByDecade {
     text-align: center;
-    height: 230px;
     width: 100%;
 }
 
@@ -272,7 +248,7 @@ footer {
 }
 
 #identifyLife {
-    margin: 2em 0;
+    margin: 1.5em 0;
     text-align: center;
     font-size: 1.5em;
 }
@@ -285,6 +261,14 @@ footer {
     text-align: center;
 }
 
+#most-topic table {
+    margin-bottom: 10px;
+}
+
+#mostSppGroup {
+    margin-bottom: 0;
+}
+
 /* End Specific Panel Content */
 
 /* Media queries */
@@ -293,6 +277,7 @@ footer {
     body {
         padding: 0;
     }
+
 }
 
 @media (max-width: 767px) {
@@ -316,7 +301,7 @@ footer {
 }
 
 @media (min-width: 1601px) and (min-aspect-ratio: 16/11) {
-    #floatContainer {
+    #floatContainer, #pageHeader {
         width: 86%;
         margin-left: auto;
         margin-right: auto;
@@ -324,7 +309,7 @@ footer {
 }
 
 @media (min-width: 2500px) and (min-aspect-ratio: 16/11) {
-    #floatContainer {
+    #floatContainer, #pageHeader {
         width: 93%;
         margin-left: auto;
         margin-right: auto;
@@ -332,10 +317,16 @@ footer {
 }
 
 @media (max-aspect-ratio: 4/3) {
-    #floatContainer {
+    #floatContainer, #pageHeader {
         width: 100%;
         margin-left: auto;
         margin-right: auto;
+    }
+}
+
+@media (max-width: 767px) {
+    #pageHeader {
+        padding-left: 5px;
     }
 }
 
@@ -343,6 +334,7 @@ footer {
     #lifeform-topic {
         width: 352px;
     }
+
 }
 
 @media (max-width: 1200px) and (min-width: 980px)  {

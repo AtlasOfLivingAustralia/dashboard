@@ -50,12 +50,8 @@ grails.project.dependency.resolution = {
             compile ":cache-headers:1.1.7"
             runtime ":yui-minify-resources:0.1.5"
         }
-        runtime (":ala-web-theme:0.8.4") {
-            exclude "servlet-api"
-            exclude "svn"
-            exclude "cache"
-            exclude "cache-ehcache"
-        }
+        runtime ":ala-bootstrap2:2.0-SNAPSHOT"
+        runtime ":ala-auth:1.2"
         runtime ":jquery:1.11.1"
     }
 }

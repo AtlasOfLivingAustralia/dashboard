@@ -13,34 +13,40 @@
 <body>
 
 <div class="dashboard">
-    <div id="page-header" class="row-fluid">
-        <div class="span6 v-center">
-            <div class="page-header-content left">
+    <div id="pageHeader" class="row">
+        <div id="pageHeaderLeft" class="span6">
+            <div>
                 <ul class="breadcrumb">
-                    <li><a href="http://www.ala.org.au" title="Home">Home</a> <span class="divider"><i class="fa fa-arrow-right fa-inverse"></i></span></li>
+                    <li><a href="http://www.ala.org.au" title="Home">Home</a> <span class="divider"><i class="fa fa-arrow-right"></i></span></li>
                     <li class="active">
                         Dashboard <i id="show-error-button" data-html="true" data-title="Panel errors" data-trigger="hover" data-content="" class="fa fa-times-circle fa-lg initiallyHidden link"></i>
                     </li>
                 </ul>
-                <span><i class="icon-exclamation-sign icon-white"></i> HINT -> You can rearrange topics by clicking on the panel headers and dragging them.</span>
+                <span><i class="fa fa-exclamation-circle"></i> HINT -> You can rearrange topics by clicking on the panel headers and dragging them.</span>
             </div>
         </div>
-        <div class="span6 v-center">
-            <div class="page-header-content button-group">
-                <div class="span3 offset2">
-                    <a class="btn btn-block" id="resetLayout"><i class="fa fa-refresh"></i> Reset layout</a>
+        <div id="buttonGroup" class="span8 pull-right">
+            <div>
+                <div class="span2">
+                    <a class="btn btn-primary btn-block" id="resetLayout"><i
+                            class="fa fa-refresh fa-inverse"></i> Reset layout</a>
                 </div>
-                <div class="span3">
-                    <a class="btn btn-block" id="downloadCsv"><i class="fa fa-download"></i> Download as CSV</a>
+
+                <div class="span2">
+                    <a class="btn btn-primary btn-block" id="downloadCsv"><i
+                            class="fa fa-download fa-inverse"></i> Download as CSV</a>
                 </div>
-                <div class="span3">
-                    <a class="btn btn-block" id="showJson"><i class="fa fa-code"></i> Show raw data</a>
+
+                <div class="span2">
+                    <a class="btn btn-primary btn-block" id="showJson"><i class="fa fa-code fa-inverse"></i> Show raw data
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="floatContainer">
+
         <g:include controller="dashboard" action="recordsPanel"/>
 
         <g:include controller="dashboard" action="datasetsPanel"/>
