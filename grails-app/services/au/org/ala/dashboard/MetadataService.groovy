@@ -16,12 +16,12 @@ class MetadataService {
     @PostConstruct
     def init() {
         BIO_CACHE_URL = grailsApplication.config.biocache.baseURL
-        VOLUNTEER_URL = grailsApplication.config.volunteer.baseUrl
+        VOLUNTEER_URL = grailsApplication.config.volunteer.baseURL
         COLLECTORY_URL = grailsApplication.config.collectory.baseURL
         SPATIAL_URL = grailsApplication.config.spatial.baseURL
         BIE_URL = grailsApplication.config.bie.baseURL
         LOGGER_URL = grailsApplication.config.logger.baseURL
-        IMAGES_URL = grailsApplication.config.images.baseUrl
+        IMAGES_URL = grailsApplication.config.images.baseURL
 
     }
 /**
