@@ -64,23 +64,8 @@ footer {
 }
 
 #pageHeader {
-    min-height: 60px;
     margin-bottom: 1em;
     padding-left: 30px;
-}
-
-#pageHeaderLeft, #buttonGroup {
-    display: table !important;
-    min-height: 60px;
-}
-
-#pageHeaderLeft > div, #buttonGroup > div {
-    display:table-cell;
-    vertical-align:middle;
-}
-
-#pageHeaderLeft .breadcrumb {
-    margin-bottom: .5em;
 }
 
 .link {
@@ -324,9 +309,16 @@ footer {
     }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
     #pageHeader {
-        padding-left: 5px;
+        padding-left: 0;
+    }
+}
+
+@media (max-width: 768px) and (min-width: 480px) {
+    #main {
+        padding-left: 10px;
+        padding-right: 10px;
     }
 }
 

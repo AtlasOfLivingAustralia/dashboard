@@ -13,37 +13,37 @@
 <body>
 
 <div class="dashboard">
-    <div id="pageHeader" class="row">
+    <div id="pageHeader" class="row-fluid">
         <div id="pageHeaderLeft" class="span6">
-            <div>
-                <ul class="breadcrumb">
-                    <li><a href="http://www.ala.org.au" title="Home">Home</a> <span class="divider"><i class="fa fa-arrow-right"></i></span></li>
-                    <li class="active">
-                        Dashboard <i id="show-error-button" data-html="true" data-title="Panel errors" data-trigger="hover" data-content="" class="fa fa-times-circle fa-lg initiallyHidden link"></i>
-                    </li>
-                </ul>
-                <span><i class="fa fa-exclamation-circle"></i> HINT -> You can rearrange topics by clicking on the panel headers and dragging them.</span>
-            </div>
+            <ul class="breadcrumb">
+                <li><a href="http://www.ala.org.au" title="Home">Home</a> <span class="divider"><i class="fa fa-arrow-right"></i></span></li>
+                <li class="active">
+                    Dashboard <i id="show-error-button" data-html="true" data-title="Panel errors" data-trigger="hover" data-content="" class="fa fa-times-circle fa-lg initiallyHidden link"></i>
+                </li>
+            </ul>
+            <p><i class="fa fa-exclamation-circle fa-lg"></i> You can rearrange topics by clicking on the panel headers and dragging them.</p>
         </div>
-        <div id="buttonGroup" class="span8 pull-right">
+        <div id="buttonGroup" class="span6 pull-right">
             <div>
-                <div class="span2">
+                <div class="span3">
                     <a class="btn btn-primary btn-block" id="resetLayout"><i
                             class="fa fa-refresh fa-inverse"></i> Reset layout</a>
                 </div>
 
-                <div class="span2">
+                <div class="span3">
                     <a class="btn btn-primary btn-block" id="downloadCsv"><i
                             class="fa fa-download fa-inverse"></i> Download as CSV</a>
                 </div>
 
-                <div class="span2">
+                <div class="span3">
                     <a class="btn btn-primary btn-block" id="showJson"><i class="fa fa-code fa-inverse"></i> Show raw data
                     </a>
                 </div>
             </div>
         </div>
     </div>
+
+    %{--<span><i class="fa fa-exclamation-circle"></i> HINT -> You can rearrange topics by clicking on the panel headers and dragging them.</span>--}%
 
     <div id="floatContainer">
 
