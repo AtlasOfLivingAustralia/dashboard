@@ -41,7 +41,6 @@ grails.project.dependency.resolution = {
 
         compile ':scaffolding:2.0.3'
         compile ":google-visualization:1.0"
-        compile ":font-awesome-resources:4.2.0.0"
 
         runtime ':resources:1.2.14'
         if (Environment.current == Environment.PRODUCTION) {
