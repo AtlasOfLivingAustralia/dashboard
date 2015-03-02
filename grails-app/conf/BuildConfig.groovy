@@ -50,7 +50,7 @@ grails.project.dependency.resolution = {
             compile ":cache-headers:1.1.7"
             runtime ":yui-minify-resources:0.1.5"
         }
-        runtime ":ala-bootstrap2:2.0"
+        runtime ":ala-bootstrap2:2.1"
         runtime ":ala-auth:1.2"
         runtime ":jquery:1.11.1"
     }
