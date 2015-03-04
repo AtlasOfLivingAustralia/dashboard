@@ -41,7 +41,7 @@
             </p>
             <div class="text-center">
                 <a href="${grailsApplication.config.collectory.baseURL}/public/show/${datasets.last.uid}">
-                    <h3>"<em><db:shorten text="${datasets.last.name}" size="66"/></em>"</h3>
+                    <h4>"<em><db:shorten text="${datasets.last.name}" size="66"/></em>"</h4>
                 </a>
             </div>
 

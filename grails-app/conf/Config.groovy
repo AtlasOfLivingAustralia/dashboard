@@ -130,12 +130,14 @@ log4j = {
         additivity = true
     }
 
-    debug 'grails.app',
-            'grails.app.domain',
-            'grails.app.controller',
-            'grails.app.service',
-            'grails.app.tagLib',
-            'au.org.ala.specieslist',
-            'grails.app.jobs'
+    warn 'au.org.ala.cas.client',
+            'grails.spring.BeanBuilder',
+            'grails.plugin.webxml',
+            'grails.plugin.cache.web.filter',
+            'grails.app.services.org.grails.plugin.resource',
+            'grails.app.taglib.org.grails.plugin.resource',
+            'grails.app.resourceMappers.org.grails.plugin.resource'
+
+    debug 'grails.app'
 
 }

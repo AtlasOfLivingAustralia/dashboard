@@ -41,7 +41,6 @@ grails.project.dependency.resolution = {
 
         compile ':scaffolding:2.0.3'
         compile ":google-visualization:1.0"
-        compile ":font-awesome-resources:4.2.0.0"
 
         runtime ':resources:1.2.14'
         if (Environment.current == Environment.PRODUCTION) {
@@ -50,12 +49,8 @@ grails.project.dependency.resolution = {
             compile ":cache-headers:1.1.7"
             runtime ":yui-minify-resources:0.1.5"
         }
-        runtime (":ala-web-theme:0.8.4") {
-            exclude "servlet-api"
-            exclude "svn"
-            exclude "cache"
-            exclude "cache-ehcache"
-        }
+        runtime ":ala-bootstrap2:2.1"
+        runtime ":ala-auth:1.2"
         runtime ":jquery:1.11.1"
     }
 }

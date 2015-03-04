@@ -5,8 +5,8 @@
     </div>
     <div class="panel-body">
       <div id="mostRecorded">
-        <g:if test="${mostRecorded.error.asBoolean()}">
-          <p class="error" title="${basisOfRecord.reason}">${mostRecorded.error}</p>
+        <g:if test="${mostRecorded?.error?.asBoolean()}">
+          <p class="error" title="${basisOfRecord?.reason}">${mostRecorded?.error}</p>
         </g:if>
         <table class="table table-condensed table-striped table-hover link">
           <g:each in="${mostRecorded.facets}" var="m">
