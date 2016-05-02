@@ -1,7 +1,10 @@
 <div class="span4" id="bhl-topic">
     <div class="panel">
         <div class="panel-heading">
-            <div class="panel-title">Biodiversity heritage library<i class="fa fa-info-circle pull-right hidden"></i></div>
+            <div class="panel-title">
+                <a target="_blank" href="http://biodiversitylibrary.org">Biodiversity heritage library</smaller></a>
+                <i class="fa fa-info-circle pull-right hidden"></i>
+            </div>
         </div>
         <div class="panel-body">
             <div class="text-center">
@@ -14,6 +17,8 @@
                 <tr><td>Volumes</td><td class="numberColumn"><span class="count"><db:formatNumber value="${bhlCounts?.volumes}"/></span></td>
                 </tr>
                 <tr><td>Titles</td><td class="numberColumn"><span class="count"><db:formatNumber value="${bhlCounts?.titles}"/></span></td>
+                </tr>
+                <tr><td>Publishers</td><td class="numberColumn"><span class="count"><db:formatNumber value="${bhlCounts?.publishers}"/></span></td>
                 </tr>
                 </tbody>
             </table>
