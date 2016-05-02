@@ -18,8 +18,6 @@
                 </tr>
                 <tr><td>Titles</td><td class="numberColumn"><span class="count"><db:formatNumber value="${bhlCounts?.titles}"/></span></td>
                 </tr>
-                <tr><td>Publishers</td><td class="numberColumn"><span class="count"><db:formatNumber value="${bhlCounts?.publishers}"/></span></td>
-                </tr>
                 </tbody>
             </table>
         </div>

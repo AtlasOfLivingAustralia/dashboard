@@ -3,8 +3,11 @@ package au.org.ala.dashboard
 import grails.converters.JSON
 import groovy.json.JsonSlurper
 import org.apache.commons.lang.StringUtils
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 
 import javax.annotation.PostConstruct
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 
 class MetadataService {
@@ -623,6 +626,45 @@ class MetadataService {
         })
     }
 
+    /**
+     * Provides a map of statistics from the Biodiversity Heritage Library
+     *
+     * Information is sourced directly from the bhl homepage rather than a webservce so it could break if the homepage is updated
+     * For the same reason the implementation relies on the current structure of the page to source the data
+
+     * An empty map will be returned if there was an error while getting the statistics
+     *
+     * @return [stat1: <value>, stat2: <value>, ...]
+     */
+    Map getBHLCounts() {
+        return cacheService.get('bhlCounts', {
+            def stats = [:]
+            try {
+                Document doc = Jsoup.connect(grailsApplication.config.bhl.baseURL).get()
+                def children = doc.select(grailsApplication.config.bhl.statsSelector)[0].childNodes()
+
+                // Local.US because we need a parser that knows about comma separated numbers nnn,nnn
+                NumberFormat format = NumberFormat.getIntegerInstance(Locale.US);
+
+                // titles
+                stats.put(children[2].text.trim(), format.parse(children[1].childNode(0).text))
+                // volumes
+                stats.put(children[6].text.trim(), format.parse(children[5].childNode(0).text))
+                // pages
+                stats.put(children[10].text.trim(), format.parse(children[9].childNode(0).text))
+
+            } catch (e) {
+                // Any exception most likely mean:
+                // 1) service is not available, temporalily condition
+                // 2) Format of the page has changed, permanent condition
+                // In any case there is not much we can do other than let the execution continue without these statistics
+                log.error("Unable to source BHL statistics from remote server", e)
+            }
+
+            stats
+        })
+    }
+
 
     /* -------------------------------- STATIC LOOKUPS --------------------------------------------*/
 
@@ -640,10 +682,6 @@ class MetadataService {
 
     def getTaxaCounts() {
         return get('taxaCounts')
-    }
-
-    def getBHLCounts() {
-        return get('bhlCounts')
     }
 
     def getBoldCounts() {
