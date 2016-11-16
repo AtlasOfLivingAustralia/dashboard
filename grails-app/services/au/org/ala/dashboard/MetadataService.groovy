@@ -539,8 +539,7 @@ class MetadataService {
             def results = []
 
             // this number includes testing - we need to remove this
-            //def allTimeSourceBreakdown = webService.getJson("${LOGGER_URL}${Constants.WebServices.PARTIAL_URL_LOGGER_SOURCE_BREAKDOWN}").all
-            def allTimeSourceBreakdown = webService.getJson("http://localhost:8081/logger-service${Constants.WebServices.PARTIAL_URL_LOGGER_SOURCE_BREAKDOWN}").all
+            def allTimeSourceBreakdown = webService.getJson("${LOGGER_URL}${Constants.WebServices.PARTIAL_URL_LOGGER_SOURCE_BREAKDOWN}").all
 
             //order by counts
             def sortedBreakdowns = allTimeSourceBreakdown.sourceBreakdown.sort { -it.value["events"] }
