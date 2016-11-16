@@ -117,6 +117,10 @@ class DashboardController {
         render view: 'panels/downloadsByReasonPanel', model: [loggerReasonBreakdown: metadataService.getLoggerReasonBreakdown()]
     }
 
+    def downloadsBySourcePanel = {
+        render view: 'panels/downloadsBySourcePanel', model: [loggerSourceBreakdown: metadataService.getLoggerSourceBreakdown()]
+    }
+
     def downloadsByUserTypePanel = {
         render view: 'panels/downloadsByUserTypePanel', model: [loggerEmailBreakdown: metadataService.getLoggerEmailBreakdown()]
     }

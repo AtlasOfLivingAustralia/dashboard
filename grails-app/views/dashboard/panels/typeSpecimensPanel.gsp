@@ -31,7 +31,7 @@
       <div id="moreTypes" style="display:none;">
         <table class="click-thru table table-condensed table-striped table-hover">
           <g:each in="${typeCounts}" var="c">
-            <g:if test="${!(c.key in ['total', 'withImage'])}">
+            <g:if test="${!(c.key in ['total', 'withImage']) && c.key.length() > 1}">
               <tr><td id="${c.key}">${c.key[0].toUpperCase() + c.key[1..-1]}</td><td><span
                       class="count">${c.value}</span></td></tr>
             </g:if>
@@ -39,7 +39,7 @@
         </table>
         <table class="click-thru table table-condensed table-striped table-hover">
           <g:each in="${typeCounts.withImage}" var="c">
-            <g:if test="${c.key != 'total'}">
+            <g:if test="${c.key != 'total' && c.key.length() > 1}">
               <tr><td id="${'image' + c.key}">${c.key[0].toUpperCase() + c.key[1..-1] + ' with image'}</td><td>
                 <a href="http://biocache.ala.org.au/occurrences/search?q=type_status%3A%5B*+TO+*%5D&fq=-type_status%3Anotatype&fq=multimedia:Image"></a>
                 <span class="count">${c.value}</span>

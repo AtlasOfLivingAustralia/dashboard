@@ -29,6 +29,8 @@ class Constants {
 
         final static String PARTIAL_URL_LOGGER_REASON_BREAKDOWN = "/service/reasonBreakdown?eventId=1002"
 
+        final static String PARTIAL_URL_LOGGER_SOURCE_BREAKDOWN = "/service/sourceBreakdown?eventId=1002"
+
         final static String PARTIAL_URL_LOGGER_REASON_TEMPORAL_BREAKDOWN = "/service/reasonBreakdownMonthly?eventId=1002"
 
         final static String PARTIAL_URL_LOGGER_EMAIL_BREAKDOWN = "/service/emailBreakdown?eventId=1002"

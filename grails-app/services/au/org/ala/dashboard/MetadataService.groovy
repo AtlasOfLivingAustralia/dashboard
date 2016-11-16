@@ -48,6 +48,7 @@ class MetadataService {
             stateConservation       : getSpeciesByConservationStatus(),
             loggerTotals            : getLoggerTotals(),
             loggerReasonBreakdown   : getLoggerReasonBreakdown(),
+            loggerSourceBreakdown   : getLoggerSourceBreakdown(),
             loggerEmailBreakdown    : getLoggerEmailBreakdown(),
             loggerTemporalBreakdown : getLoggerReasonTemporalBreakdown(),
             imagesBreakdown         : getImagesBreakdown(),
@@ -448,14 +449,16 @@ class MetadataService {
         def results = [:]
         if (!data.error) {
             data.resp.searchDTOList.each { taxon ->
-                def name = taxon.name ?: taxon.nameComplete
-                results.put taxon.guid, [
-                        common: taxon.commonNameSingle,
-                        name  : name,
-                        image : [largeImageUrl   : taxon.largeImageUrl,
-                                 smallImageUrl   : taxon.smallImageUrl,
-                                 thumbnailUrl    : taxon.thumbnailUrl,
-                                 imageMetadataUrl: taxon.imageMetadataUrl]]
+                if (taxon) {
+                    def name = taxon.name ?: taxon.nameComplete
+                    results.put taxon.guid, [
+                            common: taxon.commonNameSingle,
+                            name  : name,
+                            image : [largeImageUrl   : taxon.largeImageUrl,
+                                     smallImageUrl   : taxon.smallImageUrl,
+                                     thumbnailUrl    : taxon.thumbnailUrl,
+                                     imageMetadataUrl: taxon.imageMetadataUrl]]
+                }
             }
         }
         //println "returned from bie lookup ${results}"
@@ -525,6 +528,57 @@ class MetadataService {
             results.add(["TOTAL",
                          format((allTimeReasonBreakdown.events as long) - testingEvents),
                          format((allTimeReasonBreakdown.records as long) - testingRecords)]
+            )
+
+            return results
+        })
+    }
+
+    def getLoggerSourceBreakdown() {
+        cacheService.get('loggerSourceBreakdown', {
+            def results = []
+
+            // this number includes testing - we need to remove this
+            //def allTimeSourceBreakdown = webService.getJson("${LOGGER_URL}${Constants.WebServices.PARTIAL_URL_LOGGER_SOURCE_BREAKDOWN}").all
+            def allTimeSourceBreakdown = webService.getJson("http://localhost:8081/logger-service${Constants.WebServices.PARTIAL_URL_LOGGER_SOURCE_BREAKDOWN}").all
+
+            //order by counts
+            def sortedBreakdowns = allTimeSourceBreakdown.sourceBreakdown.sort { -it.value["events"] }
+
+            //but then place "Other", "Unclassified", "Testing" at the bottom & combined
+            def other = sortedBreakdowns.get("other")
+            if (!other) other = [events: 0, records:0]
+
+            def unclassifiedCount = sortedBreakdowns.get("unclassified")
+            def testingCount = sortedBreakdowns.get("testing")
+
+            if (unclassifiedCount) {
+                other["events"] = other["events"] + unclassifiedCount["events"]
+                other["records"] = other["records"] + unclassifiedCount["records"]
+            }
+
+            //testing events
+            def testingEvents = 0
+            def testingRecords = 0
+
+            if (testingCount) {
+                testingEvents = testingCount["events"] as long
+                testingRecords = testingCount["records"] as long
+            }
+
+            sortedBreakdowns.remove("other")
+            sortedBreakdowns.remove("unclassified")
+            sortedBreakdowns.remove("testing")
+            sortedBreakdowns.put("other", other)
+
+            for (k in sortedBreakdowns.keySet()) {
+                def keyMap = sortedBreakdowns[k]
+                results.add([StringUtils.capitalize(k), format(keyMap["events"] as long), format(keyMap["records"] as long)])
+            }
+
+            results.add(["TOTAL",
+                         format((allTimeSourceBreakdown.events as long) - testingEvents),
+                         format((allTimeSourceBreakdown.records as long) - testingRecords)]
             )
 
             return results
