@@ -47,5 +47,7 @@ class Constants {
 
         final static String PARTIAL_URL_IMAGE_TOTAL = "/ws/getRepositoryStatistics"
 
+        final static String PARTIAL_URL_COUNT_RECORDS = "/ws/occurrences/search?q=*:*&pageSize=0&facet=off"
+
     }
 }

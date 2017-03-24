@@ -315,6 +315,34 @@ class DashboardController {
 
         render d as JSON
     }
+
+    /**
+     * JSON service to return combined set of data stats/metrics for display on the ALA homepage
+     * Includes:
+     *  - number of users (now and 1 year ago)
+     *  - number of records (now and 1 year ago)
+     *  - number of species (now and 1 year ago)
+     *  - number of datasets (now and 1 year ago)
+     *
+     *  example output:
+     *  {
+     *    "userCounts": { "countNow": 1234, "count1YA": 1200 },
+     *    "recordCounts": { "countNow": 123400, "count1YA": 120000 } ,
+     *    "speciesCounts": { "countNow": 1234, "count1YA": 1200 }
+     *  }
+     *
+     * @return
+     */
+    def homePageStats() {
+        def combinedCounts = [
+                userCounts: metadataService.getUserCounts(),
+                recordCounts: metadataService.getRecordCounts(),
+                speciesCounts:  metadataService.getSpeciesCounts(),
+                datasetCounts: metadataService.getDatasetCounts(),
+                downloadCounts: metadataService.getDownloadCounts()
+        ]
+        render combinedCounts as JSON
+    }
     
     /* ---------------------------- test actions ---------------------------------*/
     def spatialLayers = {
