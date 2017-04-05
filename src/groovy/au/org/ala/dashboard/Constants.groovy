@@ -41,7 +41,7 @@ class Constants {
 
         final static String PARTIAL_URL_SUBSPECIES_WITH_IMAGES = "/ws/occurrence/facets?q=multimedia:Image%20AND%20rank:subspecies&facets=taxon_name&pageSize=0"
 
-        final static String PARTIAL_URL_TAXA_VP_COUNT = "/ws/occurrence/facets?facets=taxon_name&pageSize=0&q=multimedia:Image%20AND%20"
+        final static String PARTIAL_URL_TAXA_VP_COUNT = "/ws/occurrence/facets?facets=taxon_name&pageSize=0&q=multimedia:Image"
 
         final static String PARTIAL_URL_TAXA_CS_COUNT = "/ws/occurrence/facets?facets=taxon_name&pageSize=0&q=multimedia:Image%20AND%20provenance:\"Individual%20sightings\""
 

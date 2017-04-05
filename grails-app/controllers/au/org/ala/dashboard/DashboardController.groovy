@@ -341,7 +341,12 @@ class DashboardController {
                 datasetCounts: metadataService.getDatasetCounts(),
                 downloadCounts: metadataService.getDownloadCounts()
         ]
-        render combinedCounts as JSON
+
+        // following 2 lines only work with the JSONPFilters filter activated
+        // if the filter is removed then use:
+        // render combinedCounts as JSON
+        response.setContentType("application/json;charset=UTF-8")
+        combinedCounts
     }
     
     /* ---------------------------- test actions ---------------------------------*/

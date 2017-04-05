@@ -629,7 +629,7 @@ class MetadataService {
             def resourcesQuery = ""
 
             if (vpResources) {
-                resourcesQuery = "data_resource_uid:("
+                resourcesQuery = "%20AND%20data_resource_uid:("
                 vpResources.eachWithIndex() { res, i ->
                     if (i > 0) {
                         resourcesQuery = resourcesQuery + "%20OR%20"
@@ -686,7 +686,7 @@ class MetadataService {
             def results = webService.getJson("${USERDETAILS_URL}/ws/getUserStats")
             results
         })
-        new CountsDTO(count: userCounts.totalUsers, count1YA: userCounts.totalUsersOneYearAgo)
+        new CountsDTO(count: userCounts?.totalUsers, count1YA: userCounts?.totalUsersOneYearAgo)
     }
 
     /**
