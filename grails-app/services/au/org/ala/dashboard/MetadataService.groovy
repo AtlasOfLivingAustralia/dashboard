@@ -3,6 +3,7 @@ package au.org.ala.dashboard
 import grails.converters.JSON
 import groovy.json.JsonSlurper
 import org.apache.commons.lang.StringUtils
+import org.codehaus.groovy.grails.web.json.JSONArray
 
 import javax.annotation.PostConstruct
 import java.text.SimpleDateFormat
@@ -696,8 +697,8 @@ class MetadataService {
      */
     CountsDTO getSpeciesCounts() {
         def speciesCounts = cacheService.get('species_count', {
-            def results = webService.getJson("${BIE_URL}/ws/search?q=*:*&fq=idxtype:TAXON&fq=rankID:[7000%20TO%208000]&pageSize=0")
-            results?.searchResults?.totalRecords
+            JSONArray results = webService.getJson("${BIO_CACHE_URL}/ws/occurrence/facets?q=country:Australia+OR+cl21:*&facets=species&fsort=count&flimit=0")
+            results?.get(0)?.count
         })
         new CountsDTO(count: speciesCounts)
     }
