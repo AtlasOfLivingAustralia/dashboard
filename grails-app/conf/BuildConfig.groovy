@@ -40,9 +40,8 @@ grails.project.dependency.resolution = {
         build ':tomcat:7.0.54'
         build ":release:3.0.1"
 
-        compile ':scaffolding:2.0.3'
+        compile ':scaffolding:2.1.2'
         compile ":google-visualization:1.0"
-
 
         runtime ':resources:1.2.14'
         if (Environment.current == Environment.PRODUCTION) {
@@ -51,9 +50,9 @@ grails.project.dependency.resolution = {
             compile ":cache-headers:1.1.7"
             runtime ":yui-minify-resources:0.1.5"
         }
-        runtime ":ala-bootstrap2:2.1"
+        runtime ":ala-bootstrap2:2.5-SNAPSHOT"
         runtime ":ala-admin-plugin:1.2"
-        runtime ":ala-auth:1.2"
+        runtime ":ala-auth:1.3.4"
         runtime ":jquery:1.11.1"
     }
 }

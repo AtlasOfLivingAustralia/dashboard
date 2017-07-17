@@ -5,6 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="layout" content="main"/>
+    <meta name="breadcrumb" content="Dashboard"/>
     <title>Dashboard | Atlas of Living Australia</title>
     <gvisualization:apiImport/>
     <r:require modules="dashboard"/>
@@ -15,7 +16,7 @@
 <div class="dashboard">
     <div id="pageHeader" class="row-fluid">
         <div id="pageHeaderLeft" class="span6">
-            <ul class="breadcrumb">
+            <ul class="breadcrumb hide">
                 <li><a href="http://www.ala.org.au" title="Home">Home</a> <span class="divider"><i class="fa fa-arrow-right"></i></span></li>
                 <li class="active">
                     Dashboard <i id="show-error-button" data-html="true" data-title="Panel errors" data-trigger="hover" data-content="" class="fa fa-times-circle fa-lg initiallyHidden link"></i>
