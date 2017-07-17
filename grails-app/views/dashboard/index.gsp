@@ -91,6 +91,8 @@
 
         <g:include controller="dashboard" action="downloadsByReasonPanel"/>
 
+        <g:include controller="dashboard" action="downloadsBySourcePanel"/>
+
         %{--<g:include controller="dashboard" action="downloadsByUserTypePanel"/>--}%
 
         <g:include controller="dashboard" action="speciesImagesPanel"/>

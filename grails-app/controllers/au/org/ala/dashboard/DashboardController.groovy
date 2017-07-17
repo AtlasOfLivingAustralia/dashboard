@@ -117,6 +117,10 @@ class DashboardController {
         render view: 'panels/downloadsByReasonPanel', model: [loggerReasonBreakdown: metadataService.getLoggerReasonBreakdown()]
     }
 
+    def downloadsBySourcePanel = {
+        render view: 'panels/downloadsBySourcePanel', model: [loggerSourceBreakdown: metadataService.getLoggerSourceBreakdown()]
+    }
+
     def downloadsByUserTypePanel = {
         render view: 'panels/downloadsByUserTypePanel', model: [loggerEmailBreakdown: metadataService.getLoggerEmailBreakdown()]
     }
@@ -310,6 +314,39 @@ class DashboardController {
         }
 
         render d as JSON
+    }
+
+    /**
+     * JSON service to return combined set of data stats/metrics for display on the ALA homepage
+     * Includes:
+     *  - number of users (now and 1 year ago)
+     *  - number of records (now and 1 year ago)
+     *  - number of species (now and 1 year ago)
+     *  - number of datasets (now and 1 year ago)
+     *
+     *  example output:
+     *  {
+     *    "userCounts": { "countNow": 1234, "count1YA": 1200 },
+     *    "recordCounts": { "countNow": 123400, "count1YA": 120000 } ,
+     *    "speciesCounts": { "countNow": 1234, "count1YA": 1200 }
+     *  }
+     *
+     * @return
+     */
+    def homePageStats() {
+        def combinedCounts = [
+                userCounts: metadataService.getUserCounts(),
+                recordCounts: metadataService.getRecordCounts(),
+                speciesCounts:  metadataService.getSpeciesCounts(),
+                datasetCounts: metadataService.getDatasetCounts(),
+                downloadCounts: metadataService.getDownloadCounts()
+        ]
+
+        // following 2 lines only work with the JSONPFilters filter activated
+        // if the filter is removed then use:
+        // render combinedCounts as JSON
+        response.setContentType("application/json;charset=UTF-8")
+        combinedCounts
     }
     
     /* ---------------------------- test actions ---------------------------------*/

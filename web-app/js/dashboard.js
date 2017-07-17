@@ -50,6 +50,13 @@ var dashboard = {
             $('#loggerReasonBreakdownTable .hideableRow').toggle(200);
         });
 
+        //sources
+        $('#loggerSourceBreakdownTable .hideableRow').hide();
+        $('#showAllLoggerSource').on('click touch', function(){
+            $('#showAllLoggerSource').html($('#loggerSourceBreakdownTable tr.hideableRow:visible').length ? 'More' : 'Less');
+            $('#loggerSourceBreakdownTable .hideableRow').toggle(200);
+        });
+
         if(dashboard.panelRenderingErrors.length > 0) {
             var html = '';
             $.each(dashboard.panelRenderingErrors, function(i, fileName) {

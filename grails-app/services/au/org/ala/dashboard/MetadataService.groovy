@@ -5,6 +5,7 @@ import groovy.json.JsonSlurper
 import org.apache.commons.lang.StringUtils
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import org.codehaus.groovy.grails.web.json.JSONArray
 
 import javax.annotation.PostConstruct
 import java.text.NumberFormat
@@ -14,7 +15,7 @@ class MetadataService {
 
     def webService, cacheService, grailsApplication
 
-    String BIO_CACHE_URL, VOLUNTEER_URL, COLLECTORY_URL, SPATIAL_URL,BIE_URL, LOGGER_URL, IMAGES_URL
+    String BIO_CACHE_URL, VOLUNTEER_URL, COLLECTORY_URL, SPATIAL_URL,BIE_URL, LOGGER_URL, IMAGES_URL, USERDETAILS_URL
 
     @PostConstruct
     def init() {
@@ -25,7 +26,7 @@ class MetadataService {
         BIE_URL = grailsApplication.config.bie.baseURL
         LOGGER_URL = grailsApplication.config.logger.baseURL
         IMAGES_URL = grailsApplication.config.images.baseURL
-
+        USERDETAILS_URL = grailsApplication.config.userDetails.baseURL
     }
 /**
      * Populates the model for the dashboard view
@@ -51,6 +52,7 @@ class MetadataService {
             stateConservation       : getSpeciesByConservationStatus(),
             loggerTotals            : getLoggerTotals(),
             loggerReasonBreakdown   : getLoggerReasonBreakdown(),
+            loggerSourceBreakdown   : getLoggerSourceBreakdown(),
             loggerEmailBreakdown    : getLoggerEmailBreakdown(),
             loggerTemporalBreakdown : getLoggerReasonTemporalBreakdown(),
             imagesBreakdown         : getImagesBreakdown(),
@@ -451,14 +453,16 @@ class MetadataService {
         def results = [:]
         if (!data.error) {
             data.resp.searchDTOList.each { taxon ->
-                def name = taxon.name ?: taxon.nameComplete
-                results.put taxon.guid, [
-                        common: taxon.commonNameSingle,
-                        name  : name,
-                        image : [largeImageUrl   : taxon.largeImageUrl,
-                                 smallImageUrl   : taxon.smallImageUrl,
-                                 thumbnailUrl    : taxon.thumbnailUrl,
-                                 imageMetadataUrl: taxon.imageMetadataUrl]]
+                if (taxon) {
+                    def name = taxon.name ?: taxon.nameComplete
+                    results.put taxon.guid, [
+                            common: taxon.commonNameSingle,
+                            name  : name,
+                            image : [largeImageUrl   : taxon.largeImageUrl,
+                                     smallImageUrl   : taxon.smallImageUrl,
+                                     thumbnailUrl    : taxon.thumbnailUrl,
+                                     imageMetadataUrl: taxon.imageMetadataUrl]]
+                }
             }
         }
         //println "returned from bie lookup ${results}"
@@ -534,6 +538,56 @@ class MetadataService {
         })
     }
 
+    def getLoggerSourceBreakdown() {
+        cacheService.get('loggerSourceBreakdown', {
+            def results = []
+
+            // this number includes testing - we need to remove this
+            def allTimeSourceBreakdown = webService.getJson("${LOGGER_URL}${Constants.WebServices.PARTIAL_URL_LOGGER_SOURCE_BREAKDOWN}").all
+
+            //order by counts
+            def sortedBreakdowns = allTimeSourceBreakdown.sourceBreakdown.sort { -it.value["events"] }
+
+            //but then place "Other", "Unclassified", "Testing" at the bottom & combined
+            def other = sortedBreakdowns.get("other")
+            if (!other) other = [events: 0, records:0]
+
+            def unclassifiedCount = sortedBreakdowns.get("unclassified")
+            def testingCount = sortedBreakdowns.get("testing")
+
+            if (unclassifiedCount) {
+                other["events"] = other["events"] + unclassifiedCount["events"]
+                other["records"] = other["records"] + unclassifiedCount["records"]
+            }
+
+            //testing events
+            def testingEvents = 0
+            def testingRecords = 0
+
+            if (testingCount) {
+                testingEvents = testingCount["events"] as long
+                testingRecords = testingCount["records"] as long
+            }
+
+            sortedBreakdowns.remove("other")
+            sortedBreakdowns.remove("unclassified")
+            sortedBreakdowns.remove("testing")
+            sortedBreakdowns.put("other", other)
+
+            for (k in sortedBreakdowns.keySet()) {
+                def keyMap = sortedBreakdowns[k]
+                results.add([StringUtils.capitalize(k), format(keyMap["events"] as long), format(keyMap["records"] as long)])
+            }
+
+            results.add(["TOTAL",
+                         format((allTimeSourceBreakdown.events as long) - testingEvents),
+                         format((allTimeSourceBreakdown.records as long) - testingRecords)]
+            )
+
+            return results
+        })
+    }
+
     def getLoggerReasonTemporalBreakdown() {
         cacheService.get('loggerReasonBreakdown', {
             def results = []
@@ -579,7 +633,7 @@ class MetadataService {
             def resourcesQuery = ""
 
             if (vpResources) {
-                resourcesQuery = "data_resource_uid:("
+                resourcesQuery = "%20AND%20data_resource_uid:("
                 vpResources.eachWithIndex() { res, i ->
                     if (i > 0) {
                         resourcesQuery = resourcesQuery + "%20OR%20"
@@ -665,6 +719,86 @@ class MetadataService {
         })
     }
 
+     * Get the number of active users from UserDetails (now and 1 year ago)
+     *
+     * @return CountsDTO
+     */
+    CountsDTO getUserCounts() {
+        def userCounts = cacheService.get('user_stats', {
+            def results = webService.getJson("${USERDETAILS_URL}/ws/getUserStats")
+            results
+        })
+        new CountsDTO(count: userCounts?.totalUsers, count1YA: userCounts?.totalUsersOneYearAgo)
+    }
+
+    /**
+     * Get the number of species from BIE
+     *
+     * @return CountsDTO
+     */
+    CountsDTO getSpeciesCounts() {
+        def speciesCounts = cacheService.get('species_count', {
+            JSONArray results = webService.getJson("${BIO_CACHE_URL}/ws/occurrence/facets?q=country:Australia+OR+cl21:*&facets=species&fsort=count&flimit=0")
+            results?.get(0)?.count
+        })
+        new CountsDTO(count: speciesCounts)
+    }
+
+    /**
+     * Get the number of occurrence records from Biocache (now and 1 year ago)
+     *
+     * @return CountsDTO
+     */
+    CountsDTO getRecordCounts() {
+        def recordCountNow = cacheService.get('record_count_now', {
+            def results = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_COUNT_RECORDS}")
+            results?.totalRecords
+        })
+        def recordCountInLastYear = cacheService.get('record_count_1YA', {
+            def results = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_COUNT_RECORDS}&fq=-first_loaded_date:[${getIsoDate1YA()}T00:00:00Z%20TO%20*]")
+            results?.totalRecords
+        })
+        new CountsDTO(count: recordCountNow, count1YA: (recordCountInLastYear))
+    }
+
+    /**
+     * Get the number of datasets from Collectory (now and 1 year ago)
+     *
+     * @return CountsDTO
+     */
+    CountsDTO getDatasetCounts() {
+        def datasetCountNow = cacheService.get('dataset_count_now', {
+            def results = webService.getJson("${COLLECTORY_URL}${Constants.WebServices.PARTIAL_URL_COUNT_DATASETS_BY_TYPE}")
+            results?.total
+        })
+        def datasetCount1YA = cacheService.get('dataset_count_1YA', {
+            def results = webService.getJson("${COLLECTORY_URL}${Constants.WebServices.PARTIAL_URL_COUNT_DATASETS_BY_TYPE}&createdBefore=${getIsoDate1YA()}")
+            results?.total
+        })
+        new CountsDTO(count: datasetCountNow, count1YA: datasetCount1YA)
+    }
+
+    /**
+     * Get the number of downloads and events from Logger
+     *
+     * @return CountsDTO
+     */
+    CountsDTO getDownloadCounts() {
+        def byReason = cacheService.get('downloads_count', {
+            def results = webService.getJson("${LOGGER_URL}${Constants.WebServices.PARTIAL_URL_LOGGER_REASON_BREAKDOWN}")
+            results?.all
+        })
+        def records = byReason.records
+        def events = byReason.events
+        byReason.reasonBreakdown.each { reason, values ->
+            // remove testing values
+            if (reason == "testing") {
+                records = records - values.records
+                events = events - values.events
+            }
+        }
+        new CountsDTO(count: records, events: events)
+    }
 
     /* -------------------------------- STATIC LOOKUPS --------------------------------------------*/
 
@@ -746,5 +880,14 @@ class MetadataService {
 
         return r
 
+    }
+
+    String getIsoDate1YA() {
+        Calendar cal = Calendar.getInstance()
+        cal.add(Calendar.YEAR, -1) // minus 1 year
+        Date oneYearAgoDate = cal.getTime()
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd")
+        log.debug "getIsoDate1YA -> " + df.format(oneYearAgoDate)
+        df.format(oneYearAgoDate)
     }
 }
