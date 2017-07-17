@@ -719,6 +719,7 @@ class MetadataService {
         })
     }
 
+    /**
      * Get the number of active users from UserDetails (now and 1 year ago)
      *
      * @return CountsDTO
