@@ -33,6 +33,7 @@ grails.project.dependency.resolution = {
         runtime 'org.apache.ant:ant-launcher:1.7.1'
         compile 'net.sf.opencsv:opencsv:2.3'
         compile 'com.yahoo.platform.yui:yuicompressor:2.4.8'
+        compile 'org.jsoup:jsoup:1.9.1'
     }
 
     plugins {
@@ -41,6 +42,7 @@ grails.project.dependency.resolution = {
 
         compile ':scaffolding:2.0.3'
         compile ":google-visualization:1.0"
+
 
         runtime ':resources:1.2.14'
         if (Environment.current == Environment.PRODUCTION) {
