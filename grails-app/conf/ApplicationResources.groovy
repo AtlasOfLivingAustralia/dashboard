@@ -2,7 +2,7 @@
 modules = {
 
     dashboard {
-        dependsOn 'jquery-migration','jquery-ui','taxon-tree','font-awesome', 'jquery.cookie', 'touch-support', 'markdown'
+        dependsOn 'jquery-migration','jquery-ui','taxon-tree','font-awesome', 'jquery.cookie', 'touch-support', 'markdown','matchHeights'
         resource url: '/js/dashboard.js'
         resource url: '/css/dashboard.css', attrs:[media:'all']
     }
@@ -37,6 +37,11 @@ modules = {
 
     markdown {
         resource url: 'js/markdown.js'
+    }
+
+    matchHeights {
+        dependsOn 'jquery'
+        resource url: 'js/jquery.matchHeight.js'
     }
 }
 

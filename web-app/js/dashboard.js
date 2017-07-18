@@ -101,6 +101,7 @@ var dashboard = {
                 cursor: "move",
                 update: function(){
                     dashboard.sortableFeature.serializeListOrderToCookie();
+                    $('#floatContainer > div > div.panel').matchHeight(); // adjust heights so we don't get orphaned boxes
                 },
                 handle: ".panel-heading",
                 delay: 300,
@@ -187,6 +188,7 @@ var dashboard = {
         $('#resetLayout').click(function() {
             $.cookie(dashboard.sortableFeature.sortableListCookieName, dashboard.sortableFeature.sortableOriginalOrder, {expires: dashboard.sortableFeature.sortableListCookieExp, path: "/"});
             dashboard.sortableFeature.restoreListOrderFromCookie();
+            $('#floatContainer > div > div.panel').matchHeight(); // adjust heights so we don't get orphaned boxes
         });
         // show json
         $('#showJson').click(function () {

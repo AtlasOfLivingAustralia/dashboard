@@ -62,7 +62,7 @@
 
         <g:include controller="dashboard" action="statePanel"/>
 
-        <g:include controller="dashboard" action="identifyLifePanel"/>
+        %{--<g:include controller="dashboard" action="identifyLifePanel"/>--}%
 
         <g:include controller="dashboard" action="mostRecordedSpeciesPanel"/>
 
@@ -80,11 +80,11 @@
 
         <g:include controller="dashboard" action="recordsByInstitutionPanel"/>
 
+        <g:include controller="dashboard" action="occurrenceTreePanel"/>
+
         <g:include controller="dashboard" action="recordsByLifeFormPanel"/>
 
         <g:include controller="dashboard" action="recordsAndSpeciesByDecadePanel"/>
-
-        <g:include controller="dashboard" action="occurrenceTreePanel"/>
 
         %{--<g:include controller="dashboard" action="usageStatisticsPanel"/>--}%
 
@@ -92,7 +92,7 @@
 
         %{--<g:include controller="dashboard" action="downloadsBySourcePanel"/>--}%
 
-        %{--<g:include controller="dashboard" action="downloadsByUserTypePanel"/>--}%
+        <g:include controller="dashboard" action="downloadsByUserTypePanel"/>
 
         <g:include controller="dashboard" action="speciesImagesPanel"/>
 
@@ -120,7 +120,9 @@
         ${g.remoteFunction(controller: 'charts', action: 'stateAndTerritoryRecords', update: 'stateAndTerritoryRecords')}
         ${g.remoteFunction(controller: 'charts', action: 'collections', update: 'collectionsByCategory')}
         ${g.remoteFunction(controller: 'charts', action: 'recordsAndSpeciesByDecade', update: 'recordsAndSpeciesByDecade')}
-    });
+
+        $('#floatContainer > div > div.panel').matchHeight();
+});
 </r:script>
 </body>
 </html>

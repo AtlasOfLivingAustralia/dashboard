@@ -29,7 +29,7 @@
                 </div>
             </g:if>
             <g:if test="${dataProviders.size() > 7}">
-                <p class="paragraph"><button id="moreDataProviderLink" class="btn btn-small moreLink">More</button></p>
+                <p class="paragraph"><button id="moreDataProviderLink" class="btn btn-default btn-small moreLink">More</button></p>
             </g:if>
         </div>
     </div>

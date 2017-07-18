@@ -16,7 +16,7 @@
                     </g:each>
                 </table>
 
-                <p class="paragraph"><a href="javascript:void(0);" id="showAllLoggerSource" class="btn btn-small">More</a></p>
+                <p class="paragraph"><a href="javascript:void(0);" id="showAllLoggerSource" class="btn btn-default btn-small">More</a></p>
             </div>
         </div>
     </div>
