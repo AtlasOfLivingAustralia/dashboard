@@ -34,11 +34,11 @@ grails.project.dependency.resolution = {
         compile 'net.sf.opencsv:opencsv:2.3'
         compile 'com.yahoo.platform.yui:yuicompressor:2.4.8'
         compile 'org.jsoup:jsoup:1.9.1'
-//        runtime('org.codehaus.groovy.modules.http-builder:http-builder:0.5.1') {
-//            excludes 'xalan'
-//            excludes 'xml-apis'
-//            excludes 'groovy'
-//        }
+        runtime('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1') {
+            excludes 'xalan'
+            excludes 'xml-apis'
+            excludes 'groovy'
+        }
     }
 
     plugins {
