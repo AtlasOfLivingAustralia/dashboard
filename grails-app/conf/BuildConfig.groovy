@@ -34,15 +34,19 @@ grails.project.dependency.resolution = {
         compile 'net.sf.opencsv:opencsv:2.3'
         compile 'com.yahoo.platform.yui:yuicompressor:2.4.8'
         compile 'org.jsoup:jsoup:1.9.1'
+        runtime('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1') {
+            excludes 'xalan'
+            excludes 'xml-apis'
+            excludes 'groovy'
+        }
     }
 
     plugins {
         build ':tomcat:7.0.54'
         build ":release:3.0.1"
 
-        compile ':scaffolding:2.0.3'
+        compile ':scaffolding:2.1.2'
         compile ":google-visualization:1.0"
-
 
         runtime ':resources:1.2.14'
         if (Environment.current == Environment.PRODUCTION) {
@@ -51,9 +55,9 @@ grails.project.dependency.resolution = {
             compile ":cache-headers:1.1.7"
             runtime ":yui-minify-resources:0.1.5"
         }
-        runtime ":ala-bootstrap2:2.1"
-        runtime ":ala-admin-plugin:1.2"
-        runtime ":ala-auth:1.2"
+        runtime ":ala-bootstrap3:2.0.0"
+        runtime ":ala-admin-plugin:1.3"
+        runtime ":ala-auth:2.1.3"
         runtime ":jquery:1.11.1"
     }
 }

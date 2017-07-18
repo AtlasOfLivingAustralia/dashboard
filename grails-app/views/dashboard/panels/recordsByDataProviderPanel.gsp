@@ -1,4 +1,4 @@
-<div class="span4" id="dataProvider-topic">
+<div class="col-sm-4 col-md-4" id="dataProvider-topic">
     <div class="panel">
         <div class="panel-heading">
             <div class="panel-title">Records by data provider<i class="fa fa-info-circle pull-right hidden"></i></div>
@@ -29,7 +29,7 @@
                 </div>
             </g:if>
             <g:if test="${dataProviders.size() > 7}">
-                <p class="paragraph"><button id="moreDataProviderLink" class="btn btn-small moreLink">More</button></p>
+                <p class="paragraph"><button id="moreDataProviderLink" class="btn btn-default btn-small moreLink">More</button></p>
             </g:if>
         </div>
     </div>

@@ -1,4 +1,4 @@
-<div class="span4" id="institutions-topic">
+<div class="col-sm-4 col-md-4" id="institutions-topic">
     <div class="panel">
         <div class="panel-heading">
             <div class="panel-title">Records by institution<i class="fa fa-info-circle pull-right hidden"></i></div>
@@ -27,7 +27,7 @@
                 </div>
             </g:if>
             <g:if test="${institutions.size() > 7}">
-                <p class="paragraph"><button id="moreInstitutionLink" class="btn btn-small moreLink">More</button></p>
+                <p class="paragraph"><button id="moreInstitutionLink" class="btn btn-default btn-small moreLink">More</button></p>
             </g:if>
         </div>
     </div>

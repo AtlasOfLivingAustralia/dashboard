@@ -1,4 +1,4 @@
-<div class="span6" id="reason-breakdown-topic">
+<div class="col-sm-6 col-md-6" id="reason-breakdown-topic">
     <div class="panel">
         <div class="panel-heading">
             <div class="panel-title">Occurrence downloads by reason<i class="fa fa-info-circle pull-right hidden"></i></div>
@@ -16,7 +16,7 @@
                     </g:each>
                 </table>
 
-                <p class="paragraph"><a href="javascript:void(0);" id="showAllLoggerReasons" class="btn btn-small">More</a></p>
+                <p class="paragraph"><a href="javascript:void(0);" id="showAllLoggerReasons" class="btn btn-default btn-small">More</a></p>
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-<div class="span4" id="conservation-topic">
+<div class="col-sm-4 col-md-4" id="conservation-topic">
     <div class="panel">
         <div class="panel-heading">
             <div class="panel-title">Conservation status<i class="fa fa-info-circle pull-right hidden"></i></div>
@@ -28,7 +28,7 @@
                 </g:if>
             </table>
             <g:if test="${stateConservation.size() > 7}">
-                <p class="paragraph"><button id="moreConservationLink" class="btn btn-small">more..</button></p>
+                <p class="paragraph"><button id="moreConservationLink" class="btn btn-default btn-sm">more..</button></p>
             </g:if>
         </div>
     </div>
