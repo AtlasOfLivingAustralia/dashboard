@@ -14,29 +14,27 @@
 <body>
 
 <div class="dashboard">
-    <div id="pageHeader" class="row-fluid">
-        <div id="pageHeaderLeft" class="span6">
+    <div id="pageHeader" class="row">
+        <div id="pageHeaderLeft" class="col-sm-6 col-md-6">
             <ul class="breadcrumb hide">
-                <li><a href="http://www.ala.org.au" title="Home">Home</a> <span class="divider"><i class="fa fa-arrow-right"></i></span></li>
+                <li><a href="http://www.ala.org.au" title="Home">Home</a> </li>
                 <li class="active">
                     Dashboard <i id="show-error-button" data-html="true" data-title="Panel errors" data-trigger="hover" data-content="" class="fa fa-times-circle fa-lg initiallyHidden link"></i>
                 </li>
             </ul>
             <p><i class="fa fa-exclamation-circle fa-lg"></i> You can rearrange topics by clicking on the panel headers and dragging them.</p>
         </div>
-        <div id="buttonGroup" class="span6 pull-right">
+        <div id="buttonGroup" class="pull-right col-sm-6 col-md-6">
             <div>
-                <div class="span3">
-                    <a class="btn btn-primary btn-block" id="resetLayout"><i
-                            class="fa fa-refresh fa-inverse"></i> Reset layout</a>
+                <div class="col-sm-3 col-md-3">
+                    <a class="btn btn-primary btn-block" id="resetLayout"><i class="fa fa-refresh fa-inverse"></i> Reset layout</a>
                 </div>
 
-                <div class="span3">
-                    <a class="btn btn-primary btn-block" id="downloadCsv"><i
-                            class="fa fa-download fa-inverse"></i> Download as CSV</a>
+                <div class="col-sm-3 col-md-3">
+                    <a class="btn btn-primary btn-block" id="downloadCsv"><i class="fa fa-download fa-inverse"></i> Download as CSV</a>
                 </div>
 
-                <div class="span3">
+                <div class="col-sm-3 col-md-3">
                     <a class="btn btn-primary btn-block" id="showJson"><i class="fa fa-code fa-inverse"></i> Show raw data
                     </a>
                 </div>
@@ -92,7 +90,7 @@
 
         <g:include controller="dashboard" action="downloadsByReasonPanel"/>
 
-        <g:include controller="dashboard" action="downloadsBySourcePanel"/>
+        %{--<g:include controller="dashboard" action="downloadsBySourcePanel"/>--}%
 
         %{--<g:include controller="dashboard" action="downloadsByUserTypePanel"/>--}%
 
@@ -110,7 +108,7 @@
     }
 
     <g:applyCodec encodeAs="none">
-    var panelInfo = ${panelInfo};
+    var panelInfo = ${panelInfo?:'{}'};
     </g:applyCodec>
 
     $(function() {

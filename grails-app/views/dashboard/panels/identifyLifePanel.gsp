@@ -1,4 +1,4 @@
-<div class="span4" id="identifyLife-topic">
+<div class="col-sm-4 col-md-4" id="identifyLife-topic">
     <div class="panel">
         <div class="panel-heading">
             <div class="panel-title">Identify Life<i class="fa fa-info-circle pull-right hidden"></i></div>
@@ -9,7 +9,7 @@
             <p id="identifyLife">
                 Identification keys:
                 <a href="http://keycentral.identifylife.org/Secure/KeyStore/List.aspx?t=">
-                <span class="count">${identifyLifeCounts.keys}</span>
+                    <span class="count">${identifyLifeCounts.keys}</span>
                 </a>
             </p>
             <div id="identifyLife-logo">

@@ -1,4 +1,4 @@
-<div class="span4" id="date-topic">
+<div class="col-sm-4 col-md-4" id="date-topic">
   <div class="panel">
     <div class="panel-heading">
       <div class="panel-title">Records by date<i class="fa fa-info-circle pull-right hidden"></i></div>

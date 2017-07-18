@@ -104,6 +104,12 @@ grails.web.disable.multipart=false
 // request parameters to mask when logging exceptions
 grails.exceptionresolver.params.exclude = ['password']
 
+environments {
+    test {
+        security.cas.appServerName = 'http://devt.ala.org.au:8080/'
+    }
+}
+
 def loggingDir = (System.getProperty('catalina.base') ? System.getProperty('catalina.base') + '/logs' : './logs')
 def appName = grails.util.Metadata.current.'app.name'
 // log4j configuration

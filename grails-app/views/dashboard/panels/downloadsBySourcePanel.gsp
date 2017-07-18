@@ -1,4 +1,4 @@
-<div class="span6" id="source-breakdown-topic">
+<div class="col-sm-6 col-md-6" id="source-breakdown-topic">
     <div class="panel">
         <div class="panel-heading">
             <div class="panel-title">Occurrence downloads by source<i class="fa fa-info-circle pull-right hidden"></i></div>

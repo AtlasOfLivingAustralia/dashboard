@@ -34,6 +34,11 @@ grails.project.dependency.resolution = {
         compile 'net.sf.opencsv:opencsv:2.3'
         compile 'com.yahoo.platform.yui:yuicompressor:2.4.8'
         compile 'org.jsoup:jsoup:1.9.1'
+//        runtime('org.codehaus.groovy.modules.http-builder:http-builder:0.5.1') {
+//            excludes 'xalan'
+//            excludes 'xml-apis'
+//            excludes 'groovy'
+//        }
     }
 
     plugins {
@@ -50,9 +55,9 @@ grails.project.dependency.resolution = {
             compile ":cache-headers:1.1.7"
             runtime ":yui-minify-resources:0.1.5"
         }
-        runtime ":ala-bootstrap2:2.5-SNAPSHOT"
-        runtime ":ala-admin-plugin:1.2"
-        runtime ":ala-auth:1.3.4"
+        runtime ":ala-bootstrap3:2.0.0"
+        runtime ":ala-admin-plugin:1.3"
+        runtime ":ala-auth:2.1.3"
         runtime ":jquery:1.11.1"
     }
 }

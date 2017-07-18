@@ -1,4 +1,4 @@
-<div class="span4" id="datasets-topic">
+<div class="col-sm-4 col-md-4" id="datasets-topic">
     <div class="panel">
         <div class="panel-heading">
             <div class="panel-title">

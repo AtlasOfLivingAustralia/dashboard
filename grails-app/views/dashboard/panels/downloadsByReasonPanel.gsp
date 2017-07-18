@@ -1,4 +1,4 @@
-<div class="span6" id="reason-breakdown-topic">
+<div class="col-sm-4 col-md-4" id="reason-breakdown-topic">
     <div class="panel">
         <div class="panel-heading">
             <div class="panel-title">Occurrence downloads by reason<i class="fa fa-info-circle pull-right hidden"></i></div>

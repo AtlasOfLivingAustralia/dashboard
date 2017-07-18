@@ -1,4 +1,4 @@
-<div class="span4" id="lifeform-topic">
+<div class="col-sm-4 col-md-4" id="lifeform-topic">
     <div class="panel">
         <div class="panel-heading">
             <div class="panel-title">Records by life form<i class="fa fa-info-circle pull-right hidden"></i></div>
@@ -11,8 +11,8 @@
                         <td>${records[index].label}</td>
                         <td class="numberColumn">${db.formatNumber(value: records[index].count)}</td>
                         <g:if test="${records[index + rowsToDisplay]}">
-                        <td>${records[(index + rowsToDisplay) as Integer].label}</td>
-                        <td class="numberColumn">${db.formatNumber(value: records[(index + rowsToDisplay) as Integer].count)}</td>
+                            <td>${records[(index + rowsToDisplay) as Integer].label}</td>
+                            <td class="numberColumn">${db.formatNumber(value: records[(index + rowsToDisplay) as Integer].count)}</td>
                         </g:if>
                     </tr>
                 </g:each>
@@ -24,13 +24,13 @@
                         <td>${records[index].label}</td>
                         <td class="numberColumn">${db.formatNumber(value: records[index].count)}</td>
                         <g:if test="${records[index + halfCount]}">
-                        <td>${records[(index + halfCount) as Integer].label}</td>
-                        <td class="numberColumn">${db.formatNumber(value: records[(index + halfCount) as Integer].count)}</td>
+                            <td>${records[(index + halfCount) as Integer].label}</td>
+                            <td class="numberColumn">${db.formatNumber(value: records[(index + halfCount) as Integer].count)}</td>
                         </g:if>
                     </tr>
                 </g:each>
             </table>
-            <p class="paragraph"><a href="javascript:void(0);" id="showAllLifeforms" class="btn btn-small">More</a></p>
+            <p class="paragraph"><a href="javascript:void(0);" id="showAllLifeforms" class="btn btn-default btn-small">More</a></p>
         </div>
     </div>
 </div>
