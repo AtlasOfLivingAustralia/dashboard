@@ -15,7 +15,7 @@
 
 <div class="dashboard">
     <div id="pageHeader" class="row">
-        <div id="pageHeaderLeft" class="col-sm-6 col-md-6">
+        <div idchangedaderLeft" class="col-sm-6 col-md-6">
             <ul class="breadcrumb hide">
                 <li><a href="http://www.ala.org.au" title="Home">Home</a> </li>
                 <li class="active">
@@ -26,15 +26,15 @@
         </div>
         <div id="buttonGroup" class="pull-right col-sm-6 col-md-6">
             <div>
-                <div class="col-sm-3 col-md-3">
+                <div class="col-sm-4 col-md-4">
                     <a class="btn btn-primary btn-block" id="resetLayout"><i class="fa fa-refresh fa-inverse"></i> Reset layout</a>
                 </div>
 
-                <div class="col-sm-3 col-md-3">
+                <div class="col-sm-4 col-md-4">
                     <a class="btn btn-primary btn-block" id="downloadCsv"><i class="fa fa-download fa-inverse"></i> Download as CSV</a>
                 </div>
 
-                <div class="col-sm-3 col-md-3">
+                <div class="col-sm-4 col-md-4">
                     <a class="btn btn-primary btn-block" id="showJson"><i class="fa fa-code fa-inverse"></i> Show raw data
                     </a>
                 </div>
@@ -122,6 +122,7 @@
         ${g.remoteFunction(controller: 'charts', action: 'recordsAndSpeciesByDecade', update: 'recordsAndSpeciesByDecade')}
 
         $('#floatContainer > div > div.panel').matchHeight();
+        $.fn.matchHeight._maintainScroll = true;
 });
 </r:script>
 </body>

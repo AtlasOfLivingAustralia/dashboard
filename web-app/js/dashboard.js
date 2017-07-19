@@ -47,14 +47,18 @@ var dashboard = {
         $('#loggerReasonBreakdownTable .hideableRow').hide();
         $('#showAllLoggerReasons').on('click touch', function(){
             $('#showAllLoggerReasons').html($('#loggerReasonBreakdownTable tr.hideableRow:visible').length ? 'More' : 'Less');
-            $('#loggerReasonBreakdownTable .hideableRow').toggle(200);
+            $('#loggerReasonBreakdownTable .hideableRow').slideToggle(300,  function() {
+                jQuery.fn.matchHeight._update();
+            });
         });
 
         //sources
         $('#loggerSourceBreakdownTable .hideableRow').hide();
         $('#showAllLoggerSource').on('click touch', function(){
             $('#showAllLoggerSource').html($('#loggerSourceBreakdownTable tr.hideableRow:visible').length ? 'More' : 'Less');
-            $('#loggerSourceBreakdownTable .hideableRow').toggle(200);
+            $('#loggerSourceBreakdownTable .hideableRow').slideToggle(300,  function() {
+                jQuery.fn.matchHeight._update();
+            });
         });
 
         if(dashboard.panelRenderingErrors.length > 0) {
@@ -148,10 +152,14 @@ var dashboard = {
         $('#showAllLifeforms').click(function(){
             if ($('#lifeformsTable:visible').length) {
                 $('#lifeformsTable').hide();
-                $('#lifeformsTable-small').show(300);
+                $('#lifeformsTable-small').show(100, function() {
+                    jQuery.fn.matchHeight._update();
+                });
             } else {
                 $('#lifeformsTable-small').hide();
-                $('#lifeformsTable').show(300);
+                $('#lifeformsTable').show(100, function() {
+                    jQuery.fn.matchHeight._update();
+                });
             }
             $('#showAllLifeforms').html($('#lifeformsTable:visible').length ? 'Less' : 'More');
         });
@@ -181,6 +189,7 @@ var dashboard = {
                         });
                     }
                     $('#mostRecorded table').html(html);
+                    jQuery.fn.matchHeight._update(); // adjust heights
                 }
             });
         });
@@ -204,9 +213,13 @@ var dashboard = {
                 $extra = $('.moreBasis');
             $('#moreBasisLink').html(open ? 'More' : 'Less');
             if (open) {
-                $extra.slideUp(300);
+                $extra.slideUp(300, function() {
+                    jQuery.fn.matchHeight._update();
+                });
             } else {
-                $extra.slideDown(300);
+                $extra.slideDown(300,  function() {
+                    jQuery.fn.matchHeight._update();
+                });
             }
         });
         // more.. in dataProvider topic
@@ -214,19 +227,27 @@ var dashboard = {
         $('.moreLink').click(function () {
             var $extra = $(this).parent().parent().find('.initiallyHidden'),
                 open = ($(this).html() === 'Less');
-            $extra.slideToggle(300);
+            $extra.slideToggle(300,  function() {
+                jQuery.fn.matchHeight._update();
+            });
             $(this).html(open ? 'More' : 'Less');
         });
         // more.. in spatial topic
         $('#moreSpatialLink').click(function () {
             $('#moreSpatialLink').html($('#moreSpatial:visible').length ? 'More' : 'Less');
-            $('#moreSpatial').toggle(300);
+            $('#moreSpatial').slideToggle(300,  function() {
+                jQuery.fn.matchHeight._update();
+            });
         });
         // more.. in type status topic
         $('#moreTypesLink').click(function () {
             $('#moreTypesLink').html($('#moreTypes:visible').length ? 'More' : 'Less');
-            $('#baseTypes').toggle(300);
-            $('#moreTypes').toggle(300);
+            $('#baseTypes').slideToggle(300,  function() {
+                jQuery.fn.matchHeight._update();
+            });
+            $('#moreTypes').slideToggle(300,  function() {
+                jQuery.fn.matchHeight._update();
+            });
         });
         // datasets links
         $('#datasets-topic td:first-child').click(function () {
@@ -269,7 +290,9 @@ var dashboard = {
         });
         // info links
         $('.info-link').click(function () {
-            $(this).parent().find('div.info').toggle();
+            $(this).parent().find('div.info').slideToggle(300,  function() {
+                jQuery.fn.matchHeight._update();
+            });
         });
     },
 
