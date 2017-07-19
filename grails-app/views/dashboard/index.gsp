@@ -15,7 +15,7 @@
 
 <div class="dashboard">
     <div id="pageHeader" class="row">
-        <div id="changedaderLeft" class="col-sm-6 col-md-6">
+        <div id="pageHeaderLeft" class="col-sm-6 col-md-6">
             <ul class="breadcrumb hide">
                 <li><a href="http://www.ala.org.au" title="Home">Home</a> </li>
                 <li class="active">
