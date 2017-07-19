@@ -52,7 +52,7 @@ class MetadataService {
             stateConservation       : getSpeciesByConservationStatus(),
             loggerTotals            : getLoggerTotals(),
             loggerReasonBreakdown   : getLoggerReasonBreakdown(),
-            loggerSourceBreakdown   : getLoggerSourceBreakdown(),
+//            loggerSourceBreakdown   : getLoggerSourceBreakdown(),
             loggerEmailBreakdown    : getLoggerEmailBreakdown(),
             loggerTemporalBreakdown : getLoggerReasonTemporalBreakdown(),
             imagesBreakdown         : getImagesBreakdown(),

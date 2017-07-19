@@ -2,7 +2,7 @@
     <div class="panel">
         <div class="panel-heading">
             <div class="panel-title">
-                <a href="http://collections.ala.org.au/datasets"><span class="count">${datasets.total}</span></a>
+                <a href="http://collections.ala.org.au/datasets"><span class="count">${g.formatNumber(number:datasets.total,format:'###,##0')}</span></a>
                 Data sets
                 <i class="fa fa-info-circle pull-right hidden"></i>
             </div>
