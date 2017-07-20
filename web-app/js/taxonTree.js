@@ -18,7 +18,7 @@ function urlConcat(base, context) {
  */
 function initTaxonTree(treeOptions) {
     var query = treeOptions.query ? treeOptions.query : buildQueryString(treeOptions.instanceUid);
-
+    console.log("Initialising tree 2");
     var targetDivId = treeOptions.targetDivId ? treeOptions.targetDivId : 'tree';
     var $container = $('#' + targetDivId);
     var title = treeOptions.title || 'Explore records by taxonomy';
@@ -35,6 +35,7 @@ function initTaxonTree(treeOptions) {
     var $tree = $('<div id="taxaTree"></div>').appendTo($treeContainer);
     $tree
         .bind("after_open.jstree", function(event, data) {
+            console.log("after_open");
             var children = $.jstree._reference(data.rslt.obj)._get_children(data.rslt.obj);
             // automatically open if only one child node
             if (children.length == 1) {
@@ -42,6 +43,7 @@ function initTaxonTree(treeOptions) {
             }
             // adjust container size
             var fullHeight = $tree[0].scrollHeight;
+            jQuery.fn.matchHeight._update();
             if (fullHeight > $tree.height()) {
                 fullHeight = Math.min(fullHeight, 700);
                 $treeContainer.animate({height:fullHeight});
