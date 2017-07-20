@@ -238,10 +238,11 @@ footer {
     padding-top: 1.8em;
 }
 
-.click-thru td:nth-child(odd):hover {
-    background-color: #e7e9f9;
-    cursor: pointer;
-}
+/*.click-thru td:nth-child(odd):hover {*/
+    /*background-color: #e7e9f9;*/
+    /*cursor: pointer;*/
+/*}*/
+/*Removing as it is confusing having a pointer when target is not a link or any action. NdR July 2017.*/
 
 #bhl-topic .panel-body > div {
     margin-bottom: 1em;
