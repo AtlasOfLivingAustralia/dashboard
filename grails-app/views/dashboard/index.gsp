@@ -25,20 +25,9 @@
             <p><i class="fa fa-exclamation-circle fa-lg"></i> You can rearrange topics by clicking on the panel headers and dragging them.</p>
         </div>
         <div id="buttonGroup" class="pull-right col-sm-6 col-md-6">
-            <div>
-                <div class="col-sm-4 col-md-4">
-                    <a class="btn btn-primary btn-block" id="resetLayout"><i class="fa fa-refresh fa-inverse"></i> Reset layout</a>
-                </div>
-
-                <div class="col-sm-4 col-md-4">
-                    <a class="btn btn-primary btn-block" id="downloadCsv"><i class="fa fa-download fa-inverse"></i> Download as CSV</a>
-                </div>
-
-                <div class="col-sm-4 col-md-4">
-                    <a class="btn btn-primary btn-block" id="showJson"><i class="fa fa-code fa-inverse"></i> Show raw data
-                    </a>
-                </div>
-            </div>
+            <a class="btn btn-primary " id="resetLayout"><i class="fa fa-refresh fa-inverse"></i> Reset layout</a>
+            <a class="btn btn-primary " id="downloadCsv"><i class="fa fa-download fa-inverse"></i> Download as CSV</a>
+            <a class="btn btn-primary " id="showJson"><i class="fa fa-code fa-inverse"></i> Show raw data</a>
         </div>
     </div>
 
