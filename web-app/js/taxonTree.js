@@ -18,7 +18,6 @@ function urlConcat(base, context) {
  */
 function initTaxonTree(treeOptions) {
     var query = treeOptions.query ? treeOptions.query : buildQueryString(treeOptions.instanceUid);
-
     var targetDivId = treeOptions.targetDivId ? treeOptions.targetDivId : 'tree';
     var $container = $('#' + targetDivId);
     var title = treeOptions.title || 'Explore records by taxonomy';
@@ -42,6 +41,7 @@ function initTaxonTree(treeOptions) {
             }
             // adjust container size
             var fullHeight = $tree[0].scrollHeight;
+            jQuery.fn.matchHeight._update();
             if (fullHeight > $tree.height()) {
                 fullHeight = Math.min(fullHeight, 700);
                 $treeContainer.animate({height:fullHeight});
