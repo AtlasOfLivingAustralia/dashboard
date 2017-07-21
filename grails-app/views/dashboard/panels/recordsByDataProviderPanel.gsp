@@ -7,10 +7,13 @@
             <table class="click-thru table table-condensed table-striped table-hover">
                 <g:each in="${dataProviders[0..Math.min(6, dataProviders.size() - 1)]}" var="b">
                     <tr>
-                        <td id="${b.uid}" title="${b.name}"><a href="${b.uri}">
-                            <db:shorten text="${b.display}" size="35"/>
-                        </a></td>
-                        <td class="numberColumn"><span class="count">${b.formattedCount}</span></td>
+                        <td id="${b.uid}" title="${b.name}">
+                            <g:if test="${b.uri}"><a href="${b.uri}"><db:shorten text="${b.display}" size="35"/></a></g:if>
+                            <g:else><db:shorten text="${b.display}" size="35"/></g:else>
+                        </td>
+                        <td class="numberColumn">
+                            <span class="count">${b.formattedCount}</span>
+                        </td>
                     </tr>
                 </g:each>
             </table>
@@ -19,10 +22,13 @@
                     <table class="click-thru table table-condensed table-striped table-hover">
                         <g:each in="${dataProviders[7..-1]}" var="b">
                             <tr>
-                                <td id="${b.uid}" title="${b.name}"><a href="${b.uri}">
-                                    <db:shorten text="${b.display}" size="35"/>
-                                </a></td>
-                                <td class="numberColumn"><span class="count">${b.formattedCount}</span></td>
+                                <td id="${b.uid}" title="${b.name}">
+                                    <g:if test="${b.uri}"><a href="${b.uri}"><db:shorten text="${b.display}" size="35"/></a></g:if>
+                                    <g:else><db:shorten text="${b.display}" size="35"/></g:else>
+                                </td>
+                                <td class="numberColumn">
+                                    <span class="count">${b.formattedCount}</span>
+                                </td>
                             </tr>
                         </g:each>
                     </table>
