@@ -8,10 +8,13 @@
     <meta name="breadcrumb" content="Dashboard"/>
     <title>Dashboard | Atlas of Living Australia</title>
     <gvisualization:apiImport/>
-    <r:require modules="dashboard"/>
-</head>
 
-<body>
+    %{--<r:require modules="dashboard"/>--}%
+    <asset:stylesheet href="application.css" />
+
+
+%{--    <g:layoutHead/>--}%
+</head>
 
 <div class="dashboard">
     <div id="pageHeader" class="row">
@@ -89,8 +92,10 @@
 
     </div>
 </div>
+%{--<asset:javascript src="dashboard.js"/>--}%
+<asset:javascript src="application.js"/>
 
-<r:script>
+<asset:script type="text/javascript">
     var alaWsUrls = {
         collections: '${grailsApplication.config.collectory.baseURL}',
         biocache: '${grailsApplication.config.biocache.baseURL}',
@@ -115,6 +120,6 @@
         $('#floatContainer > div > div.panel').matchHeight();
         $.fn.matchHeight._maintainScroll = true;
 });
-</r:script>
+</asset:script>
 </body>
 </html>

@@ -20,7 +20,8 @@
             </div>
             <g:select from="['all lifeforms', 'Plants', 'Animals', 'Birds', 'Reptiles', 'Arthropods',
                              'Mammals', 'Fish', 'Insects', 'Amphibians', 'Bacteria', 'Fungi']" name="mostSppGroup"/>
-            <g:img style="vertical-align:middle;display:none" id="mostLoadingImg" dir="images" file="spinner.gif"/>
+            %{--<g:img style="vertical-align:middle;display:none" id="mostLoadingImg" dir="images" file="spinner.gif"/>--}%
+            <asset:image style="vertical-align:middle;display:none" id="mostLoadingImg" src="spinner.gif" />
         </div>
     </div>
 </div>

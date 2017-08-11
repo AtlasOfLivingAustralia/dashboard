@@ -7,7 +7,8 @@
 
         <div class="panel-body">
             <div id="stateAndTerritoryRecords">
-                <g:img dir="images" file="spinner.gif"/>
+%{--                <g:img dir="images" file="spinner.gif"/>--}%
+                <asset:image src="spinner.gif" alt=""/>
             </div>
         </div>
     </div>

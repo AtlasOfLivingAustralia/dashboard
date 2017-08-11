@@ -95,7 +95,8 @@ function initTaxonTree(treeOptions) {
             themes:{
                 theme: treeOptions.theme || 'default',
                 icons: treeOptions.icons || false,
-                url: treeOptions.serverUrl + "/js/themes/" + (treeOptions.theme || 'default') + "/style.css"
+                url: treeOptions.serverUrl + "/assets/themes/" + (treeOptions.theme || 'default') + "/style.css"
+                //url: treeOptions.serverUrl + "/js/themes/" + (treeOptions.theme || 'default') + "/style.css"
             },
             checkbox: {override_ui:true},
             contextmenu: {select_node: false, show_at_node: false, items: {

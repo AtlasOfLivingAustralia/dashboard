@@ -5,8 +5,8 @@
                 <a target="_blank" href="http://bold.ala.org.au/"> Barcode of life</a><i class="fa fa-info-circle pull-right hidden"></i>
             </div>
         </div>
-        <div class="panel-body">
-            <h5 class="text-center">DNA barcode data <a target="_blank" href="http://bold.ala.org.au/"><g:img dir="images/dashboard" file="bold.png"/></a></h5>
+        <div class="panel-body"> %{--<g:img dir="images/dashboard" file="bold.png"/>--}%
+            <h5 class="text-center">DNA barcode data <a target="_blank" href="http://bold.ala.org.au/"><asset:image src="dashboard/bold.png"/></a></h5>
             <table class="table table-condensed table-striped table-hover">
                 <tbody>
                 <tr><td>Records</td><td class="numberColumn"><span class="count"><db:formatNumber value="${boldCounts?.records}"/></span>

@@ -14,7 +14,7 @@
             </p>
             <div id="identifyLife-logo">
                 <a target="_blank" href="http://www.identifylife.org/">
-                    <g:img dir="images/dashboard" file="identify-life-2.png"/>
+                    <asset:image src="dashboard/identify-life-2.png"/>
                 </a>
             </div>
         </div>

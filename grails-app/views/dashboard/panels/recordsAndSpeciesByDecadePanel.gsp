@@ -5,7 +5,7 @@
         </div>
         <div class="panel-body">
             <div id="recordsAndSpeciesByDecade">
-                <g:img dir="images" file="spinner.gif"/>
+                <asset:image src="spinner.gif"/>
             </div>
         </div>
     </div>

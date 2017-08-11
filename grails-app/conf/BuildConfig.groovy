@@ -45,10 +45,10 @@ grails.project.dependency.resolution = {
         build ':tomcat:7.0.54'
         build ":release:3.0.1"
 
+        compile ":asset-pipeline:2.14.1"
         compile ':scaffolding:2.1.2'
         compile ":google-visualization:1.0"
 
-        runtime ':resources:1.2.14'
         if (Environment.current == Environment.PRODUCTION) {
             runtime ":zipped-resources:1.0.1"
             runtime ":cached-resources:1.1"

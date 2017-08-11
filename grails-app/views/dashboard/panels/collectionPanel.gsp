@@ -7,7 +7,7 @@
         <div class="panel-body text-center">
             <p class="paragraph">Click on a Collection for details:</p>
             <div id="collectionsByCategory">
-                <g:img dir="images" file="spinner.gif"/>
+                <asset:image src="spinner.gif"/>
             </div>
         </div>
     </div>

@@ -8,7 +8,7 @@
         </div>
         <div class="panel-body">
             <div class="text-center">
-                <a target="_blank" href="http://bhl.ala.org.au/"><g:img dir="images/dashboard" file="bhl.png"/></a>
+                <a target="_blank" href="http://bhl.ala.org.au/"><asset:image src="dashboard/bhl.png"/></a>
             </div>
             <table class="table table-condensed table-striped table-hover">
                 <tbody>
