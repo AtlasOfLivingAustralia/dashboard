@@ -7,7 +7,8 @@
         <div class="panel-body text-center">
             <p class="paragraph">Click on a Collection for details:</p>
             <div id="collectionsByCategory">
-                <asset:image src="spinner.gif"/>
+                %{--<asset:image src="spinner.gif"/>--}%
+                <g:include controller="charts" action="collections"/>
             </div>
         </div>
     </div>

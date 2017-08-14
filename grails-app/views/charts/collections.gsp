@@ -1,4 +1,7 @@
 <div id="collections-chart"></div>
+<g:if test="${!data}">
+    <asset:image src="spinner.gif" />
+</g:if>
 <gvisualization:pieCoreChart
         name="collections"
         dynamicLoading="${true}"

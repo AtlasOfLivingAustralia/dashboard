@@ -5,7 +5,7 @@ import groovy.json.JsonSlurper
 import org.apache.commons.lang.StringUtils
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.codehaus.groovy.grails.web.json.JSONArray
+import org.grails.web.json.JSONArray
 
 import javax.annotation.PostConstruct
 import java.text.NumberFormat

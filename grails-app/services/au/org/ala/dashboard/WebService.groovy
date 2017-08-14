@@ -1,18 +1,20 @@
 package au.org.ala.dashboard
 
 import grails.converters.JSON
-import org.codehaus.groovy.grails.web.converters.exceptions.ConverterException
+import org.grails.web.converters.exceptions.ConverterException
 import groovyx.net.http.HTTPBuilder
 import groovyx.net.http.ContentType
 import org.springframework.beans.factory.InitializingBean
-import org.codehaus.groovy.grails.web.json.JSONObject
+import org.grails.web.json.JSONObject
 
 
-class WebService implements InitializingBean {
+class WebService /*implements InitializingBean*/ {
 
+    /*
+    // Not required in Grails 3
     public void afterPropertiesSet() throws Exception {
         JSONObject.NULL.metaClass.asBoolean = {-> false}
-    }
+    }*/
 
     def get(String url) {
         def conn = new URL(url).openConnection()

@@ -5,7 +5,8 @@
         </div>
         <div class="panel-body">
             <div id="recordsAndSpeciesByDecade">
-                <asset:image src="spinner.gif"/>
+                %{--<asset:image src="spinner.gif"/>--}%
+                <g:include controller="charts" action="recordsAndSpeciesByDecade"/>
             </div>
         </div>
     </div>

@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="layout" content="main"/>
+    <meta name="layout" content="ala-main"/>
     <meta name="breadcrumb" content="Dashboard"/>
     <title>Dashboard | Atlas of Living Australia</title>
     <gvisualization:apiImport/>
@@ -112,10 +112,18 @@
             urls: alaWsUrls
         });
 
-        // Draw charts
-        ${g.remoteFunction(controller: 'charts', action: 'stateAndTerritoryRecords', update: 'stateAndTerritoryRecords')}
-        ${g.remoteFunction(controller: 'charts', action: 'collections', update: 'collectionsByCategory')}
-        ${g.remoteFunction(controller: 'charts', action: 'recordsAndSpeciesByDecade', update: 'recordsAndSpeciesByDecade')}
+   %{-- <g:remoteFunction controller='charts' action='recordsAndSpeciesByDecade' update='recordsAndSpeciesByDecade' />
+--}%
+
+    // Draw charts
+     %{--   ${g.remoteFunction(controller: 'charts', action: 'stateAndTerritoryRecords', update: 'stateAndTerritoryRecords')}
+        ${g.remoteFunction(controller: 'charts', action: 'collections', update: 'collectionsByCategory')} --}%
+ %{--       ${remoteFunction(controller: 'charts', action: 'recordsAndSpeciesByDecade', update: 'recordsAndSpeciesByDecade')}
+--}%
+
+   %{-- $.ajax({
+      url:'${g.createLink( controller:'charts', action:'recordsAndSpeciesByDecade')}'
+    });--}%
 
         $('#floatContainer > div > div.panel').matchHeight();
         $.fn.matchHeight._maintainScroll = true;

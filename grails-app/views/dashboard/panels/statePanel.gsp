@@ -8,7 +8,8 @@
         <div class="panel-body">
             <div id="stateAndTerritoryRecords">
 %{--                <g:img dir="images" file="spinner.gif"/>--}%
-                <asset:image src="spinner.gif" alt=""/>
+               %{-- <asset:image src="spinner.gif" alt=""/>--}%
+                <g:include controller="charts" action="stateAndTerritoryRecords"/>
             </div>
         </div>
     </div>

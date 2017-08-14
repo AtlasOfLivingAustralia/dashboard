@@ -1,4 +1,4 @@
-import org.apache.log4j.Level
+//import org.apache.log4j.Level
 
 /* Added to add compatibility with Grails 2.3+ */
 // Explicitly enable hot-swap reload agent
@@ -7,7 +7,11 @@ grails.reload.enabled = true
 grails.project.groupId = "au.org.ala"
 /* Added to add compatibility with Grails 2.3+ */
 
-def ENV_NAME = "${appName.toUpperCase()}_CONFIG"
+def loggingDir = (System.getProperty('catalina.base') ? System.getProperty('catalina.base') + '/logs' : './logs')
+def appName = grails.util.Metadata.current.'app.name'
+
+//def ENV_NAME = "${appName.toUpperCase()}_CONFIG"
+def ENV_NAME = "DASHBOARD_CONFIG"
 default_config = "/data/${appName}/config/${appName}-config.properties"
 if(!grails.config.locations || !(grails.config.locations instanceof List)) {
     grails.config.locations = []
@@ -110,8 +114,7 @@ environments {
     }
 }
 
-def loggingDir = (System.getProperty('catalina.base') ? System.getProperty('catalina.base') + '/logs' : './logs')
-def appName = grails.util.Metadata.current.'app.name'
+
 // log4j configuration
 log4j = {
 // Example of changing the log pattern for the default console

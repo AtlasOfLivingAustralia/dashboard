@@ -1,0 +1,3 @@
+include ':ala-bootstrap3'
+project(':ala-bootstrap3').projectDir = new File(settingsDir, '../ala-bootstrap3')
+rootProject.name='dashboard'

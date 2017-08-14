@@ -1,4 +1,7 @@
 <div id="stateAndTerritoryRecords-chart"></div>
+<g:if test="${!data}">
+    <asset:image src="spinner.gif" />
+</g:if>
 <gvisualization:pieCoreChart
         name="stateAndTerritoryRecords"
         dynamicLoading="${true}"
