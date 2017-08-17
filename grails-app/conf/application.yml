@@ -94,3 +94,13 @@ grails:
 endpoints:
     jmx:
         unique-names: true
+
+---
+skin:
+    layout: "ala-main"
+    orgNameLong: "Atlas of Living Australia"
+    orgNameShort: "ALA"
+privacyPolicy: "http://www.ala.org.au/about/terms-of-use/privacy-policy/"
+
+
+
