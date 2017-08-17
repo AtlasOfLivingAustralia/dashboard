@@ -27,6 +27,8 @@ apply plugin:"org.grails.grails-web"
 apply plugin:"org.grails.grails-gsp"
 apply plugin:"asset-pipeline"
 
+apply from: 'https://raw.githubusercontent.com/AtlasOfLivingAustralia/travis-build-configuration/master/travis_grails_publish.gradle'
+
 repositories {
     mavenLocal()
  //   mavenCentral()
@@ -89,6 +91,7 @@ dependencies {
     runtime "org.grails.plugins:ala-admin-plugin:2.0-SNAPSHOT"
   //  runtime "org.grails.plugins:ala-auth:3.0.1"
     runtime "org.grails.plugins:ala-auth:3.0.1"
+    compile 'org.grails.plugins:quartz:2.0.12'
   //  runtime "org.grails.plugins:jquery:1.11.1"
 }
 
