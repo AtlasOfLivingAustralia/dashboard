@@ -162,3 +162,11 @@ bhl:
 
 headerAndFooter:
   baseURL: "https://www.ala.org.au/commonui-bs3"
+
+dashboard:
+  data:
+    file: "/data/dashboard/data.json"
+
+csv:
+  temp:
+    dir: "/data/dashboard/csv/"
