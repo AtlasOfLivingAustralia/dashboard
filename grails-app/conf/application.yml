@@ -102,5 +102,68 @@ skin:
     orgNameShort: "ALA"
 privacyPolicy: "http://www.ala.org.au/about/terms-of-use/privacy-policy/"
 
+---
+security:
+    cas:
+        uriFilterPattern: "/alaAdmin.*"
+        uriExclusionFilterPattern: "/images.*,/css.*,/js.*,/less.*"
 
+environments:
+    development:
+        grails:
+            serverURL: "http://devt.ala.org.au:8080/dashboard"
+        security:
+            cas:
+                appServerName: "http://devt.ala.org.au:8080/dashboard"
+    test:
+        grails:
+            serverURL: "http://nectar-dashboard-test.ala.org.au/"
+        security:
+            cas:
+                appServerName: "http://auth.ala.org.au"
+    production:
+        grails:
+            serverURL: "http://dashboard.ala.org.au/"
+        security:
+            cas:
+                appServerName: "http://auth.ala.org.au"
+
+biocache:
+  baseURL: "https://biocache.ala.org.au"
+
+ala:
+  baseURL: "https://www.ala.org.au"
+
+bie:
+  baseURL: "https://bie.ala.org.au"
+
+bie:
+  searchPath: "/search"
+
+spatial:
+  baseURL: "http://spatial.ala.org.au"
+
+logger:
+  baseURL: "http://logger.ala.org.au"
+
+collectory:
+  baseURL: "http://collections.ala.org.au"
+
+volunteer:
+  baseURL: "https://volunteer.ala.org.au"
+
+images:
+  baseURL: "http://images.ala.org.au"
+
+userDetails:
+  baseURL: "https://auth.ala.org.au/userdetails"
+
+bhl:
+  baseURL: "http://biodiversitylibrary.org/"
+
+bhl:
+  statsSelector: ".onlinestats"
+
+headerAndFooter:
+  baseURL: "https://www.ala.org.au/commonui-bs3"
 
