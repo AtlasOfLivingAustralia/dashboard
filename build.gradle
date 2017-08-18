@@ -13,11 +13,9 @@ buildscript {
        // classpath group: 'org.jsoup', name: 'jsoup', version: '1.9.1'
     }
 }
-
 plugins {
     id "com.gorylenko.gradle-git-properties" version "1.4.17"
 }
-
 
 version "2.0.0-SNAPSHOT"
 group "au.org.ala"
