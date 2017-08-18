@@ -8,7 +8,7 @@ import grails.test.mixin.TestFor
 import spock.lang.Specification
 
 @Integration
-//@TestFor(MetadataService)
+@TestFor(MetadataService)
 class MetadataServiceSpec extends Specification {
 
    // @Shared def metadataService
