@@ -13,9 +13,9 @@ buildscript {
        // classpath group: 'org.jsoup', name: 'jsoup', version: '1.9.1'
     }
 }
-plugins {
+/*plugins {
     id "com.gorylenko.gradle-git-properties" version "1.4.17"
-}
+}*/
 
 version "2.0.0-SNAPSHOT"
 group "au.org.ala"
@@ -27,7 +27,7 @@ apply plugin:"war"
 apply plugin:"org.grails.grails-web"
 apply plugin:"org.grails.grails-gsp"
 apply plugin:"asset-pipeline"
-
+apply plugin:"com.gorylenko.gradle-git-properties"
 apply from: 'https://raw.githubusercontent.com/AtlasOfLivingAustralia/travis-build-configuration/master/travis_grails_publish.gradle'
 
 repositories {
@@ -81,7 +81,7 @@ dependencies {
     runtime "org.grails.plugins:ala-admin-plugin:2.0-SNAPSHOT"
     runtime "org.grails.plugins:ala-auth:3.0.1"
     compile 'org.grails.plugins:quartz:2.0.12'
-
+//    compile "org.spockframework:spock-core:1.0-groovy-2.4"
 }
 
 bootRun {
