@@ -2,6 +2,7 @@ package au.org.ala.dashboard
 
 //import grails.test.spock.IntegrationSpec
 import grails.test.mixin.integration.Integration
+import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Shared
 import grails.test.mixin.TestFor
 import spock.lang.Specification
@@ -10,9 +11,11 @@ import spock.lang.Specification
 //@TestFor(MetadataService)
 class MetadataServiceSpec extends Specification {
 
-    @Shared def metadataService
+   // @Shared def metadataService
+    @Autowired
+    MetadataService metadataService
     def grailsApplication
-    def cacheService
+//    def cacheService
 
     def "test retrieval of states and territories records"() {
         setup:
