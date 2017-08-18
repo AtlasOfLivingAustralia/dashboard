@@ -136,8 +136,6 @@ ala:
 
 bie:
   baseURL: "https://bie.ala.org.au"
-
-bie:
   searchPath: "/search"
 
 spatial:
@@ -160,10 +158,7 @@ userDetails:
 
 bhl:
   baseURL: "http://biodiversitylibrary.org/"
-
-bhl:
   statsSelector: ".onlinestats"
 
 headerAndFooter:
   baseURL: "https://www.ala.org.au/commonui-bs3"
-
