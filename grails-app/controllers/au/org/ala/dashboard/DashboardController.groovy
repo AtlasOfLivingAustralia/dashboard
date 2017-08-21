@@ -270,7 +270,7 @@ class DashboardController {
 
     def most = { group ->
         def m = [:]
-        metadataService.getMostRecordedSpecies(group).facets?.each() {
+        metadataService.getMostRecordedSpecies(group)?.facets?.each() {
             m.put it.name, [count: it.count, common: it.common, lsid: it.facet]
         }
         m
