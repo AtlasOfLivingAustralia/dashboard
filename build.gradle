@@ -1,23 +1,19 @@
 buildscript {
     repositories {
         mavenLocal()
-      //  mavenCentral()
         maven { url "https://nexus.ala.org.au/content/groups/public/" }
-
         maven { url "https://repo.grails.org/grails/core" }
-        maven {url "https://plugins.gradle.org/m2/"}
     }
     dependencies {
-      //  classpath "org.codehaus.groovy:groovy-ant:2.0.0"
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.14.1"
-        classpath "gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.4.17"
-       // classpath group: 'org.jsoup', name: 'jsoup', version: '1.9.1'
     }
 }
-/*plugins {
-    id "com.gorylenko.gradle-git-properties" version "1.4.17"
-}*/
+plugins {
+ //   id 'org.springframework.boot' version '1.4.2.RELEASE'
+    // Add Git properties plugin.
+    id 'com.gorylenko.gradle-git-properties' version '1.4.17'
+}
 
 version "2.0.0-SNAPSHOT"
 group "au.org.ala"
@@ -29,14 +25,12 @@ apply plugin:"war"
 apply plugin:"org.grails.grails-web"
 apply plugin:"org.grails.grails-gsp"
 apply plugin:"asset-pipeline"
-apply plugin:"com.gorylenko.gradle-git-properties"
 apply from: 'https://raw.githubusercontent.com/AtlasOfLivingAustralia/travis-build-configuration/master/travis_grails_publish.gradle'
 
 repositories {
     mavenLocal()
     maven { url "https://nexus.ala.org.au/content/groups/public/" }
     maven { url "https://repo.grails.org/grails/core" }
-    jcenter()
 }
 
 /*grails {
@@ -80,20 +74,21 @@ dependencies {
 
     compile "org.grails.plugins:ala-bootstrap3:3.0.0-SNAPSHOT"
     compile "org.grails.plugins:grails-google-visualization:2.0"
-    runtime "org.grails.plugins:ala-admin-plugin:2.0-SNAPSHOT"
+    compile "org.grails.plugins:ala-admin-plugin:2.0-SNAPSHOT"
     runtime "org.grails.plugins:ala-auth:3.0.1"
     compile 'org.grails.plugins:quartz:2.0.12'
 //    compile "org.spockframework:spock-core:1.0-groovy-2.4"
 }
 
 bootRun {
-   // jvmArgs('-Dspring.output.ansi.enabled=always')
-    jvmArgs = ['-Dlocal.config.location=grails-app/conf/application.yml']
-    //addResources = true
+    jvmArgs('-Dspring.output.ansi.enabled=always')
+   // jvmArgs('-Dlocal.config.location=grails-app/conf/application.yml')
+    addResources = true
+//    systemProperty 'management.info.git.mode', 'FULL'
 }
-
 
 assets {
     minifyJs = false
     minifyCss = false
 }
+
