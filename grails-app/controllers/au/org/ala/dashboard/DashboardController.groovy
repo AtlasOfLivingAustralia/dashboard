@@ -309,7 +309,7 @@ class DashboardController {
                 volunteerPortalCounts: metadataService.get('volunteerPortalCounts'),
                 identifyLifeCounts: metadataService.getIdentifyLifeCounts()]
         ['All','Plants','Mammals','Reptiles','Birds','Animals','Arthropods',
-         'Fish','Insects','Amphibians','Bacteria','Fungi'].each {
+         'Fishes','Insects','Amphibians','Bacteria','Fungi'].each {
             d['mostRecorded' + it] = most(it)
         }
 
