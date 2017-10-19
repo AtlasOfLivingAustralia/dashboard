@@ -183,13 +183,13 @@ class MetadataService {
             def results = [:]
 
             // type counts
-            def facets = biocacheFacetCount('type_status', '*:*')
+            def facets = biocacheFacetCount('type_status', 'type_status:[*%20TO%20*]')
             facets.facets.each {
                 if (it.facet != 'notatype') {
                     results[it.facet] = it.count
                 }
             }
-            results.total = results.values().sum { it }
+            results.total = facets.total //results.values().sum { it }
 
             // type counts with images
             results.withImage = [:]
