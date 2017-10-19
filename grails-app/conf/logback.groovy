@@ -1,3 +1,4 @@
+import ch.qos.logback.core.util.FileSize
 import grails.util.BuildSettings
 import grails.util.Environment
 import org.springframework.boot.logging.logback.ColorConverter
@@ -9,17 +10,45 @@ conversionRule 'clr', ColorConverter
 conversionRule 'wex', WhitespaceThrowableProxyConverter
 
 // See http://logback.qos.ch/manual/groovy.html for details on configuration
-appender('STDOUT', ConsoleAppender) {
-    encoder(PatternLayoutEncoder) {
-        charset = Charset.forName('UTF-8')
+def loggingDir = (System.getProperty('catalina.base') ? System.getProperty('catalina.base') + '/logs' : './logs')
+def appName = 'dashboard'
+def TOMCAT_LOG = 'TOMCAT_LOG'
+switch (Environment.current) {
+    case Environment.PRODUCTION:
+        appender(TOMCAT_LOG, RollingFileAppender) {
+            file = "$loggingDir/${appName}.log"
+            encoder(PatternLayoutEncoder) {
+                pattern =
+                        '%d{yyyy-MM-dd HH:mm:ss.SSS} ' + // Date
+                                '%5p ' + // Log level
+                                '--- [%15.15t] ' + // Thread
+                                '%-40.40logger{39} : ' + // Logger
+                                '%m%n%wex' // Message
+            }
+            rollingPolicy(FixedWindowRollingPolicy) {
+                fileNamePattern = "$loggingDir/$appName.%i.log.gz"
+                minIndex=1
+                maxIndex=4
+            }
+            triggeringPolicy(SizeBasedTriggeringPolicy) {
+                maxFileSize = FileSize.valueOf('10MB')
+            }
+        }
+        break
+    default:
+        appender(TOMCAT_LOG, ConsoleAppender) {
+            encoder(PatternLayoutEncoder) {
+                charset = Charset.forName('UTF-8')
 
-        pattern =
-                '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} ' + // Date
-                        '%clr(%5p) ' + // Log level
-                        '%clr(---){faint} %clr([%15.15t]){faint} ' + // Thread
-                        '%clr(%-40.40logger{39}){cyan} %clr(:){faint} ' + // Logger
-                        '%m%n%wex' // Message
-    }
+                pattern =
+                        '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} ' + // Date
+                                '%clr(%5p) ' + // Log level
+                                '%clr(---){faint} %clr([%15.15t]){faint} ' + // Thread
+                                '%clr(%-40.40logger{39}){cyan} %clr(:){faint} ' + // Logger
+                                '%m%n%wex' // Message
+            }
+        }
+        break
 }
 
 def targetDir = BuildSettings.TARGET_DIR
@@ -33,4 +62,31 @@ if (Environment.isDevelopmentMode() && targetDir != null) {
     }
     logger("StackTrace", ERROR, ['FULL_STACKTRACE'], false)
 }
-root(ERROR, ['STDOUT'])
+jmxConfigurator()
+
+root(WARN, [TOMCAT_LOG])
+[
+        (OFF): [],
+        (ERROR): [
+                'grails.spring.BeanBuilder',
+                'grails.plugin.webxml',
+                'grails.plugin.cache.web.filter',
+                'grails.app.services.org.grails.plugin.resource',
+                'grails.app.taglib.org.grails.plugin.resource',
+                'grails.app.resourceMappers.org.grails.plugin.resource'
+        ],
+        (WARN): [
+                'au.org.ala.cas.client'
+        ],
+        (INFO): [
+                'grails.plugin.externalconfig.ExternalConfig',
+                'grails.app',
+        ],
+        (DEBUG): [
+                'au.org.ala.cas',
+                'au.org.ala.dashboard',
+                'grails.plugin.cache'
+        ],
+        (TRACE): [
+        ]
+].each { level, names -> names.each { name -> logger(name, level) } }
