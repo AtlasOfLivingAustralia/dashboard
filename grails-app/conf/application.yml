@@ -39,6 +39,9 @@ endpoints:
     jmx:
         enabled: true
 
+skin:
+    fluidLayout: true
+
 ---
 grails:
     mime:
