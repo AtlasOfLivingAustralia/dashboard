@@ -8,12 +8,7 @@
     <meta name="breadcrumb" content="Dashboard"/>
     <title>Dashboard | Atlas of Living Australia</title>
     <gvisualization:apiImport/>
-
-    %{--<r:require modules="dashboard"/>--}%
-    <asset:stylesheet href="application.css" />
-
-
-%{--    <g:layoutHead/>--}%
+    <asset:stylesheet src="dashboard.css" />
 </head>
 
 <div class="dashboard">
@@ -35,8 +30,6 @@
             </div>
         </div>
     </div>
-
-    %{--<span><i class="fa fa-exclamation-circle"></i> HINT -> You can rearrange topics by clicking on the panel headers and dragging them.</span>--}%
 
     <div id="floatContainer">
 
@@ -92,7 +85,7 @@
 
     </div>
 </div>
-%{--<asset:javascript src="dashboard.js"/>--}%
+
 <asset:javascript src="application.js"/>
 
 <asset:script type="text/javascript">
@@ -112,21 +105,8 @@
             urls: alaWsUrls
         });
 
-   %{-- <g:remoteFunction controller='charts' action='recordsAndSpeciesByDecade' update='recordsAndSpeciesByDecade' />
---}%
-
-    // Draw charts
-     %{--   ${g.remoteFunction(controller: 'charts', action: 'stateAndTerritoryRecords', update: 'stateAndTerritoryRecords')}
-        ${g.remoteFunction(controller: 'charts', action: 'collections', update: 'collectionsByCategory')} --}%
- %{--       ${remoteFunction(controller: 'charts', action: 'recordsAndSpeciesByDecade', update: 'recordsAndSpeciesByDecade')}
---}%
-
-   %{-- $.ajax({
-      url:'${g.createLink( controller:'charts', action:'recordsAndSpeciesByDecade')}'
-    });--}%
-
-        $('#floatContainer > div > div.panel').matchHeight();
-        $.fn.matchHeight._maintainScroll = true;
+    $('#floatContainer > div > div.panel').matchHeight();
+    $.fn.matchHeight._maintainScroll = true;
 });
 </asset:script>
 </body>
