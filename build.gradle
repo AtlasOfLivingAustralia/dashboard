@@ -15,7 +15,7 @@ plugins {
     id 'com.gorylenko.gradle-git-properties' version '1.4.17'
 }
 
-version "2.0.0"
+version "2.0.1-SNAPSHOT"
 group "au.org.ala"
 description "Dashboard application"
 
@@ -72,9 +72,9 @@ dependencies {
    // compile 'org.grails.grails-plugin-rest:2.3.0.M2'
     compile 'org.codehaus.groovy:groovy-ant:2.0.0'
 
-    compile "org.grails.plugins:ala-bootstrap3:3.0.0-SNAPSHOT"
+    compile "org.grails.plugins:ala-bootstrap3:3.0.0"
     compile "org.grails.plugins:grails-google-visualization:2.0"
-    compile "org.grails.plugins:ala-admin-plugin:2.0-SNAPSHOT"
+    compile "org.grails.plugins:ala-admin-plugin:2.0"
     runtime "org.grails.plugins:ala-auth:3.0.1"
     compile 'org.grails.plugins:quartz:2.0.12'
 //    compile "org.spockframework:spock-core:1.0-groovy-2.4"

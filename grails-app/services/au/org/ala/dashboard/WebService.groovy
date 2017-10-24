@@ -4,17 +4,8 @@ import grails.converters.JSON
 import org.grails.web.converters.exceptions.ConverterException
 import groovyx.net.http.HTTPBuilder
 import groovyx.net.http.ContentType
-import org.springframework.beans.factory.InitializingBean
-import org.grails.web.json.JSONObject
 
-
-class WebService /*implements InitializingBean*/ {
-
-    /*
-    // Not required in Grails 3
-    public void afterPropertiesSet() throws Exception {
-        JSONObject.NULL.metaClass.asBoolean = {-> false}
-    }*/
+class WebService {
 
     def get(String url) {
         def conn = new URL(url).openConnection()
@@ -35,23 +26,28 @@ class WebService /*implements InitializingBean*/ {
 
     def getJson(String url) {
         def conn = new URL(url).openConnection()
-        try {
-            conn.setConnectTimeout(10000)
-            conn.setReadTimeout(50000)
-            def json = conn.content.text
-            return JSON.parse(json)
-        } catch (ConverterException e) {
-            def error = ['error': "Failed to parse json. ${e.getClass()} ${e.getMessage()} URL= ${url}."]
-            log.error(error.error,e)
-            return error
-        } catch (SocketTimeoutException e) {
-            def error = [error: "Timed out getting json. URL= \${url}."]
-            log.error(error.error,e)
-            return error
-        } catch (Exception e) {
-            def error = [error: "Failed to get json from web service. ${e.getClass()} ${e.getMessage()} URL= ${url}."]
-            log.error(error.error,e)
-            return error
+        int retries = 3;
+        for (int i = 0 ; i < retries ; i++) {
+
+            try {
+                conn.setConnectTimeout(10000)
+                conn.setReadTimeout(50000)
+                def json = conn.content.text
+                return JSON.parse(json)
+            } catch (ConverterException e) {
+                def error = ['error': "Failed to parse json. ${e.getClass()} ${e.getMessage()} URL= ${url}.", errorCode: 400]
+                log.error(error.error,e)
+                return error
+            } catch (SocketTimeoutException e) {
+                def error = [error: "Timed out getting json. URL= \${url}.", errorCode: 403]
+                log.error(error.error,e)
+                continue;
+            } catch (Exception e) {
+                def error = [error: "Failed to get json from web service. ${e.getClass()} ${e.getMessage()} URL= ${url}.", errorCode: 500]
+                log.error(error.error,e)
+                return error
+            }
+
         }
     }
 

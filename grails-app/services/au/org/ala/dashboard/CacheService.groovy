@@ -49,7 +49,11 @@ class CacheService {
             try {
                 log.debug "retrieving " + key
                 results = source.call()
-                cache.put key, [resp: results, time: new Date()]
+                if (results && !results.errorCode ) {
+                    cache.put key, [resp: results, time: new Date()]
+                } else {
+                    clear key
+                }
             } catch (e) {
                 log.error "There was a problem retrieving the dashboard data for key ${key}: ${e.message}"
             }
@@ -87,8 +91,10 @@ class CacheService {
         log.debug("Adding ${key} key to cache")
         try {
             def value = source.call()
-            if (value) {
-                cache.put(key, [resp: source.call(), time: new Date()])
+            if (value && !value.errorCode ) {
+                cache.put(key, [resp: value, time: new Date()])
+            } else {
+                clear key
             }
         } catch (e) {
             log.error "There was a problem retrieving the dashboard data for key ${key}: ${e.message}"

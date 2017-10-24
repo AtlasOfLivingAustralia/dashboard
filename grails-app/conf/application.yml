@@ -39,9 +39,6 @@ endpoints:
     jmx:
         enabled: true
 
-skin:
-    fluidLayout: true
-
 ---
 grails:
     mime:
@@ -101,6 +98,7 @@ endpoints:
 ---
 skin:
     layout: "ala-main"
+    fluidLayout: true
     orgNameLong: "Atlas of Living Australia"
     orgNameShort: "ALA"
 privacyPolicy: "http://www.ala.org.au/about/terms-of-use/privacy-policy/"
