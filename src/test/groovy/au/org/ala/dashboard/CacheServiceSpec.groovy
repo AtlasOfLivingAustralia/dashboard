@@ -47,7 +47,7 @@ class CacheServiceSpec extends Specification{
             value == 'other'
     }
 
-    void "test to check that the cache won't be refreshed if the new value is null"() {
+    void "test to see if the cache is cleared if value cannot be obtained"() {
         given:
             service.get('mykey', {'value'})
 
@@ -60,15 +60,14 @@ class CacheServiceSpec extends Specification{
 
 
             def value = service.get('mykey', {null})
-            // The new value is refreshed asynchronously so the first attempt will always retrieve the old value
-            assert value == 'value'
+
+            assert value == null
             // We wait for the refresher thread to finish
             Thread.sleep(2000)
             // We retrieve the updated value which is current and won't expired for at leas a day
             value = service.get('mykey', {null})
         then:
-            // The value has not changed
-            value == 'value'
+            value == null
     }
 
     void "test to check that the cache won't be refreshed if there is any exception while getting the new value"() {
