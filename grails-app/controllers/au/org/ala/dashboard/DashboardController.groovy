@@ -285,7 +285,7 @@ class DashboardController {
     }
 
     def data() {
-
+        
         // build output
         def d = [
                 totalRecords: metadataService.getTotalAndDuplicates().findAll({it.key != 'error'}),
@@ -306,8 +306,9 @@ class DashboardController {
                 typeCounts: metadataService.getTypeStats(),
                 taxaCounts: metadataService.getTaxaCounts(),
                 bhlCounts: metadataService.getBHLCounts(),
-                volunteerPortalCounts: metadataService.get('volunteerPortalCounts'),
-                identifyLifeCounts: metadataService.getIdentifyLifeCounts()]
+                volunteerPortalCounts: metadataService.getVolunteerStats()]
+                //volunteerPortalCounts: metadataService.get('volunteerPortalCounts'),
+                //identifyLifeCounts: metadataService.getIdentifyLifeCounts()]
         ['All','Plants','Mammals','Reptiles','Birds','Animals','Arthropods',
          'Fishes','Insects','Amphibians','Bacteria','Fungi'].each {
             d['mostRecorded' + it] = most(it)
