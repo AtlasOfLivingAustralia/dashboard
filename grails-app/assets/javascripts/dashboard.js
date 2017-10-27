@@ -254,6 +254,10 @@ var dashboard = {
             var type = $(this).attr('id');
             if (type == 'dataAvailable') {
                 document.location.href = dashboard.urls.biocache + "/ws/occurrence/facets?q=*:*&facets=data_resource_uid&flimit=0";
+            } else if (type == 'institutions') {
+                document.location.href = dashboard.urls.collections + "/ws/institution/count";
+            } else if (type == 'collections') {
+                document.location.href = dashboard.urls.collections + "/ws/collection/count";
             } else {
                 document.location.href = dashboard.urls.collections + "/datasets#filters=resourceType:" + type;
             }
