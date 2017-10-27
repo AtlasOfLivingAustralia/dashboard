@@ -17,9 +17,15 @@ class Constants {
 
         final static String PARTIAL_URL_DATE_STATS_LATEST_RECORD_WITH_IMAGE = "/ws/occurrences/search?q=!assertions:invalidCollectionDate%20AND%20occurrence_date:%5B*%20TO%20*%5D&pageSize=1&sort=first_loaded_date&dir=desc&facet=off&fq=multimedia:Image"
 
+        final static String PARTIAL_URL_DATASETS_CONTAIN_DATA = "/ws/occurrence/facets?q=*:*&facets=data_resource_uid&flimit=0"
+
         final static String PARTIAL_URL_VOLUNTEER_STATS = "/ws/stats.json"
 
         final static String PARTIAL_URL_SPECIES_BY_DECADE = "/ws/explore/groups.json?q=*:*&pageSize=10&fq=occurrence_year:"
+
+        final static String PARTIAL_URL_INSTITUTION_COUNT = "/ws/institution/count"
+
+        final static String PARTIAL_URL_COLLECTION_COUNT = "/ws/collection/count"
 
         final static String PARTIAL_URL_COUNT_DATASETS_BY_TYPE = "/ws/dataResource/count/resourceType?public=true"
 

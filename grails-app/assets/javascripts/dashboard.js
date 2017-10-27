@@ -250,9 +250,13 @@ var dashboard = {
             });
         });
         // datasets links
-        $('#datasets-topic td:first-child').click(function () {
+        $('#datasets-topic td:first-child:not(#description)').click(function () {
             var type = $(this).attr('id');
-            document.location.href = dashboard.urls.collections + "/datasets#filters=resourceType:" + type;
+            if (type == 'dataAvailable') {
+                document.location.href = dashboard.urls.biocache + "/ws/occurrence/facets?q=*:*&facets=data_resource_uid&flimit=0";
+            } else {
+                document.location.href = dashboard.urls.collections + "/datasets#filters=resourceType:" + type;
+            }
         });
         // basis of record links
         $('#basis-topic td:first-child').click(function () {

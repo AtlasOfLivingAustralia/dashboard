@@ -10,30 +10,66 @@
         <div class="panel-body">
             <table class="table table-condensed table-striped table-hover">
                 <tr class="link">
-                    <td id="website">Harvested websites</td>
-                    <td class="numberColumn">
-                        <span class="count"><db:formatNumber
-                                value="${datasets.groups.website}"/></span>
+                    <td id="institutions">Institutions</td>
+                    <td class="numberColumn"><span class="count"><db:formatNumber
+                            value="${datasets.institutionCount}"/></span>
                     </td>
                 </tr>
                 <tr class="link">
-                    <td id="records">Occurrence record sets</td>
+                    <td id="collections">Collections</td>
+                    <td class="numberColumn"><span class="count"><db:formatNumber
+                            value="${datasets.collectionCount}"/></span>
+                    </td>
+                </tr>
+                <tr class="link">
+                    <td id="records">Data Resources</td>
                     <td class="numberColumn"><span class="count"><db:formatNumber
                             value="${datasets.groups.records}"/></span>
                     </td>
                 </tr>
                 <tr class="link">
-                    <td id="document">Document sets</td>
+                    <td id="dataAvailable">      &#8226;  Data Available</td>
                     <td class="numberColumn"><span class="count"><db:formatNumber
-                            value="${datasets.groups.document}"/></span>
+                            value="${datasets.dataAvailableCount}"/></span>
                     </td>
                 </tr>
-                <tr class="link">
-                    <td id="uploads">Uploaded record sets</td>
+                <tr>
+                    <td id="description">      &#8226;  Description only</td>
                     <td class="numberColumn"><span class="count"><db:formatNumber
-                            value="${datasets.groups.uploads}"/></span>
+                            value="${datasets.descriptionOnlyCount}"/></span>
                     </td>
                 </tr>
+               <tr class="link">
+                    <td id="species-list">Species List sets</td>
+                    <td class="numberColumn"><span class="count"><db:formatNumber
+                            value="${datasets.groups.'species-list'}"/></span>
+                    </td>
+               </tr>
+               <g:if test="${datasets.groups.document}">
+                    <tr class="link">
+                        <td id="document">Document sets</td>
+                        <td class="numberColumn"><span class="count"><db:formatNumber
+                                value="${datasets.groups.document}"/></span>
+                        </td>
+                    </tr>
+                </g:if>
+                <g:if test="${datasets.groups.website}">
+                    <tr class="link">
+                       <td id="website">Harvested websites</td>
+                       <td class="numberColumn">
+                           <span class="count"><db:formatNumber
+                                   value="${datasets.groups.website}"/></span>
+                       </td>
+                    </tr>
+                </g:if>
+                <g:if test="${datasets.groups.uploads}">
+                    <tr class="link">
+                        <td id="uploads">Uploaded record sets</td>
+                        <td class="numberColumn"><span class="count"><db:formatNumber
+                                value="${datasets.groups.uploads}"/></span>
+                        </td>
+                    </tr>
+                </g:if>
             </table>
 
             <p class="paragraph">
