@@ -28,13 +28,13 @@
                     </td>
                 </tr>
                 <tr class="link">
-                    <td id="dataAvailable">      &#8226;  Data Available</td>
+                    <td class="text-indent" id="dataAvailable">&#8226; Data Available</td>
                     <td class="numberColumn"><span class="count"><db:formatNumber
                             value="${datasets.dataAvailableCount}"/></span>
                     </td>
                 </tr>
                 <tr>
-                    <td id="description">      &#8226;  Description only</td>
+                    <td class="text-indent" id="description">&#8226; Description only</td>
                     <td class="numberColumn"><span class="count"><db:formatNumber
                             value="${datasets.descriptionOnlyCount}"/></span>
                     </td>

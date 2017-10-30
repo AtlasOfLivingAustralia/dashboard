@@ -27,6 +27,7 @@ class WebService {
     def getJson(String url) {
         def conn = new URL(url).openConnection()
         int retries = 3;
+        def error = [:]
         for (int i = 0 ; i < retries ; i++) {
 
             try {
@@ -35,20 +36,22 @@ class WebService {
                 def json = conn.content.text
                 return JSON.parse(json)
             } catch (ConverterException e) {
-                def error = ['error': "Failed to parse json. ${e.getClass()} ${e.getMessage()} URL= ${url}.", errorCode: 400]
+                error = ['error': "Failed to parse json. ${e.getClass()} ${e.getMessage()} URL= ${url}.", errorCode: 400]
                 log.error(error.error,e)
                 return error
             } catch (SocketTimeoutException e) {
-                def error = [error: "Timed out getting json. URL= \${url}.", errorCode: 403]
+                error = [error: "Timed out getting json. URL= \${url}.", errorCode: 403]
                 log.error(error.error,e)
                 continue;
             } catch (Exception e) {
-                def error = [error: "Failed to get json from web service. ${e.getClass()} ${e.getMessage()} URL= ${url}.", errorCode: 500]
+                error = [error: "Failed to get json from web service. ${e.getClass()} ${e.getMessage()} URL= ${url}.", errorCode: 500]
                 log.error(error.error,e)
                 return error
             }
 
         }
+
+        return error;
     }
 
     def doJsonPost(String url, String path, String port, String postBody) {

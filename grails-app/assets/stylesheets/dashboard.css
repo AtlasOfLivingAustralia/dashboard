@@ -67,6 +67,10 @@ footer {
     margin-right: 1.5em;
 }
 
+.text-indent {
+    text-indent:20px
+}
+
 #pageHeader {
     margin-bottom: 1em;
     padding-left: 30px;

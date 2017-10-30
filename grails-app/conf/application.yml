@@ -41,6 +41,8 @@ endpoints:
 
 ---
 grails:
+    cors:
+        enabled: true
     mime:
         disable:
             accept:
