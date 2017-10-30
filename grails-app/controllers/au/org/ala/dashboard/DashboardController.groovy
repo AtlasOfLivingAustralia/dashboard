@@ -293,9 +293,9 @@ class DashboardController {
                 collections: metadataService.getCollectionsByCategory(),
                 datasets: metadataService.getDatasets(),
                 recordsByDataProvider:
-                        metadataService.getDataProviders().collectEntries {[it.name, it.count]},
+                        metadataService.getDataProviders().collectEntries {[it.display, it.count]},
                 recordsByInstitution:
-                        metadataService.getInstitutions().collectEntries {[it.name, it.count]},
+                        metadataService.getInstitutions().collectEntries {[it.display, it.count]},
                 recordsByDate: metadataService.getDateStats(),
                 recordsByState: facetCount('state'),
                 recordsByKingdom: facetCount('kingdom'),
@@ -306,7 +306,8 @@ class DashboardController {
                 typeCounts: metadataService.getTypeStats(),
                 taxaCounts: metadataService.getTaxaCounts(),
                 bhlCounts: metadataService.getBHLCounts(),
-                volunteerPortalCounts: metadataService.getVolunteerStats()]
+                volunteerPortalCounts: metadataService.getVolunteerStats(),
+                occurrenceDownloadByReason: metadataService.getLoggerReasonBreakdown().collect {["Download Reason": it[0], "Events": it[1].trim(), "Records": it[2].trim()]}]
                 //volunteerPortalCounts: metadataService.get('volunteerPortalCounts'),
                 //identifyLifeCounts: metadataService.getIdentifyLifeCounts()]
         ['All','Plants','Mammals','Reptiles','Birds','Animals','Arthropods',

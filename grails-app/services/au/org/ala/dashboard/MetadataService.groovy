@@ -508,12 +508,13 @@ class MetadataService {
             //but then place "Other", "Unclassified", "Testing" at the bottom & combined
             def other = sortedBreakdowns.get("other")
 
+
             def unclassifiedCount = sortedBreakdowns.get("unclassified")
             def testingCount = sortedBreakdowns.get("testing")
 
             if (unclassifiedCount) {
                 other["events"] = other["events"] + unclassifiedCount["events"]
-                other["records"] = other["records"] + unclassifiedCount["records"]
+                other["records"] = Long.valueOf(other["records"]) + Long.valueOf(unclassifiedCount["records"])
             }
 
             //testing events
