@@ -49,7 +49,7 @@ class CacheService {
             try {
                 log.debug "retrieving " + key
                 results = source.call()
-                if (results instanceof Map && results.errorCode) {
+                if (!results || (results instanceof Map && results.errorCode)) {
                     clear key
                 } else {
                     cache.put key, [resp: results, time: new Date()]
@@ -92,7 +92,7 @@ class CacheService {
         log.debug("Adding ${key} key to cache")
         try {
             def value = source.call()
-            if (value instanceof Map && value.errorCode) {
+            if (!value || (value instanceof Map && value.errorCode)) {
                 clear key
             } else {
                 cache.put(key, [resp: value, time: new Date()])
