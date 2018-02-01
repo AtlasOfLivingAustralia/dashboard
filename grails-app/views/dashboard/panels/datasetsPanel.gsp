@@ -2,7 +2,7 @@
     <div class="panel">
         <div class="panel-heading">
             <div class="panel-title">
-                <a href="http://collections.ala.org.au/datasets"><span class="count">${g.formatNumber(number:datasets.total,format:'###,##0')}</span></a>
+                <a href="${grailsApplication.config.collectory.baseURL}/datasets"><span class="count">${g.formatNumber(number:datasets.total,format:'###,##0')}</span></a>
                 Data sets
                 <i class="fa fa-info-circle pull-right hidden"></i>
             </div>
@@ -87,7 +87,7 @@
                 collectors and community groups.</p>
 
                 <p>The data sets are listed on the Atlas <a
-                        href="http://collections.ala.org.au/datasets/">Datasets page</a>.
+                        href="${grailsApplication.config.collectory.baseURL}/datasets/">Datasets page</a>.
                 They can be searched and browsed by category.</p>
 
                 <p>This infographic shows the number of datasets for the four major categories.</p>
