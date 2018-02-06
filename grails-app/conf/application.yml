@@ -103,7 +103,7 @@ skin:
     fluidLayout: true
     orgNameLong: "Atlas of Living Australia"
     orgNameShort: "ALA"
-privacyPolicy: "http://www.ala.org.au/about/terms-of-use/privacy-policy/"
+privacyPolicy: "https://www.ala.org.au/about/terms-of-use/privacy-policy/"
 
 ---
 security:
@@ -123,13 +123,13 @@ environments:
             serverURL: "http://nectar-dashboard-test.ala.org.au/"
         security:
             cas:
-                appServerName: "http://auth.ala.org.au"
+                appServerName: "https://auth.ala.org.au"
     production:
         grails:
-            serverURL: "http://dashboard.ala.org.au/"
+            serverURL: "https://dashboard.ala.org.au/"
         security:
             cas:
-                appServerName: "http://auth.ala.org.au"
+                appServerName: "https://auth.ala.org.au"
 
 biocache:
   baseURL: "https://biocache.ala.org.au"
@@ -145,16 +145,16 @@ spatial:
   baseURL: "http://spatial.ala.org.au"
 
 logger:
-  baseURL: "http://logger.ala.org.au"
+  baseURL: "https://logger.ala.org.au"
 
 collectory:
-  baseURL: "http://collections.ala.org.au"
+  baseURL: "https://collections.ala.org.au"
 
 volunteer:
   baseURL: "https://volunteer.ala.org.au"
 
 images:
-  baseURL: "http://images.ala.org.au"
+  baseURL: "https://images.ala.org.au"
 
 userDetails:
   baseURL: "https://auth.ala.org.au/userdetails"
