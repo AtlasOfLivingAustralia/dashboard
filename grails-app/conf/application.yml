@@ -21,6 +21,7 @@ grails:
             # Whether to translate GORM events into Reactor events
             # Disabled by default for performance reasons
             events: false
+default_config: "/data/dashboard/config/dashboard-config.properties"
 info:
     app:
         name: '@info.app.name@'
