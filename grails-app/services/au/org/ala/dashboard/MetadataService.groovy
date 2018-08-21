@@ -823,7 +823,21 @@ class MetadataService {
     }
 
     def getTaxaCounts() {
-        return get('taxaCounts')
+        return cacheService.get('taxaCounts', {
+
+            def acceptedNames = webService.getJson("${BIE_URL}${Constants.WebServices.PARTIAL_URL_ACCEPTED_NAMES}")?.searchResults?.totalRecords
+            def synonymNames = webService.getJson("${BIE_URL}${Constants.WebServices.PARTIAL_URL_SYNONYMS}")?.searchResults?.totalRecords
+            def acceptedSpeciesNames = webService.getJson("${BIE_URL}${Constants.WebServices.PARTIAL_URL_SPECIES_NAMES}")?.searchResults?.totalRecords
+            def speciesWithRecords = webService.getJson("${BIE_URL}${Constants.WebServices.PARTIAL_URL_SPECIES_WITH_RECORDS}")?.searchResults?.totalRecords
+
+            def taxaCounts = [acceptedNames       : acceptedNames,
+                              synonymNames        : synonymNames,
+                              acceptedSpeciesNames: acceptedSpeciesNames,
+                              speciesWithRecords  : speciesWithRecords]
+
+
+            taxaCounts
+        })
     }
 
     def getBoldCounts() {

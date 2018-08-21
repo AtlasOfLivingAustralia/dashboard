@@ -55,5 +55,18 @@ class Constants {
 
         final static String PARTIAL_URL_COUNT_RECORDS = "/ws/occurrences/search?q=*:*&pageSize=0&facet=off"
 
+        final
+        static String PARTIAL_URL_ACCEPTED_NAMES = "/ws/search?q=(taxonomicStatus:accepted%20OR%20taxonomicStatus:inferredAccepted)&fq=idxtype:TAXON"
+
+        final
+        static String PARTIAL_URL_SYNONYMS = "/ws/search?q=-(taxonomicStatus:accepted%20OR%20taxonomicStatus:inferredAccepted)&fq=idxtype:TAXON"
+
+        final
+        static String PARTIAL_URL_SPECIES_NAMES = "/ws/search?q=(taxonomicStatus:accepted%20OR%20taxonomicStatus:inferredAccepted)&fq=idxtype:TAXON&fq=rankID:7000"
+
+        final
+        static String PARTIAL_URL_SPECIES_WITH_RECORDS = "/ws/search?q=(taxonomicStatus:accepted%20OR%20taxonomicStatus:inferredAccepted)&fq=idxtype:TAXON&fq=rankID:7000&fq=occurrenceCount:%5B0%20TO%20*%5D"
+
+
     }
 }
