@@ -70,7 +70,8 @@ class MetadataService {
     def getTotalAndDuplicates() {
         return cacheService.get('duplicate_status', {
             def raw = biocacheFacetCount('duplicate_status')
-            [error: raw.error, total: raw.total, duplicates: raw.facets.find({ it.facet == 'D' }).count]
+            //[error: raw.error, total: raw.total, duplicates: raw.facets.find({ it.facet == 'D' }).count]
+            [error: raw.error, total: raw.total, duplicates: 0]
         })
     }
 
@@ -164,7 +165,7 @@ class MetadataService {
 
             // get counts by century
             [1600, 1700, 1800, 1900, 2000].each { century ->
-                def url = "${BIO_CACHE_URL}/ws/occurrences/search?q=*:*&pageSize=0&facet=off&fq=occurrence_year:[${century}-01-01T00:00:00Z%20TO%20${century + 99}-12-31T23:59:59Z]"
+                def url = "${BIO_CACHE_URL}/occurrences/search?q=*:*&pageSize=0&facet=off&fq=occurrence_year:[${century}-01-01T00:00:00Z%20TO%20${century + 99}-12-31T23:59:59Z]"
                 def c = webService.getJson(url)
                 results['c' + century] = c.totalRecords
             }
@@ -408,7 +409,7 @@ class MetadataService {
 
         def facets = []
         def resp = null
-        String url = "${BIO_CACHE_URL}/ws/occurrences/search?q=${query}&pageSize=0&fsort=count&facets=${facetName}"
+        String url = "${BIO_CACHE_URL}/occurrences/search?q=${query}&pageSize=0&fsort=count&facets=${facetName}"
 
         log.info "looking up " + facetName + ", URL: " + url
 
@@ -454,7 +455,7 @@ class MetadataService {
     def bieBulkLookup(list) {
         def url = BIE_URL
         def data = webService.doPost(url,
-                "/ws/species/guids/bulklookup.json", "", (list as JSON).toString())
+                "/species/guids/bulklookup.json", "", (list as JSON).toString())
         //println "returned from doPost ${data.resp}"
         def results = [:]
         if (!data.error) {
@@ -746,7 +747,7 @@ class MetadataService {
      */
     CountsDTO getSpeciesCounts() {
         def speciesCounts = cacheService.get('species_count', {
-            JSONArray results = webService.getJson("${BIO_CACHE_URL}/ws/occurrence/facets?q=country:Australia+OR+cl21:*&facets=species&fsort=count&flimit=0")
+            JSONArray results = webService.getJson("${BIO_CACHE_URL}/occurrence/facets?q=country:Australia+OR+cl21:*&facets=species&fsort=count&flimit=0")
             results?.get(0)?.count
         })
         new CountsDTO(count: speciesCounts)
