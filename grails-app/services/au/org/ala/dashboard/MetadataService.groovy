@@ -331,7 +331,7 @@ class MetadataService {
 
             def data = []
             ['Endangered', 'Near Threatened', 'Least Concern/Unknown', 'Listed under FFG Act', 'Extinct', 'Parent Species (Unofficial)'].each {
-                def url = baseUrl + '"' + URLEncoder.encode(it) + '"'
+                def url = baseUrl + '%22' + URLEncoder.encode(it) + '%22'
                 def json = new URL(url).text
                 def result = JSON.parse(json)
                 def totals = result.find { it.name == 'ALL_SPECIES' }

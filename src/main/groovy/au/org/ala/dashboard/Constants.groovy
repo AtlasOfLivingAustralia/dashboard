@@ -49,7 +49,7 @@ class Constants {
 
         final static String PARTIAL_URL_TAXA_VP_COUNT = "/ws/occurrence/facets?facets=taxon_name&pageSize=0&q=multimedia:Image"
 
-        final static String PARTIAL_URL_TAXA_CS_COUNT = "/ws/occurrence/facets?facets=taxon_name&pageSize=0&q=multimedia:Image%20AND%20provenance:\"Individual%20sightings\""
+        final static String PARTIAL_URL_TAXA_CS_COUNT = "/ws/occurrence/facets?facets=taxon_name&pageSize=0&q=multimedia:Image%20AND%20provenance:%22Individual%20sightings%22"
 
         final static String PARTIAL_URL_IMAGE_TOTAL = "/ws/getRepositoryStatistics"
 
