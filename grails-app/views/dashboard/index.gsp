@@ -55,7 +55,7 @@
         <g:include controller="dashboard" action="mostRecordedSpeciesPanel"/>
 
         <g:include controller="dashboard" action="typeSpecimensPanel"/>
-%{--
+
         <g:include controller="dashboard" action="barcodeOfLifePanel"/>
 
         <g:include controller="dashboard" action="bhlPanel"/>
@@ -63,7 +63,7 @@
         <g:include controller="dashboard" action="volunteerPortalPanel"/>
 
         <g:include controller="dashboard" action="conservationStatusPanel"/>
---}%
+
         <g:include controller="dashboard" action="recordsByDataProviderPanel"/>
 
         <g:include controller="dashboard" action="recordsByInstitutionPanel"/>
@@ -74,15 +74,15 @@
 
         <g:include controller="dashboard" action="recordsAndSpeciesByDecadePanel"/>
 
-%{--    <g:include controller="dashboard" action="usageStatisticsPanel"/>--}%
+        <g:include controller="dashboard" action="usageStatisticsPanel"/>
 
-%{--    <g:include controller="dashboard" action="downloadsByReasonPanel"/>--}%
+        <g:include controller="dashboard" action="downloadsByReasonPanel"/>
 
-%{--    <g:include controller="dashboard" action="downloadsBySourcePanel"/> --}%
+        <g:include controller="dashboard" action="downloadsBySourcePanel"/>
 
-%{--    <g:include controller="dashboard" action="downloadsByUserTypePanel"/>--}%
+        <g:include controller="dashboard" action="downloadsByUserTypePanel"/>
 
-%{--    <g:include controller="dashboard" action="speciesImagesPanel"/>--}%
+        <g:include controller="dashboard" action="speciesImagesPanel"/>
 
     </div>
 </div>
