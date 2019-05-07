@@ -3,7 +3,7 @@
         <div class="panel">
             <div class="panel-heading">
                 <div class="panel-title">
-                    <a target="_blank" href="http://volunteer.ala.org.au/">DigiVol <smaller>(Volunteer portal)</smaller></a>
+                    <a target="_blank" href="https://volunteer.ala.org.au/">DigiVol <smaller>(Volunteer portal)</smaller></a>
                     <i class="fa fa-info-circle pull-right hidden"></i>
                 </div>
             </div>
@@ -45,7 +45,7 @@
     <div class="col-sm-4 col-md-4" id="bvp-topic">
         <div class="panel">
             <div class="panel-heading">
-                <div class="panel-title"><a target="_blank" href="http://volunteer.ala.org.au/">DigiVol - top volunteers</a>
+                <div class="panel-title"><a target="_blank" href="https://volunteer.ala.org.au/">DigiVol - top volunteers</a>
                     <i class="fa fa-info-circle pull-right hidden"></i></div>
             </div>
             <div class="panel-body">
