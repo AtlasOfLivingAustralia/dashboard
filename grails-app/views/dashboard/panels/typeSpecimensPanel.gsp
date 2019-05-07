@@ -2,7 +2,7 @@
     <div class="panel">
         <div class="panel-heading">
             <div class="panel-title">
-                <a href="http://biocache.ala.org.au/occurrences/search?q=type_status:[*%20TO%20*]&fq=-type_status:notatype">
+                <a href="https://biocache.ala.org.au/occurrences/search?q=type_status:[*%20TO%20*]&fq=-type_status:notatype">
                     <span class="count"><db:formatNumber value="${typeCounts.total}"/></span>
                 </a>
                 Type specimens
@@ -57,7 +57,7 @@
                     <g:each in="${typeCounts.withImage}" var="c">
                         <g:if test="${c.key != 'total' && c.key.length() > 1}">
                             <tr><td id="${'image' + c.key}">${c.key[0].toUpperCase() + c.key[1..-1] + ' with image'}</td><td>
-                                <a href="http://biocache.ala.org.au/occurrences/search?q=type_status%3A%5B*+TO+*%5D&fq=-type_status%3Anotatype&fq=multimedia:Image"></a>
+                                <a href="https://biocache.ala.org.au/occurrences/search?q=type_status%3A%5B*+TO+*%5D&fq=-type_status%3Anotatype&fq=multimedia:Image"></a>
                                 <span class="count">${c.value}</span>
                             </a>
                             </td></tr>
