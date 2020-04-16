@@ -2,7 +2,7 @@
     <div class="panel">
         <div class="panel-heading">
             <div class="panel-title">
-                <a href="http://spatial.ala.org.au/layers"><span class="count">${spatialLayers.total}</span>
+                <a href="https://spatial.ala.org.au/layers"><span class="count">${spatialLayers.total}</span>
                 </a> Spatial layers
                 <i class="fa fa-info-circle pull-right hidden"></i>
             </div>
