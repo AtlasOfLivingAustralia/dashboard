@@ -10,3 +10,9 @@ build/
 .settings
 .classpath
 out/
+
+
+docker-compose.yml
+docker-compose_org.yml
+
+Dockerfile
