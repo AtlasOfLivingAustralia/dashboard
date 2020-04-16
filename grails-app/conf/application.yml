@@ -14,9 +14,9 @@ grails:
     servlet:
         version: 3.0
     gorm:
-        # Whether to autowire entities. 
+        # Whether to autowire entities.
         # Disabled by default for performance reasons.
-        autowire: false         
+        autowire: false
         reactor:
             # Whether to translate GORM events into Reactor events
             # Disabled by default for performance reasons
@@ -174,3 +174,55 @@ dashboard:
 csv:
   temp:
     dir: "/data/dashboard/csv/"
+
+
+recordsPanel:
+  enabled: true
+datasetsPanel:
+  enabled: true
+basisRecordsPanel:
+  enabled: true
+collectionPanel:
+  enabled: true
+dateRecordsPanel:
+  enabled: true
+nslPanel:
+  enabled: true
+spatialPanel:
+  enabled: true
+statePanel:
+  enabled: true
+identifyLifePanel:
+  enabled: true
+mostRecordedSpeciesPanel:
+  enabled=: true
+typeSpecimensPanel:
+  enabled: true
+barcodeOfLifePanel:
+  enabled: true
+bhlPanel:
+  enabled: true
+volunteerPortalPanel:
+  enabled: true
+conservationStatusPanel:
+  enabled: true
+recordsByDataProviderPanel:
+  enabled: true
+recordsByInstitutionPanel:
+  enabled: true
+recordsByLifeFormPanel:
+  enabled: true
+occurrenceTreePanel:
+  enabled: true
+recordsAndSpeciesByDecadePanel:
+  enabled: true
+usageStatisticsPanel:
+  enabled: true
+downloadsByReasonPanel:
+  enabled: true
+downloadsBySourcePanel:
+  enabled: true
+downloadsByUserTypePanel:
+  enabled: true
+speciesImagesPanel:
+  enabled: true
