@@ -33,56 +33,106 @@
     </div>
 
     <div id="floatContainer">
+        <g:if test="${grailsApplication.config.recordsPanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="recordsPanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="recordsPanel"/>
 
-        <g:include controller="dashboard" action="datasetsPanel"/>
+        <g:if test="${grailsApplication.config.datasetsPanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="datasetsPanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="basisRecordsPanel"/>
+        <g:if test="${grailsApplication.config.basisRecordsPanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="basisRecordsPanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="collectionPanel"/>
+        <g:if test="${grailsApplication.config.collectionPanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="collectionPanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="dateRecordsPanel"/>
+        <g:if test="${grailsApplication.config.dateRecordsPanel.enabled == 'true'}">
+             <g:include controller="dashboard" action="dateRecordsPanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="nslPanel"/>
+        <g:if test="${grailsApplication.config.nslPanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="nslPanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="spatialPanel"/>
+        <g:if test="${grailsApplication.config.spatialPanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="spatialPanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="statePanel"/>
+        <g:if test="${grailsApplication.config.statePanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="statePanel"/>
+        </g:if>
 
-%{--    <g:include controller="dashboard" action="identifyLifePanel"/>--}%
+        <g:if test="${grailsApplication.config.identifyLifePanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="identifyLifePanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="mostRecordedSpeciesPanel"/>
+        <g:if test="${grailsApplication.config.mostRecordedSpeciesPanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="mostRecordedSpeciesPanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="typeSpecimensPanel"/>
+        <g:if test="${grailsApplication.config.typeSpecimensPanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="typeSpecimensPanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="barcodeOfLifePanel"/>
+        <g:if test="${grailsApplication.config.barcodeOfLifePanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="barcodeOfLifePanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="bhlPanel"/>
+        <g:if test="${grailsApplication.config.bhlPanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="bhlPanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="volunteerPortalPanel"/>
+        <g:if test="${grailsApplication.config.volunteerPortalPanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="volunteerPortalPanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="conservationStatusPanel"/>
+        <g:if test="${grailsApplication.config.conservationStatusPanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="conservationStatusPanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="recordsByDataProviderPanel"/>
+        <g:if test="${grailsApplication.config.recordsByDataProviderPanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="recordsByDataProviderPanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="recordsByInstitutionPanel"/>
+        <g:if test="${grailsApplication.config.recordsByInstitutionPanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="recordsByInstitutionPanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="occurrenceTreePanel"/>
+        <g:if test="${grailsApplication.config.occurrenceTreePanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="occurrenceTreePanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="recordsByLifeFormPanel"/>
+        <g:if test="${grailsApplication.config.recordsByLifeFormPanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="recordsByLifeFormPanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="recordsAndSpeciesByDecadePanel"/>
+        <g:if test="${grailsApplication.config.recordsAndSpeciesByDecadePanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="recordsAndSpeciesByDecadePanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="usageStatisticsPanel"/>
+        <g:if test="${grailsApplication.config.usageStatisticsPanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="usageStatisticsPanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="downloadsByReasonPanel"/>
+        <g:if test="${grailsApplication.config.downloadsByReasonPanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="downloadsByReasonPanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="downloadsBySourcePanel"/>
+        <g:if test="${grailsApplication.config.downloadsBySourcePanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="downloadsBySourcePanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="downloadsByUserTypePanel"/>
+        <g:if test="${grailsApplication.config.downloadsByUserTypePanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="downloadsByUserTypePanel"/>
+        </g:if>
 
-        <g:include controller="dashboard" action="speciesImagesPanel"/>
+        <g:if test="${grailsApplication.config.speciesImagesPanel.enabled == 'true'}">
+            <g:include controller="dashboard" action="speciesImagesPanel"/>
+        </g:if>
 
     </div>
 </div>
