@@ -90,7 +90,7 @@ class DashboardController {
     }
 
     def mostRecordedSpeciesPanel = {
-        if (metadataService.getMostRecordedSpecies())
+        if (metadataService.getMostRecordedSpecies('all'))
             render view: 'panels/mostRecordedSpeciesPanel', model: [mostRecorded: metadataService.getMostRecordedSpecies('all')]
         else
             render view: 'panels/empty'
