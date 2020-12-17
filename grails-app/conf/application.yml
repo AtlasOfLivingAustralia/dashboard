@@ -174,3 +174,6 @@ dashboard:
 csv:
   temp:
     dir: "/data/dashboard/csv/"
+
+useCitizenScienceService: true
+useVolunteerService: true

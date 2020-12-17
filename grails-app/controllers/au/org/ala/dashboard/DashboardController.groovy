@@ -30,31 +30,52 @@ class DashboardController {
     }
 
     def collectionPanel = {
-        render view: 'panels/collectionPanel', model: [collections: metadataService.getCollectionsByCategory()]
+        if (metadataService.getCollectionsByCategory())
+            render view: 'panels/collectionPanel', model: [collections: metadataService.getCollectionsByCategory()]
+        else
+            render view: 'panels/empty'
     }
 
     def recordsPanel = {
-        render view: 'panels/recordsPanel', model: [totalRecords: metadataService.getTotalAndDuplicates()]
+        if (metadataService.getTotalAndDuplicates())
+            render view: 'panels/recordsPanel', model: [totalRecords: metadataService.getTotalAndDuplicates()]
+        else
+            render view: 'panels/empty'
     }
 
     def datasetsPanel = {
-        render view: 'panels/datasetsPanel', model: [datasets: metadataService.getDatasets()]
+        if (metadataService.getDatasets())
+            render view: 'panels/datasetsPanel', model: [datasets: metadataService.getDatasets()]
+        else
+            render view: 'panels/empty'
     }
 
     def basisRecordsPanel = {
-        render view: 'panels/basisRecordsPanel', model: [basisOfRecord: metadataService.getBasisOfRecord()]
+        if (metadataService.getBasisOfRecord() && metadataService.getBasisOfRecord().facets)
+            render view: 'panels/basisRecordsPanel', model: [basisOfRecord: metadataService.getBasisOfRecord()]
+        else
+            render view: 'panels/empty'
     }
 
     def dateRecordsPanel = {
-        render view: 'panels/dateRecordsPanel', model: [dateStats: metadataService.getDateStats()]
+        if (metadataService.getDateStats())
+            render view: 'panels/dateRecordsPanel', model: [dateStats: metadataService.getDateStats()]
+        else
+            render view: 'panels/empty'
     }
 
     def nslPanel = {
-        render view: 'panels/nslPanel', model: [taxaCounts: metadataService.getTaxaCounts()]
+        if (metadataService.getTaxaCounts())
+            render view: 'panels/nslPanel', model: [taxaCounts: metadataService.getTaxaCounts()]
+        else
+            render view: 'panels/empty'
     }
 
     def spatialPanel = {
-        render view: 'panels/spatialPanel', model: [spatialLayers: metadataService.getSpatialLayers()]
+        if (metadataService.getSpatialLayers() && metadataService.getSpatialLayers().groups)
+            render view: 'panels/spatialPanel', model: [spatialLayers: metadataService.getSpatialLayers()]
+        else
+            render view: 'panels/empty'
     }
 
     def statePanel = {
@@ -62,43 +83,74 @@ class DashboardController {
     }
 
     def identifyLifePanel = {
-        render view: 'panels/identifyLifePanel', model: [identifyLifeCounts: metadataService.getIdentifyLifeCounts()]
+        if (metadataService.getIdentifyLifeCounts())
+            render view: 'panels/identifyLifePanel', model: [identifyLifeCounts: metadataService.getIdentifyLifeCounts()]
+        else
+            render view: 'panels/empty'
     }
 
     def mostRecordedSpeciesPanel = {
-        render view: 'panels/mostRecordedSpeciesPanel', model: [mostRecorded: metadataService.getMostRecordedSpecies('all')]
+        if (metadataService.getMostRecordedSpecies())
+            render view: 'panels/mostRecordedSpeciesPanel', model: [mostRecorded: metadataService.getMostRecordedSpecies('all')]
+        else
+            render view: 'panels/empty'
     }
 
     def typeSpecimensPanel = {
-        render view: 'panels/typeSpecimensPanel', model: [typeCounts: metadataService.getTypeStats()]
+        if (metadataService.getTypeStats())
+            render view: 'panels/typeSpecimensPanel', model: [typeCounts: metadataService.getTypeStats()]
+        else
+            render view: 'panels/empty'
     }
 
     def barcodeOfLifePanel = {
-        render view: 'panels/barcodeOfLifePanel', model: [boldCounts: metadataService.getBoldCounts()]
+        if (metadataService.getBoldCounts())
+            render view: 'panels/barcodeOfLifePanel', model: [boldCounts: metadataService.getBoldCounts()]
+        else
+            render view: 'panels/empty'
     }
 
     def bhlPanel = {
-        render view: 'panels/bhlPanel', model: [bhlCounts: metadataService.getBHLCounts()]
+        if (metadataService.getBHLCounts())
+            render view: 'panels/bhlPanel', model: [bhlCounts: metadataService.getBHLCounts()]
+        else
+            render view: 'panels/empty'
     }
 
     def volunteerPortalPanel = {
-        render view: 'panels/volunteerPortalPanel', model: [volunteerPortalCounts: metadataService.getVolunteerStats()]
+        if (grailsApplication.config.getProperty("useVolunteerService", Boolean, true) &&
+                metadataService.getVolunteerStats())
+            render view: 'panels/volunteerPortalPanel', model: [volunteerPortalCounts: metadataService.getVolunteerStats()]
+        else
+            render view: 'panels/empty'
     }
 
     def conservationStatusPanel = {
-        render view: 'panels/conservationStatusPanel', model: [stateConservation: metadataService.getSpeciesByConservationStatus()]
+        if (metadataService.getSpeciesByConservationStatus())
+            render view: 'panels/conservationStatusPanel', model: [stateConservation: metadataService.getSpeciesByConservationStatus()]
+        else
+            render view: 'panels/empty'
     }
 
     def recordsByDataProviderPanel = {
-        render view: 'panels/recordsByDataProviderPanel', model: [dataProviders: metadataService.getDataProviders()]
+        if (metadataService.getDataProviders())
+            render view: 'panels/recordsByDataProviderPanel', model: [dataProviders: metadataService.getDataProviders()]
+        else
+            render view: 'panels/empty'
     }
 
     def recordsByInstitutionPanel = {
-        render view: 'panels/recordsByInstitutionPanel', model: [institutions: metadataService.getInstitutions()]
+        if (metadataService.getInstitutions())
+            render view: 'panels/recordsByInstitutionPanel', model: [institutions: metadataService.getInstitutions()]
+        else
+            render view: 'panels/empty'
     }
 
     def recordsByLifeFormPanel = {
-        render view: 'panels/recordsByLifeFormPanel', model: [records: metadataService.getRecordsByLifeForm()]
+        if (metadataService.getRecordsByLifeForm())
+            render view: 'panels/recordsByLifeFormPanel', model: [records: metadataService.getRecordsByLifeForm()]
+        else
+            render view: 'panels/empty'
     }
 
     def recordsAndSpeciesByDecadePanel = {
@@ -110,23 +162,38 @@ class DashboardController {
     }
 
     def usageStatisticsPanel = {
-        render view: 'panels/usageStatisticsPanel', model: [loggerTotals: metadataService.getLoggerTotals()]
+        if (metadataService.getLoggerTotals())
+            render view: 'panels/usageStatisticsPanel', model: [loggerTotals: metadataService.getLoggerTotals()]
+        else
+            render view: 'panels/empty'
     }
 
     def downloadsByReasonPanel = {
-        render view: 'panels/downloadsByReasonPanel', model: [loggerReasonBreakdown: metadataService.getLoggerReasonBreakdown()]
+        if (metadataService.getLoggerReasonBreakdown())
+            render view: 'panels/downloadsByReasonPanel', model: [loggerReasonBreakdown: metadataService.getLoggerReasonBreakdown()]
+        else
+            render view: 'panels/empty'
     }
 
     def downloadsBySourcePanel = {
-        render view: 'panels/downloadsBySourcePanel', model: [loggerSourceBreakdown: metadataService.getLoggerSourceBreakdown()]
+        if (metadataService.getLoggerSourceBreakdown())
+            render view: 'panels/downloadsBySourcePanel', model: [loggerSourceBreakdown: metadataService.getLoggerSourceBreakdown()]
+        else
+            render view: 'panels/empty'
     }
 
     def downloadsByUserTypePanel = {
-        render view: 'panels/downloadsByUserTypePanel', model: [loggerEmailBreakdown: metadataService.getLoggerEmailBreakdown()]
+        if (metadataService.getLoggerEmailBreakdown())
+            render view: 'panels/downloadsByUserTypePanel', model: [loggerEmailBreakdown: metadataService.getLoggerEmailBreakdown()]
+        else
+            render view: 'panels/empty'
     }
 
     def speciesImagesPanel = {
-        render view: 'panels/speciesImagesPanel', model: [imagesBreakdown: metadataService.getImagesBreakdown()]
+        if (metadataService.getImagesBreakdown())
+            render view: 'panels/speciesImagesPanel', model: [imagesBreakdown: metadataService.getImagesBreakdown()]
+        else
+            render view: 'panels/empty'
     }
 
     def mostRecorded(String group) {
