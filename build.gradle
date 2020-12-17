@@ -72,7 +72,7 @@ dependencies {
    // compile 'org.grails.grails-plugin-rest:2.3.0.M2'
     compile 'org.codehaus.groovy:groovy-ant:2.0.0'
 
-    compile "org.grails.plugins:ala-bootstrap3:3.0.6"
+    compile "org.grails.plugins:ala-bootstrap3:3.2.0"
     compile "org.grails.plugins:grails-google-visualization:2.0"
     compile "org.grails.plugins:ala-admin-plugin:2.0"
     runtime "org.grails.plugins:ala-auth:3.0.1"
