@@ -179,3 +179,4 @@ useCitizenScienceService: true
 useVolunteerService: true
 useBarcodeOfLifeService: true
 useNationalSpeciesListsService: true
+useBHLService: true

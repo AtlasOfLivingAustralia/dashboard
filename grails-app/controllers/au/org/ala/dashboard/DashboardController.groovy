@@ -113,7 +113,8 @@ class DashboardController {
     }
 
     def bhlPanel = {
-        if (metadataService.getBHLCounts())
+        if (grailsApplication.config.getProperty("useBHLService", Boolean, true) &&
+                metadataService.getBHLCounts())
             render view: 'panels/bhlPanel', model: [bhlCounts: metadataService.getBHLCounts()]
         else
             render view: 'panels/empty'
