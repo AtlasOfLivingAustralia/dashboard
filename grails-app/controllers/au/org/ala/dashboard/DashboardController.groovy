@@ -65,7 +65,8 @@ class DashboardController {
     }
 
     def nslPanel = {
-        if (metadataService.getTaxaCounts())
+        if (grailsApplication.config.getProperty("useNationalSpeciesListsService", Boolean, true) &&
+                metadataService.getTaxaCounts())
             render view: 'panels/nslPanel', model: [taxaCounts: metadataService.getTaxaCounts()]
         else
             render view: 'panels/empty'
@@ -104,7 +105,8 @@ class DashboardController {
     }
 
     def barcodeOfLifePanel = {
-        if (metadataService.getBoldCounts())
+        if (grailsApplication.config.getProperty("useBarcodeOfLifeService", Boolean, true) &&
+                metadataService.getBoldCounts())
             render view: 'panels/barcodeOfLifePanel', model: [boldCounts: metadataService.getBoldCounts()]
         else
             render view: 'panels/empty'
