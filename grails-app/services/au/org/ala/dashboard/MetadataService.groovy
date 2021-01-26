@@ -16,6 +16,7 @@ class MetadataService {
     def webService, cacheService, grailsApplication
 
     String BIO_CACHE_URL, VOLUNTEER_URL, COLLECTORY_URL, SPATIAL_URL,BIE_URL, LOGGER_URL, IMAGES_URL, USERDETAILS_URL
+    Boolean USE_VOLUNTEER_SERVICE
 
     @PostConstruct
     def init() {
@@ -27,6 +28,7 @@ class MetadataService {
         LOGGER_URL = grailsApplication.config.logger.baseURL
         IMAGES_URL = grailsApplication.config.images.baseURL
         USERDETAILS_URL = grailsApplication.config.userDetails.baseURL
+        USE_VOLUNTEER_SERVICE = grailsApplication.config.getProperty("useVolunteerService", Boolean, true)
     }
 /**
      * Populates the model for the dashboard view
@@ -636,25 +638,27 @@ class MetadataService {
             results.put("speciesWithImages", speciesWithImages)
             results.put("subspeciesWithImages", subspeciesWithImages)
 
-            def vpResources = webService.getJson("${COLLECTORY_URL}/ws/dataHub/dh6").memberDataResources
-//            log.debug "vpResources = ${vpResources}"
-            def resourcesQuery = ""
+            if (USE_VOLUNTEER_SERVICE) {
+                def vpResources = webService.getJson("${COLLECTORY_URL}/ws/dataHub/dh6").memberDataResources
+//                log.debug "vpResources = ${vpResources}"
+                def resourcesQuery = ""
 
-            if (vpResources) {
-                resourcesQuery = "%20AND%20data_resource_uid:("
-                vpResources.eachWithIndex() { res, i ->
-                    if (i > 0) {
-                        resourcesQuery = resourcesQuery + "%20OR%20"
+                if (vpResources) {
+                    resourcesQuery = "%20AND%20data_resource_uid:("
+                    vpResources.eachWithIndex() { res, i ->
+                        if (i > 0) {
+                            resourcesQuery = resourcesQuery + "%20OR%20"
+                        }
+                        resourcesQuery = resourcesQuery + res.uid
                     }
-                    resourcesQuery = resourcesQuery + res.uid
+                    resourcesQuery = resourcesQuery + ")"
                 }
-                resourcesQuery = resourcesQuery + ")"
+
+                def taxaVPCount = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_TAXA_VP_COUNT}${resourcesQuery}")[0].count
+                results.put("taxaWithImagesFromVolunteerPortal", taxaVPCount)
             }
 
-            def taxaVPCount = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_TAXA_VP_COUNT}${resourcesQuery}")[0].count
-            results.put("taxaWithImagesFromVolunteerPortal", taxaVPCount)
-
-            def taxaCSCount = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_TAXA_CS_COUNT}")[0].count
+            def taxaCSCount = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_TAXA_CS_COUNT}")[0]?.count?:0
             results.put("taxaWithImagesFromCS", taxaCSCount)
 
             def imageTotal = webService.getJson("${IMAGES_URL}${Constants.WebServices.PARTIAL_URL_IMAGE_TOTAL}").imageCount

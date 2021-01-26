@@ -133,17 +133,17 @@ environments:
                 appServerName: "https://auth.ala.org.au"
 
 biocache:
-  baseURL: "https://biocache.ala.org.au"
+  baseURL: "https://biocache-ws.ala.org.au/ws"
 
 ala:
   baseURL: "https://www.ala.org.au"
 
 bie:
-  baseURL: "https://bie.ala.org.au"
+  baseURL: "https://bie-ws.ala.org.au/ws"
   searchPath: "/search"
 
 spatial:
-  baseURL: "http://spatial.ala.org.au"
+  baseURL: "http://spatial.ala.org.au/ws"
 
 logger:
   baseURL: "https://logger.ala.org.au"
@@ -174,3 +174,9 @@ dashboard:
 csv:
   temp:
     dir: "/data/dashboard/csv/"
+
+useCitizenScienceService: true
+useVolunteerService: true
+useBarcodeOfLifeService: true
+useNationalSpeciesListsService: true
+useBHLService: true
