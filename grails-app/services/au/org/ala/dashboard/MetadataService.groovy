@@ -123,13 +123,6 @@ class MetadataService {
         })
     }
 
-    def getVolunteerStats() {
-        cacheService.get('volunteerStats', {
-            // earliest record
-            webService.getJson("${VOLUNTEER_URL}${Constants.WebServices.PARTIAL_URL_VOLUNTEER_STATS}")
-        })
-    }
-
     /**
      * Get cached data for the oldest and newest records and counts of
      * records by century.
@@ -766,6 +759,10 @@ class MetadataService {
 
     def get = { key ->
         return cacheService.get(key, { cacheService.loadStaticCacheFromFile(key) })
+    }
+
+    def getVolunteerStats() {
+        return get('volunteerPortalCounts')
     }
 
     def getCollectionsByCategory() {

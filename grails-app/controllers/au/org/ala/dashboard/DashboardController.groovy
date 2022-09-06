@@ -372,7 +372,6 @@ class DashboardController {
                 bhlCounts: metadataService.getBHLCounts(),
 //                volunteerPortalCounts: metadataService.getVolunteerStats(),
                 occurrenceDownloadByReason: metadataService.getLoggerReasonBreakdown().collect {["Download Reason": it[0], "Events": it[1].trim(), "Records": it[2].trim()]}]
-                //volunteerPortalCounts: metadataService.get('volunteerPortalCounts'),
                 //identifyLifeCounts: metadataService.getIdentifyLifeCounts()]
         ['All','Plants','Mammals','Reptiles','Birds','Animals','Arthropods',
          'Fishes','Insects','Amphibians','Bacteria','Fungi'].each {

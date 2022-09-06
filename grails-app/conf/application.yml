@@ -112,8 +112,15 @@ privacyPolicy: "https://www.ala.org.au/about/terms-of-use/privacy-policy/"
 ---
 security:
     cas:
-        uriFilterPattern: "/alaAdmin.*"
-        uriExclusionFilterPattern: "/images.*,/css.*,/js.*,/less.*"
+      uriFilterPattern: "/alaAdmin/*"
+      uriExclusionFilterPattern: "/images.*,/css.*,/js.*,/less.*"
+      enabled: false
+    oidc:
+      enabled: true
+      discovery-uri: 'https://auth-test.ala.org.au/cas/oidc/.well-known'
+      clientId: 'change me'
+      secret: 'change me'
+      scope: 'openid profile'
 
 environments:
     development:
