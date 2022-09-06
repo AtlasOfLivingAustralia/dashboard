@@ -15,8 +15,8 @@
 
 package au.org.ala.dashboard
 
-import au.com.bytecode.opencsv.CSVWriter
 import grails.converters.JSON
+import com.opencsv.CSVWriter
 
 class DashboardController {
 

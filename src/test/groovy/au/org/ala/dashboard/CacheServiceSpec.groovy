@@ -1,11 +1,11 @@
 package au.org.ala.dashboard
 
-import grails.test.mixin.TestFor
+import grails.testing.services.ServiceUnitTest
 import groovy.time.TimeCategory
 import spock.lang.Specification
 
-@TestFor(CacheService)
-class CacheServiceSpec extends Specification{
+
+class CacheServiceSpec extends Specification  implements ServiceUnitTest<CacheService> {
 
     def setup() {
         //Initialize cache before each test
