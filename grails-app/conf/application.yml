@@ -120,7 +120,7 @@ security:
       discovery-uri: 'https://auth-test.ala.org.au/cas/oidc/.well-known'
       clientId: 'change me'
       secret: 'change me'
-      scope: 'openid profile'
+      scope: 'openid profile roles'
 
 environments:
     development:
