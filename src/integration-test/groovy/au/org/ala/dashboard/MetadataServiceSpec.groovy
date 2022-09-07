@@ -1,13 +1,13 @@
 package au.org.ala.dashboard
 
+import grails.testing.mixin.integration.Integration
 import grails.testing.services.ServiceUnitTest
 import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Specification
 
-
+@Integration
 class MetadataServiceSpec extends Specification implements ServiceUnitTest<MetadataService> {
 
-   // @Shared def metadataService
     @Autowired
     MetadataService metadataService
 //    def cacheService
