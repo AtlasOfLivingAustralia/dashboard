@@ -15,8 +15,8 @@
 
 package au.org.ala.dashboard
 
-import au.com.bytecode.opencsv.CSVWriter
 import grails.converters.JSON
+import com.opencsv.CSVWriter
 
 class DashboardController {
 
@@ -178,12 +178,6 @@ class DashboardController {
             render view: 'panels/empty'
     }
 
-    def downloadsBySourcePanel = {
-        if (metadataService.getLoggerSourceBreakdown())
-            render view: 'panels/downloadsBySourcePanel', model: [loggerSourceBreakdown: metadataService.getLoggerSourceBreakdown()]
-        else
-            render view: 'panels/empty'
-    }
 
     def downloadsByUserTypePanel = {
         if (metadataService.getLoggerEmailBreakdown())
@@ -376,9 +370,8 @@ class DashboardController {
                 typeCounts: metadataService.getTypeStats(),
                 taxaCounts: metadataService.getTaxaCounts(),
                 bhlCounts: metadataService.getBHLCounts(),
-                volunteerPortalCounts: metadataService.getVolunteerStats(),
+//                volunteerPortalCounts: metadataService.getVolunteerStats(),
                 occurrenceDownloadByReason: metadataService.getLoggerReasonBreakdown().collect {["Download Reason": it[0], "Events": it[1].trim(), "Records": it[2].trim()]}]
-                //volunteerPortalCounts: metadataService.get('volunteerPortalCounts'),
                 //identifyLifeCounts: metadataService.getIdentifyLifeCounts()]
         ['All','Plants','Mammals','Reptiles','Birds','Animals','Arthropods',
          'Fishes','Insects','Amphibians','Bacteria','Fungi'].each {

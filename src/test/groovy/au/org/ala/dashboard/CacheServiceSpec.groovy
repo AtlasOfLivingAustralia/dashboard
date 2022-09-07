@@ -1,11 +1,11 @@
 package au.org.ala.dashboard
 
-import grails.test.mixin.TestFor
+import grails.testing.services.ServiceUnitTest
 import groovy.time.TimeCategory
 import spock.lang.Specification
 
-@TestFor(CacheService)
-class CacheServiceSpec extends Specification{
+
+class CacheServiceSpec extends Specification  implements ServiceUnitTest<CacheService> {
 
     def setup() {
         //Initialize cache before each test
@@ -60,11 +60,11 @@ class CacheServiceSpec extends Specification{
 
 
             def value = service.get('mykey', {null})
-
-            assert value == null
+            // The new value is refreshed asynchronously so the first attempt will always retrieve the old value
+            assert value == 'value'
             // We wait for the refresher thread to finish
             Thread.sleep(2000)
-            // We retrieve the updated value which is current and won't expired for at leas a day
+            // We retrieve the updated value which is current and won't expired for at least a day
             value = service.get('mykey', {null})
         then:
             value == null
