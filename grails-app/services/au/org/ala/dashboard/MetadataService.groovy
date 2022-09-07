@@ -54,7 +54,6 @@ class MetadataService {
             stateConservation       : getSpeciesByConservationStatus(),
             loggerTotals            : getLoggerTotals(),
             loggerReasonBreakdown   : getLoggerReasonBreakdown(),
-//            loggerSourceBreakdown   : getLoggerSourceBreakdown(),
             loggerEmailBreakdown    : getLoggerEmailBreakdown(),
             loggerTemporalBreakdown : getLoggerReasonTemporalBreakdown(),
             imagesBreakdown         : getImagesBreakdown(),
@@ -121,13 +120,6 @@ class MetadataService {
             }
 
             return results
-        })
-    }
-
-    def getVolunteerStats() {
-        cacheService.get('volunteerStats', {
-            // earliest record
-            webService.getJson("${VOLUNTEER_URL}${Constants.WebServices.PARTIAL_URL_VOLUNTEER_STATS}")
         })
     }
 
@@ -548,56 +540,6 @@ class MetadataService {
         })
     }
 
-    def getLoggerSourceBreakdown() {
-        cacheService.get('loggerSourceBreakdown', {
-            def results = []
-
-            // this number includes testing - we need to remove this
-            def allTimeSourceBreakdown = webService.getJson("${LOGGER_URL}${Constants.WebServices.PARTIAL_URL_LOGGER_SOURCE_BREAKDOWN}").all
-
-            //order by counts
-            def sortedBreakdowns = allTimeSourceBreakdown.sourceBreakdown.sort { -it.value["events"] }
-
-            //but then place "Other", "Unclassified", "Testing" at the bottom & combined
-            def other = sortedBreakdowns.get("other")
-            if (!other) other = [events: 0, records:0]
-
-            def unclassifiedCount = sortedBreakdowns.get("unclassified")
-            def testingCount = sortedBreakdowns.get("testing")
-
-            if (unclassifiedCount) {
-                other["events"] = other["events"] + unclassifiedCount["events"]
-                other["records"] = other["records"] + unclassifiedCount["records"]
-            }
-
-            //testing events
-            def testingEvents = 0
-            def testingRecords = 0
-
-            if (testingCount) {
-                testingEvents = testingCount["events"] as long
-                testingRecords = testingCount["records"] as long
-            }
-
-            sortedBreakdowns.remove("other")
-            sortedBreakdowns.remove("unclassified")
-            sortedBreakdowns.remove("testing")
-            sortedBreakdowns.put("other", other)
-
-            for (k in sortedBreakdowns.keySet()) {
-                def keyMap = sortedBreakdowns[k]
-                results.add([StringUtils.capitalize(k), format(keyMap["events"] as long), format(keyMap["records"] as long)])
-            }
-
-            results.add(["TOTAL",
-                         format((allTimeSourceBreakdown.events as long) - testingEvents),
-                         format((allTimeSourceBreakdown.records as long) - testingRecords)]
-            )
-
-            return results
-        })
-    }
-
     def getLoggerReasonTemporalBreakdown() {
         cacheService.get('loggerReasonBreakdown', {
             def results = []
@@ -817,6 +759,10 @@ class MetadataService {
 
     def get = { key ->
         return cacheService.get(key, { cacheService.loadStaticCacheFromFile(key) })
+    }
+
+    def getVolunteerStats() {
+        return get('volunteerPortalCounts')
     }
 
     def getCollectionsByCategory() {

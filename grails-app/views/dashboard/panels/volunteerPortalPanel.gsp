@@ -40,24 +40,3 @@
         </div>
     </div>
 </g:if>
-
-<g:if test="${false && volunteerPortalCounts}">
-    <div class="col-sm-4 col-md-4" id="bvp-topic">
-        <div class="panel">
-            <div class="panel-heading">
-                <div class="panel-title"><a target="_blank" href="https://volunteer.ala.org.au/">DigiVol - top volunteers</a>
-                    <i class="fa fa-info-circle pull-right hidden"></i></div>
-            </div>
-            <div class="panel-body">
-                <table class="click-thru table table-condensed table-striped table-hover">
-                    <tbody>
-                    <g:each in="${volunteerPortalCounts.topTenVolunteers.take(7)}" var="volunteer">
-                        <tr><td>${volunteer[0]}</td><td><span class="count"><db:formatNumber
-                                value="${volunteer[1]}"/></span></td></tr>
-                    </g:each>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</g:if>
