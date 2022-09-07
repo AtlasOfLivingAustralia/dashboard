@@ -60,11 +60,11 @@ class CacheServiceSpec extends Specification  implements ServiceUnitTest<CacheSe
 
 
             def value = service.get('mykey', {null})
-
-            assert value == null
+            // The new value is refreshed asynchronously so the first attempt will always retrieve the old value
+            assert value == 'value'
             // We wait for the refresher thread to finish
             Thread.sleep(2000)
-            // We retrieve the updated value which is current and won't expired for at leas a day
+            // We retrieve the updated value which is current and won't expired for at least a day
             value = service.get('mykey', {null})
         then:
             value == null
