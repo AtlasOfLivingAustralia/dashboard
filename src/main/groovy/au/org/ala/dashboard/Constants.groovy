@@ -21,7 +21,7 @@ class Constants {
 
         final static String PARTIAL_URL_VOLUNTEER_STATS = "/ws/stats.json"
 
-        final static String PARTIAL_URL_SPECIES_BY_DECADE = "/explore/groups.json?q=*:*&pageSize=10&fq=occurrence_year:"
+        final static String PARTIAL_URL_SPECIES_BY_DECADE = "/explore/groups?q=*:*&pageSize=10&fq=occurrence_year:"
 
         final static String PARTIAL_URL_INSTITUTION_COUNT = "/ws/institution/count"
 
@@ -29,7 +29,7 @@ class Constants {
 
         final static String PARTIAL_URL_COUNT_DATASETS_BY_TYPE = "/ws/dataResource/count/resourceType?public=true"
 
-        final static String PARTIAL_URL_SPECIES_BY_CONSERVATION_STATUS= "/explore/groups.json?pageSize=10&q=state_conservation:"
+        final static String PARTIAL_URL_SPECIES_BY_CONSERVATION_STATUS= "/explore/groups?pageSize=10&q=state_conservation:"
 
         final static String PARTIAL_URL_LOGGER_TOTALS = "/service/totalsByType"
 

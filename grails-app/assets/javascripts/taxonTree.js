@@ -62,7 +62,7 @@ function initTaxonTree(treeOptions) {
                 ajax: {
                     url: function(node) {
                         var rank = $(node).attr("rank");
-                        var u = urlConcat(treeOptions.biocacheServicesUrl, "/breakdown.json?q=") + query + "&rank=";
+                        var u = urlConcat(treeOptions.biocacheServicesUrl, "/breakdown?q=") + query + "&rank=";
                         if (rank == 'kingdoms') {
                             u += 'kingdom';  // starting node
                         }
@@ -71,7 +71,7 @@ function initTaxonTree(treeOptions) {
                         }
                         return u;
                     },
-                    dataType: 'jsonp',
+                    dataType: 'json',
                     success: function(data) {
                         var nodes = [];
                         var rank = data.rank;
