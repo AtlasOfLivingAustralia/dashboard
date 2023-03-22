@@ -101,7 +101,7 @@ dependencies {
     implementation group: 'org.jsoup', name: 'jsoup', version: '1.9.1'
 
    // implementation 'org.codehaus.groovy.modules.http-builder:http-builder:0.8'
-   implementation group: 'org.codehaus.groovy.modules.http-builder', name: 'http-builder', version: '0.7.1'
+   implementation group: 'org.codehaus.groovy.modules.http-builder', name: 'http-builder', version: '0.7.2'
 
    // implementation 'org.grails.grails-plugin-rest:2.3.0.M2'
     implementation 'org.codehaus.groovy:groovy-ant:2.0.0'
