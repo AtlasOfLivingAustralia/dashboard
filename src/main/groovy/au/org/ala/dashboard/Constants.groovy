@@ -1,15 +1,11 @@
 package au.org.ala.dashboard
 
-import grails.core.GrailsApplication
-
 /**
  * Created by rui008 on 26/11/2014.
  */
 class Constants {
 
     class WebServices {
-
-        def grailsApplication
 
         final static String PARTIAL_URL_STATE_TERRITORY_FACETED_RESULTS = "/occurrences/search.json?pageSize=0&q=*:*&facets=state&flimit=200"
 
