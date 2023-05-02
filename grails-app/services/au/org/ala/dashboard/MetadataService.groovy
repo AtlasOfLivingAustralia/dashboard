@@ -603,7 +603,7 @@ class MetadataService {
             def taxaCSCount = webService.getJson("${BIO_CACHE_URL}${Constants.WebServices.PARTIAL_URL_TAXA_CS_COUNT}")[0]?.count?:0
             results.put("taxaWithImagesFromCS", taxaCSCount)
 
-            def imageTotal = webService.getJson("${IMAGES_URL}${Constants.WebServices.PARTIAL_URL_IMAGE_TOTAL}").imageCount
+            def imageTotal = webService.getJson("${IMAGES_URL}${grailsApplication.config.getProperty("apiGateway.enabled", Boolean, false) ? Constants.WebServices.API_GW_PARTIAL_URL_IMAGE_TOTAL : Constants.WebServices.PARTIAL_URL_IMAGE_TOTAL}").imageCount
             results.put("imageTotal", imageTotal)
 
             return results
