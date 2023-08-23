@@ -2,7 +2,7 @@
     <div class="panel">
         <div class="panel-heading">
             <div class="panel-title">
-                <a href="https://biocache.ala.org.au/occurrences/search?q=type_status:[*%20TO%20*]&fq=-type_status:notatype">
+                <a href="${grailsApplication.config.biocache.webappURL}/occurrences/search?q=type_status:[*%20TO%20*]&fq=-type_status:notatype">
                     <span class="count"><db:formatNumber value="${typeCounts.total}"/></span>
                 </a>
                 Type specimens
