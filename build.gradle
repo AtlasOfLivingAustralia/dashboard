@@ -17,7 +17,7 @@ plugins {
 }
 
 
-version "2.5.0"
+version "2.5.1-SNAPSHOT"
 group "au.org.ala"
 description "Dashboard application"
 
@@ -106,10 +106,10 @@ dependencies {
    // implementation 'org.grails.grails-plugin-rest:2.3.0.M2'
     implementation 'org.codehaus.groovy:groovy-ant:2.0.0'
 
-    implementation "org.grails.plugins:ala-bootstrap3:4.1.0"
+    implementation "org.grails.plugins:ala-bootstrap3:4.4.0"
     implementation "org.grails.plugins:grails-google-visualization:2.0"
     implementation "org.grails.plugins:ala-admin-plugin:2.3.0"
-    implementation "org.grails.plugins:ala-auth:6.0.0"
+    implementation "org.grails.plugins:ala-auth:6.2.0"
     implementation 'org.grails.plugins:quartz:2.0.13'
     implementation 'org.quartz-scheduler:quartz:2.3.2' // Is not pulled in by default
 
