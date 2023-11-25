@@ -159,7 +159,7 @@ class MetadataService {
 
             // get counts by century
             [1600, 1700, 1800, 1900, 2000].each { century ->
-                def url = "${BIO_CACHE_URL}/occurrences/search?q=*:*&pageSize=0&facet=off&fq=occurrence_year:[${century}-01-01T00:00:00Z%20TO%20${century + 99}-12-31T23:59:59Z]"
+                def url = "${BIO_CACHE_URL}/occurrences/search?q=*:*&pageSize=0&facet=off&fq=occurrence_year:%5B${century}-01-01T00:00:00Z%20TO%20${century + 99}-12-31T23:59:59Z%5D"
                 def c = webService.getJson(url)
                 results['c' + century] = c.totalRecords
             }
@@ -178,7 +178,7 @@ class MetadataService {
             def results = [:]
 
             // type counts
-            def facets = biocacheFacetCount('type_status', 'type_status:[*%20TO%20*]')
+            def facets = biocacheFacetCount('type_status', 'type_status:%5B*%20TO%20*%5D')
             facets.facets.each {
                 if (it.facet != 'notatype') {
                     results[it.facet] = it.count
@@ -220,7 +220,7 @@ class MetadataService {
                     decade = it.toString() + '0s'
                 }
                 def to = (it.toString() + '9-12-31T23:59:59Z')
-                def url = baseUrl + '[' + from + '+TO+' + to + ']'
+                def url = baseUrl + '%5B' + from + '+TO+' + to + '%5D'
                 def json = new URL(url).text
                 def result = JSON.parse(json)
                 def totals = result.find { it.name == 'ALL_SPECIES' }
