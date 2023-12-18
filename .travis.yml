@@ -8,6 +8,15 @@ branches:
   - dev
   - feature/grails5
   - feature/plugin-upgrade
+  - feature/grails6-upgrade
+
+before_install:
+  - rm -fr $HOME/.gradle/caches
+  - sudo mkdir -p /data/dashboard/ehcache
+  - sudo chmod o+xw /data
+  - sudo chmod o+xw /data/dashboard
+  - sudo chmod o+xw /data/dashboard/ehcache
+
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -18,8 +27,15 @@ cache:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
 
+install:
+  - 'travis_wait 30 ./gradlew clean'
+  - './gradlew assemble'
+
 after_success:
+  - './gradlew bootJar'
   - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && travis_retry ./gradlew publish'
+
+
 env:
   global:
   - JAVA_TOOL_OPTIONS=-Dhttps.protocols=TLSv1.2

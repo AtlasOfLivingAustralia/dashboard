@@ -1,3 +1,20 @@
-//include ':ala-bootstrap3'
-//project(':ala-bootstrap3').projectDir = new File(settingsDir, '../ala-bootstrap3')
+pluginManagement {
+    repositories {
+        mavenLocal()
+        maven { url "https://nexus.ala.org.au/content/groups/public/" }
+        maven { url "https://repo.grails.org/grails/core" }
+        mavenCentral()
+    }
+
+    plugins {
+        id "org.grails.grails-gradle-plugin" version "6.0.0"
+        id "org.grails.grails-web" version "6.0.0"
+        id "org.grails.grails-gsp" version "6.0.0"
+        id "com.bertramlabs.asset-pipeline" version "4.3.0"
+        id "org.grails.grails-plugin" version "2.0.13"
+
+    }
+}
+
+
 rootProject.name='dashboard'
