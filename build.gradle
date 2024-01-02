@@ -68,8 +68,6 @@ dependencies {
     implementation "org.grails:grails-logging"
     implementation "org.grails.plugins:cache"
     implementation "org.grails.plugins:scaffolding"
-    implementation "org.grails.plugins:hibernate5:${gormVersion}"
-    implementation "org.hibernate:hibernate-core:5.6.15.Final"
     console "org.grails:grails-console"
     profile "org.grails.profiles:web"
     implementation "org.codehaus.groovy:groovy-dateutil"
