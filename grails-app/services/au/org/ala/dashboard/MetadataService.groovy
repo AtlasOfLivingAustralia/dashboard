@@ -285,7 +285,7 @@ class MetadataService {
             log.info "looking up spatial layers"
             // look it up
             def resp = null
-            def url = "${SPATIAL_URL}/layers.json"
+            def url = "${SPATIAL_URL}/layers"
 
             def conn = new URL(url).openConnection()
             try {
@@ -449,7 +449,7 @@ class MetadataService {
     def bieBulkLookup(list) {
         def url = BIE_URL
         def data = webService.doPost(url,
-                "/species/guids/bulklookup.json", "", (list as JSON).toString())
+                "/species/guids/bulklookup", "", (list as JSON).toString())
         //println "returned from doPost ${data.resp}"
         def results = [:]
         if (!data.error) {
