@@ -1,5 +1,5 @@
 buildscript {
-    version "2.6-SNAPSHOT"
+    version "2.6"
     group "au.org.ala"
     description "Dashboard application"
 }
