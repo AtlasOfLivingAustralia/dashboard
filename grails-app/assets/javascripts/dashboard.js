@@ -186,11 +186,11 @@ var dashboard = {
                     } else {
                         $.each(data.facets, function(i, obj) {
                             html += "<tr><td id='"+ obj.facet + "'><em>" + obj.name + "</em>" +
-                            (obj.common === null ? "" : (" - " + obj.common)) + "</td><td>" +
+                            (obj.common === null ? "" : (" - " + obj.common)) + "</td><td class='numberColumn'>" +
                             "<span class='count'>" + obj.count + "</span></td></tr>";
                         });
                     }
-                    $('#mostRecorded table').html(html);
+                    $('#mostRecorded table').html('<tbody>' + html + '</tbody>');
                     jQuery.fn.matchHeight._update(); // adjust heights
                 }
             });
