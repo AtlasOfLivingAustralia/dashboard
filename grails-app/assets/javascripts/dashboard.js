@@ -294,7 +294,7 @@ var dashboard = {
                 // treat as first year of a century
                 var startYear = Number(id),
                     endYear = startYear + 99,
-                    range = "[" + startYear + "-01-01T00:00:00Z+TO+" + endYear + "-12-31T23:59:59Z]";
+                    range = "%5B" + startYear + "-01-01T00:00:00Z+TO+" + endYear + "-12-31T23:59:59Z%5D";
                 document.location.href = dashboard.urls.biocacheUI + "/occurrences/search?q=*:*&fq=occurrence_year:" + range;
             }
         });
