@@ -7,9 +7,9 @@ class Constants {
 
     class WebServices {
 
-        final static String PARTIAL_URL_STATE_TERRITORY_FACETED_RESULTS = "/occurrences/search?pageSize=0&q=*:*&facets=state&flimit=200"
+        final static String PARTIAL_URL_STATE_TERRITORY_FACETED_RESULTS = "/occurrences/search?pageSize=0&q=-_nest_parent_:*&facets=state&flimit=200"
 
-        final static String PARTIAL_URL_RECORDS_BY_LIFE_FORM = "/occurrences/search?pageSize=0&q=*:*&facets=species_group&flimit=200"
+        final static String PARTIAL_URL_RECORDS_BY_LIFE_FORM = "/occurrences/search?pageSize=0&q=-_nest_parent_:*&facets=species_group&flimit=200"
 
         final static String PARTIAL_URL_DATE_STATS_EARLIEST_RECORD = "/occurrences/search?q=!assertions:invalidCollectionDate&pageSize=1&sort=occurrence_date&facet=off"
 
@@ -17,7 +17,7 @@ class Constants {
 
         final static String PARTIAL_URL_DATE_STATS_LATEST_RECORD_WITH_IMAGE = "/occurrences/search?q=!assertions:invalidCollectionDate%20AND%20occurrence_date:%5B*%20TO%20*%5D&pageSize=1&sort=first_loaded_date&dir=desc&facet=off&fq=multimedia:Image"
 
-        final static String PARTIAL_URL_DATASETS_CONTAIN_DATA = "/occurrences/facets?q=*:*&facets=data_resource_uid&flimit=0"
+        final static String PARTIAL_URL_DATASETS_CONTAIN_DATA = "/occurrences/facets?q=-_nest_parent_:*&facets=data_resource_uid&flimit=0"
 
         final static String PARTIAL_URL_VOLUNTEER_STATS = "/ws/stats.json"
 
@@ -54,7 +54,7 @@ class Constants {
         final static String PARTIAL_URL_IMAGE_TOTAL = "/ws/getRepositoryStatistics"
         final static String API_GW_PARTIAL_URL_IMAGE_TOTAL = "/ws/repositoryStatistics"
 
-        final static String PARTIAL_URL_COUNT_RECORDS = "/occurrences/search?q=*:*&pageSize=0&facet=off"
+        final static String PARTIAL_URL_COUNT_RECORDS = "/occurrences/search?q=-_nest_parent_:*&pageSize=0&facet=off"
 
         static String PARTIAL_URL_ACCEPTED_NAMES = "/search?q=(taxonomicStatus:accepted%20OR%20taxonomicStatus:inferredAccepted)&fq=idxtype:TAXON"
 
